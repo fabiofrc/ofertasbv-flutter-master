@@ -13,30 +13,36 @@ import 'package:ofertasbv/src/promocao/promocao_api_provider.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:intl/intl.dart';
+import 'package:ofertasbv/src/promocao/promocao_page.dart';
 
 class PromocaoCreatePage extends StatefulWidget {
+  Promocao promocao;
+
+  PromocaoCreatePage({Key key, this.promocao}) : super(key: key);
+
   @override
-  _PromocaoCreatePageState createState() => _PromocaoCreatePageState();
+  _PromocaoCreatePageState createState() =>
+      _PromocaoCreatePageState(p: promocao);
 }
 
 class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
   final _bloc = GetIt.I.get<PromocaoController>();
-  final _promocao = Promocao();
+  Promocao p;
 
   DateTime dataAtual = DateTime.now();
   String _valor;
   String valorSlecionado;
   File file;
 
+  _PromocaoCreatePageState({this.p});
+
   @override
   void initState() {
     _bloc.getAll();
+    if (p == null) {
+      p = Promocao();
+    }
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Controller controller;
@@ -52,15 +58,29 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
 
     setState(() {
       this.file = f;
-      _promocao.foto = file.path.split('/').last;
-      print(" upload de arquivo : $_promocao.arquivo");
+      p.foto = file.path.split('/').last;
+      print(" upload de arquivo : ${p.foto}");
     });
   }
 
   void _onClickUpload() async {
     if (file != null) {
-      var url = await PromocaoApiProvider.upload(file, _promocao.foto);
+      var url = await PromocaoApiProvider.upload(file, p.foto);
+      print(" URL : $url");
     }
+  }
+
+  void showDefaultSnackbar(BuildContext context, String content) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 
   @override
@@ -71,14 +91,17 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
     var formatadorNumber = NumberFormat("#.0#", "pt_BR");
     //var resultado = formatadorNumber.format(_promocao.desconto);
 
-    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Promoção cadastro"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.file_upload, color: Constants.colorIconsAppMenu,),
+            icon: Icon(
+              Icons.file_upload,
+              color: Constants.colorIconsAppMenu,
+            ),
             onPressed: _onClickUpload,
           )
         ],
@@ -103,7 +126,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
-                                  onSaved: (value) => _promocao.nome = value,
+                                  initialValue: p.nome,
+                                  onSaved: (value) => p.nome = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -116,8 +140,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                   maxLines: 3,
                                 ),
                                 TextFormField(
-                                  onSaved: (value) =>
-                                      _promocao.descricao = value,
+                                  initialValue: p.descricao,
+                                  onSaved: (value) => p.descricao = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -130,8 +154,9 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                   keyboardType: TextInputType.text,
                                 ),
                                 TextFormField(
+                                  initialValue: p.desconto.toString(),
                                   onSaved: (value) =>
-                                      _promocao.desconto = double.parse(value),
+                                      p.desconto = double.parse(value),
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -148,8 +173,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                 ),
                                 SizedBox(height: 15),
                                 TextFormField(
-                                  onSaved: (value) =>
-                                      _promocao.dataInicio = value,
+                                  initialValue: p.dataInicio,
+                                  onSaved: (value) => p.dataInicio = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -161,8 +186,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                 ),
                                 SizedBox(height: 15),
                                 TextFormField(
-                                  onSaved: (value) =>
-                                      _promocao.dataFinal = value,
+                                  initialValue: p.dataFinal,
+                                  onSaved: (value) => p.dataFinal = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -194,17 +219,18 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                 SizedBox(height: 15),
                                 file != null
                                     ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
+                                        height: 150,
+                                        width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.asset(
-                                  ConstantApi.urlAsset,
-                                        height: 100,
-                                        width: 100,
+                                    : Image.network(
+                                        ConstantApi.urlArquivoPromocao + p.foto,
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.fill,
                                       ),
                                 SizedBox(height: 15),
-                                _promocao.foto != null
-                                    ? Text("${_promocao.foto}")
+                                p.foto != null
+                                    ? Text("${p.foto}")
                                     : Text("sem arquivo"),
                                 RaisedButton.icon(
                                   icon: Icon(Icons.file_upload),
@@ -213,7 +239,12 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   elevation: 0.0,
-                                  onPressed: _onClickUpload,
+                                  onPressed: () {
+                                    _onClickUpload();
+                                    print("teste upload");
+                                    showDefaultSnackbar(
+                                        context, "Anexo: ${p.foto}");
+                                  },
                                 ),
                               ],
                             ),
@@ -233,8 +264,15 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                     onPressed: () {
                       if (controller.validate()) {
                         DateTime dataAgora = DateTime.now();
-                        _promocao.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(_promocao);
+                        p.dataRegistro = dateFormat.format(dataAgora);
+                        _bloc.create(p);
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PromocaoPage(),
+                          ),
+                        );
                       }
                     },
                   ),

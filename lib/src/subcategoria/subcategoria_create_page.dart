@@ -8,11 +8,13 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/categoria/categoria_api_provider.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_api_provider.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
 
 class SubCategoriaCreatePage extends StatefulWidget {
   SubCategoria subCategoria;
@@ -25,11 +27,16 @@ class SubCategoriaCreatePage extends StatefulWidget {
 }
 
 class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final _bloc = GetIt.I.get<SubCategoriaController>();
   final _blocCategoria = GetIt.I.get<CategoriaController>();
 
   SubCategoria s;
-  Categoria _categoriaSelecionada;
+  Categoria categoriaSelecionada;
+  var categoriaSelect = Categoria();
+
+  Future<List<Categoria>> categorias = CategoriaApiProvider.getAllTeste();
 
   Controller controller;
 
@@ -39,7 +46,8 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
 
   @override
   void initState() {
-    _blocCategoria.getAll();
+    categorias;
+    pesquisarCodigo(s.id);
     if (s == null) {
       s = SubCategoria();
     }
@@ -50,6 +58,12 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
   void didChangeDependencies() {
     controller = Controller();
     super.didChangeDependencies();
+  }
+
+  pesquisarCodigo(int id) async {
+    categoriaSelect = await CategoriaApiProvider.getSubCategoriaById(id);
+    categoriaSelecionada == null ? categoriaSelect : categoriaSelecionada;
+    print("Categoria pesquisada: ${categoriaSelecionada.nome}");
   }
 
   void _onClickFoto() async {
@@ -68,12 +82,27 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
     }
   }
 
+  void showDefaultSnackbar(BuildContext context, String content) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    s.categoria = _categoriaSelecionada;
+    s.categoria = categoriaSelecionada;
+
     DateFormat dateFormat = DateFormat('yyyy-MM-dd');
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("SubCategoria cadastros"),
         actions: <Widget>[
@@ -85,6 +114,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
       ),
       body: Observer(
         builder: (context) {
+          //List<Categoria> categorias = _blocCategoria.categorias;
           if (_bloc.error != null) {
             return Text("Não foi possível cadastrar subcategoria");
           } else {
@@ -123,37 +153,38 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                         ),
                         Card(
                           child: Container(
+                            width: double.infinity,
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
-                                Observer(
-                                  builder: (context) {
-                                    List<Categoria> categorias =
-                                        _blocCategoria.categorias;
-                                    if (categorias != null) {
-                                      return DropdownButtonFormField<Categoria>(
-                                        hint: Text('Selecione categoria...'),
-                                        // ignore: unrelated_type_equality_checks
-//                                        value: _categoriaSelecionada == ""
-//                                            ? null
-//                                            : _categoriaSelecionada,
-                                        items: categorias
-                                            .map((Categoria categoria) {
-                                          return DropdownMenuItem<Categoria>(
-                                            value: categoria,
-                                            child: Text(categoria.nome),
-                                          );
-                                        }).toList(),
-                                        onChanged: changeCategorias,
-                                      );
-                                    } else {
-                                      return Container(
-                                        decoration: new BoxDecoration(
-                                            color: Colors.white),
-                                      );
-                                    }
-                                  },
-                                ),
+                                FutureBuilder<List<Categoria>>(
+                                    future: categorias,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return DropdownButtonFormField<
+                                            Categoria>(
+                                          autovalidate: true,
+                                          value: categoriaSelecionada,
+                                          items: snapshot.data.map((categoria) {
+                                            return DropdownMenuItem<Categoria>(
+                                              value: categoria,
+                                              child: Text(categoria.nome),
+                                            );
+                                          }).toList(),
+                                          hint: Text("Select categoria"),
+                                          onChanged: (Categoria c) {
+                                            setState(() {
+                                              categoriaSelecionada = c;
+                                              print(categoriaSelecionada.nome);
+                                            });
+                                          },
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text("${snapshot.error}");
+                                      }
+
+                                      return Container(width: 0.0, height: 0.0);
+                                    }),
                               ],
                             ),
                           ),
@@ -176,13 +207,15 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                 SizedBox(height: 20),
                                 file != null
                                     ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
+                                        height: 150,
+                                        width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 100,
-                                        width: 100,
+                                    : Image.network(
+                                        ConstantApi.urlArquivoSubCategoria +
+                                            s.foto,
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.fill,
                                       ),
                                 SizedBox(height: 15),
                                 s.foto != null
@@ -195,7 +228,11 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   elevation: 0.0,
-                                  onPressed: _onClickUpload,
+                                  onPressed: () {
+                                    _onClickUpload;
+                                    showDefaultSnackbar(
+                                        context, "Anexo: ${s.foto}");
+                                  },
                                 ),
                               ],
                             ),
@@ -218,7 +255,13 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                         DateTime dataAgora = DateTime.now();
                         s.dataRegistro = dateFormat.format(dataAgora);
                         _bloc.create(s);
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SubcategoriaPage(),
+                          ),
+                        );
                       }
                     },
                   ),
@@ -229,13 +272,6 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
         },
       ),
     );
-  }
-
-  void changeCategorias(Categoria c) {
-    setState(() {
-      _categoriaSelecionada = c;
-      print("CAT.:  ${_categoriaSelecionada.id}");
-    });
   }
 }
 

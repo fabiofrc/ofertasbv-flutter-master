@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,19 +13,22 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 class ProdutoListHome extends StatefulWidget {
   Promocao p;
   SubCategoria s;
+
   ProdutoListHome({Key key, this.p, this.s}) : super(key: key);
 
   @override
-  _ProdutoListHomeState createState() => _ProdutoListHomeState(p: this.p, s:this.s);
+  _ProdutoListHomeState createState() =>
+      _ProdutoListHomeState(p: this.p, s: this.s);
 }
 
 class _ProdutoListHomeState extends State<ProdutoListHome>
     with AutomaticKeepAliveClientMixin<ProdutoListHome> {
+  final _bloc = GetIt.I.get<ProdutoController>();
+
   Promocao p;
   SubCategoria s;
-  _ProdutoListHomeState({this.p, this.s});
 
-  final _bloc = GetIt.I.get<ProdutoController>();
+  _ProdutoListHomeState({this.p, this.s});
 
   @override
   void initState() {
@@ -98,7 +100,6 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.all(5),
@@ -106,8 +107,16 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(p.nome, style: TextStyle(fontWeight: FontWeight.w500),),
-                          Text("cód. ${p.id}", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400),),
+                          Text(
+                            p.nome,
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "cód. ${p.id}",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400),
+                          ),
                           Text(
                             "R\$ ${p.estoque.precoCusto}",
                             style: TextStyle(
@@ -120,7 +129,6 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),

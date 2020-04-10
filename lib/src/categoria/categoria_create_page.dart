@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/categoria/categoria_page.dart';
 import 'categoria_api_provider.dart';
 import 'categoria_controller.dart';
 import 'categoria_model.dart';
@@ -64,6 +65,19 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
     if (file != null) {
       var url = await CategoriaApiProvider.upload(file, c.foto);
     }
+  }
+
+  void showDefaultSnackbar(BuildContext context, String content) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 
   void showToast(String msg, {int duration, int gravity}) {
@@ -144,13 +158,15 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                 SizedBox(height: 15),
                                 file != null
                                     ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
+                                        height: 150,
+                                        width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 100,
-                                        width: 100,
+                                    : Image.network(
+                                        ConstantApi.urlArquivoCategoria +
+                                            c.foto,
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.fill,
                                       ),
                                 SizedBox(height: 15),
                                 c.foto != null
@@ -163,7 +179,11 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   elevation: 0.0,
-                                  onPressed: _onClickUpload,
+                                  onPressed: () {
+                                    _onClickUpload;
+                                    showDefaultSnackbar(
+                                        context, "Anexo: ${c.foto}");
+                                  },
                                 ),
                               ],
                             ),
@@ -185,7 +205,13 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                         DateTime dataAgora = DateTime.now();
                         c.dataRegistro = dateFormat.format(dataAgora);
                         _bloc.create(c);
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoriaPage(),
+                          ),
+                        );
                       }
                     },
                   ),

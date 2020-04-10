@@ -20,17 +20,29 @@ abstract class CategoriaControllerBase with Store {
   int categoria;
 
   @observable
+  Categoria categoriaSelecionada;
+
+  @observable
   Exception error;
+
+  @action
+  Future<Categoria> getByIdSubCategoria(int id) async {
+    try {
+      categoriaSelecionada = await _categoriaApiProvider.getAllById(id);
+    } catch (e) {
+      error = e;
+    }
+  }
 
   @action
   Future<Categoria> getAll() async {
     try {
-      error = null;
       categorias = await _categoriaApiProvider.getAll();
     } catch (e) {
       error = e;
     }
   }
+
 
   @action
   Future<int> create(Categoria p) async {

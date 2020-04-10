@@ -15,25 +15,32 @@ import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
 import 'package:ofertasbv/src/produto/produto_api_provider.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
+import 'package:ofertasbv/src/produto/produto_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 
 class ProdutoCreatePage extends StatefulWidget {
+
+  Produto produto;
+
+  ProdutoCreatePage({Key key, this.produto}) : super(key: key);
+
   @override
-  _ProdutoCreatePageState createState() => _ProdutoCreatePageState();
+  _ProdutoCreatePageState createState() => _ProdutoCreatePageState(p: this.produto);
 }
 
 class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   final _bloc = GetIt.I.get<ProdutoController>();
 
-
   final _blocSubCategoria = GetIt.I.get<SubCategoriaController>();
+
   //final _blocPessoa = GetIt.I.get<PessoaController>();
 
-
-  final _produto = Produto();
+  Produto p;
   SubCategoria _subCategoriaSelecionada;
   Pessoa _pessoaSelecionada;
+
+  _ProdutoCreatePageState({this.p});
 
   Controller controller;
   var _controllerCodigoBarra = TextEditingController();
@@ -48,6 +55,9 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
 
   @override
   void initState() {
+    if (p == null) {
+      p = Produto();
+    }
     //_blocPessoa.getAll();
     _blocSubCategoria.getAll();
     _audioCache.loadAll(["beep-07.mp3"]);
@@ -58,22 +68,6 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   void didChangeDependencies() {
     controller = Controller();
     super.didChangeDependencies();
-  }
-
-  void _onClickFoto() async {
-    File f = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      this.file = f;
-      _produto.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${_produto.foto}");
-    });
-  }
-
-  void _onClickUpload() async {
-    if (file != null) {
-      var url = await ProdutoApiProvider.upload(file, _produto.foto);
-    }
   }
 
   _executar(String nomeAudio) {
@@ -95,6 +89,23 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     }
   }
 
+  void _onClickFoto() async {
+    File f = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      this.file = f;
+      p.foto = file.path.split('/').last;
+      print(" upload de arquivo : ${p.foto}");
+    });
+  }
+
+  void _onClickUpload() async {
+    if (file != null) {
+      var url = await ProdutoApiProvider.upload(file, p.foto);
+      print(" URL : $url");
+    }
+  }
+
   void showDefaultSnackbar(BuildContext context, String content) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
@@ -110,8 +121,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    _produto.pessoa = _pessoaSelecionada;
-    _produto.subCategoria = _subCategoriaSelecionada;
+    p.pessoa = _pessoaSelecionada;
+    p.subCategoria = _subCategoriaSelecionada;
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     return Scaffold(
@@ -119,7 +130,10 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
         title: Text("Produto cadastros"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.file_upload, color: Constants.colorIconsAppMenu,),
+            icon: Icon(
+              Icons.file_upload,
+              color: Constants.colorIconsAppMenu,
+            ),
             onPressed: _onClickUpload,
           )
         ],
@@ -148,9 +162,10 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 TextFormField(
-                                  controller: _controllerCodigoBarra,
+                                  initialValue: p.codigoBarra,
+                                  controller: p.codigoBarra == null ?_controllerCodigoBarra : null,
                                   onSaved: (value) =>
-                                      _produto.codigoBarra = value,
+                                      p.codigoBarra = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -182,7 +197,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
-                                  onSaved: (value) => _produto.nome = value,
+                                  initialValue: p.nome,
+                                  onSaved: (value) => p.nome = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -196,8 +212,9 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 ),
                                 SizedBox(height: 20),
                                 TextFormField(
+                                  initialValue: p.descricao,
                                   onSaved: (value) =>
-                                      _produto.descricao = value,
+                                      p.descricao = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -250,7 +267,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 SwitchListTile(
                                   title: Text("Produto favorito? "),
                                   subtitle: Text("sim/não"),
-                                  value: _produto.isFavorito = isFavorito,
+                                  value: p.isFavorito = isFavorito,
                                   onChanged: (bool valor) {
                                     setState(() {
                                       isFavorito = valor;
@@ -266,7 +283,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 SwitchListTile(
                                   subtitle: Text("sim/não"),
                                   title: Text("Produto Disponível?"),
-                                  value: _produto.status = status,
+                                  value: p.status = status,
                                   onChanged: (bool valor) {
                                     setState(() {
                                       status = valor;
@@ -295,36 +312,36 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     RadioListTile(
                                       title: Text("unidade"),
                                       value: "unidade",
-                                      groupValue: _produto.unidade,
+                                      groupValue: p.unidade,
                                       onChanged: (String valor) {
                                         setState(() {
-                                          _produto.unidade = valor;
+                                          p.unidade = valor;
                                           print(
-                                              "resultado: " + _produto.unidade);
+                                              "resultado: " + p.unidade);
                                         });
                                       },
                                     ),
                                     RadioListTile(
                                       title: Text("litro"),
                                       value: "litro",
-                                      groupValue: _produto.unidade,
+                                      groupValue: p.unidade,
                                       onChanged: (String valor) {
                                         setState(() {
-                                          _produto.unidade = valor;
+                                          p.unidade = valor;
                                           print(
-                                              "resultado: " + _produto.unidade);
+                                              "resultado: " + p.unidade);
                                         });
                                       },
                                     ),
                                     RadioListTile(
                                       title: Text("Kilograma"),
                                       value: "kilograma",
-                                      groupValue: _produto.unidade,
+                                      groupValue: p.unidade,
                                       onChanged: (String valor) {
                                         setState(() {
-                                          _produto.unidade = valor;
+                                          p.unidade = valor;
                                           print(
-                                              "resultado: " + _produto.unidade);
+                                              "resultado: " + p.unidade);
                                         });
                                       },
                                     ),
@@ -431,17 +448,18 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 SizedBox(height: 15),
                                 file != null
                                     ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 100,
-                                        width: 100,
-                                      ),
+                                    height: 150,
+                                    width: 200,
+                                    fit: BoxFit.fill)
+                                    : Image.network(
+                                  ConstantApi.urlArquivoProduto + p.foto,
+                                  height: 150,
+                                  width: 200,
+                                  fit: BoxFit.fill,
+                                ),
                                 SizedBox(height: 15),
-                                _produto.foto != null
-                                    ? Text("${_produto.foto}")
+                                p.foto != null
+                                    ? Text("${p.foto}")
                                     : Text("sem arquivo"),
                                 RaisedButton.icon(
                                   icon: Icon(Icons.file_upload),
@@ -470,8 +488,15 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                     onPressed: () {
                       if (controller.validate()) {
                         DateTime dataAgora = DateTime.now();
-                        _produto.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(_produto);
+                        p.dataRegistro = dateFormat.format(dataAgora);
+                        _bloc.create(p);
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProdutoPage(),
+                          ),
+                        );
                       }
                     },
                   ),
@@ -487,7 +512,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   void changeCategorias(SubCategoria s) {
     setState(() {
       _subCategoriaSelecionada = s;
-      print("CAT.:  ${_subCategoriaSelecionada.id}");
+      print("SubCategoria.:  ${_subCategoriaSelecionada.nome}");
     });
   }
 

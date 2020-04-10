@@ -43,9 +43,11 @@ class CategoriaPage extends StatelessWidget {
             child: Icon(Icons.add),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CategoriaCreatePage()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoriaCreatePage(),
+                ),
+              );
             },
           )
         ],

@@ -49,7 +49,7 @@ class Promocao {
     data['id'] = this.id;
     data['nome'] = this.nome;
     data['descricao'] = this.descricao;
-    data['arquivo'] = this.foto;
+    data['foto'] = this.foto;
     data['desconto'] = this.desconto;
     data['dataRegistro'] = this.dataRegistro;
     data['dataInicio'] = this.dataInicio;

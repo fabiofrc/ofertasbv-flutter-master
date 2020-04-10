@@ -50,21 +50,18 @@ class PromocaoApiProvider {
   }
 
   static Future<FormData> upload(File file, String fileName) async {
-    CustonDio dio = CustonDio();
-
     var arquivo = file.path;
     var fileDir = file.path;
 
     var paramentros = {
-      "filename": "upload",
       "file": await MultipartFile.fromFile(fileDir, filename: fileName)
     };
 
     FormData formData = FormData.fromMap(paramentros);
 
-    var response = await dio.client.post("/promocoes/upload", data: formData);
-    print("RESPONSE: ${response}");
-    print("fileDir: ${fileDir}");
+    var response = await Dio().post("http://192.168.1.5:8080/promocoes/upload", data: formData);
+    print("RESPONSE: $response");
+    print("fileDir: $fileDir");
     return formData;
   }
 }

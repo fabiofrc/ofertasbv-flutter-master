@@ -141,7 +141,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
               s.nome,
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            subtitle: Text("s.categoria.nome"),
+            subtitle: Text(s.categoria.nome),
             trailing: Text("${s.id}"),
             onTap: () {
               showDialogAlert(context, s);
