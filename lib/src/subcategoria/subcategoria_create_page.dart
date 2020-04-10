@@ -47,9 +47,11 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
   @override
   void initState() {
     categorias;
-    pesquisarCodigo(s.id);
+
     if (s == null) {
       s = SubCategoria();
+    } else {
+      pesquisarCodigo(s.id);
     }
     super.initState();
   }
@@ -210,9 +212,8 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.network(
-                                        ConstantApi.urlArquivoSubCategoria +
-                                            s.foto,
+                                    : Image.asset(
+                                        ConstantApi.urlAsset,
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill,
@@ -229,7 +230,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                   ),
                                   elevation: 0.0,
                                   onPressed: () {
-                                    _onClickUpload;
+                                    _onClickUpload();
                                     showDefaultSnackbar(
                                         context, "Anexo: ${s.foto}");
                                   },

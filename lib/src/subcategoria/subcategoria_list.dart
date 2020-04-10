@@ -143,7 +143,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
             ),
             subtitle: Text(s.categoria.nome),
             trailing: Text("${s.id}"),
-            onTap: () {
+            onLongPress: () {
               showDialogAlert(context, s);
             },
           ),

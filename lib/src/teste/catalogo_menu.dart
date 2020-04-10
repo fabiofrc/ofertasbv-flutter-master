@@ -85,9 +85,9 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
 
   GridView buildGridView(BuildContext context) {
     return GridView.count(
-      padding: EdgeInsets.all(10),
-      crossAxisSpacing: 0,
-      mainAxisSpacing: 0,
+      padding: EdgeInsets.only(top: 2),
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
       crossAxisCount: 3,
 
       //childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.9,

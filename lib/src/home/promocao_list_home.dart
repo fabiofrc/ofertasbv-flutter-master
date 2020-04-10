@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -78,37 +77,33 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
 
         return GestureDetector(
           child: Card(
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(right: 10),
             elevation: 1,
             child: AnimatedContainer(
               duration: Duration(seconds: 4),
               width: 300,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   AspectRatio(
-                    aspectRatio: 1.5,
+                    aspectRatio: 1.6,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(0),
                       child: Image.network(
                         ConstantApi.urlArquivoPromocao + p.foto,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.nome,
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
+                  SizedBox(height: 6),
+                  Text(
+                    p.nome,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                  ),
+                  Text(
+                    p.descricao,
+                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
                   ),
                 ],
               ),

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
+import 'package:ofertasbv/src/categoria/categoria_list.dart';
+import 'package:ofertasbv/src/categoria/categoria_page.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_list.dart';
@@ -24,12 +27,14 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             primary: true,
             bottomOpacity: 1.0,
-            title: Text("OFERTASBV"),
+            title: Text("OFERTASBV",
+              style: GoogleFonts.lato(),
+            ),
             actions: <Widget>[
               IconButton(
                 icon: Icon(CupertinoIcons.search, color: Constants.colorIconsAppMenu,),
@@ -55,23 +60,23 @@ class _HomePageState extends State<HomePage>
               unselectedLabelColor: Colors.white,
               tabs: [
                 Tab(
-                  child: Text("HOME", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Home", style: Constants.textoAppHomeTitulo,),
                   //icon: Icon(Icons.home),
                 ),
 
                 Tab(
-                  child: Text("PRODUTOS", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Produto", style: Constants.textoAppHomeTitulo,),
                   //icon: Icon(Icons.shopping_cart),
                 ),
 
                 Tab(
-                  child: Text("OFERTAS", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Oferta", style: Constants.textoAppHomeTitulo,),
                   //icon: Icon(Icons.add_alert),
                 ),
-//                Tab(
-//                  child: Text("LOJAS", style: Constants.textoAppHomeTitulo,),
-//                  //icon: Icon(Icons.location_city),
-//                ),
+                Tab(
+                  child: Text("Departamento", style: Constants.textoAppHomeTitulo,),
+                  //icon: Icon(Icons.location_city),
+                ),
               ],
             ),
           ),
@@ -81,6 +86,7 @@ class _HomePageState extends State<HomePage>
               CatalogoHome(),
               ProdutoGrid(),
               PromocaoList(),
+              CategoriaList(),
               //PessoaList(),
             ],
           ),

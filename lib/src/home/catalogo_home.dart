@@ -17,7 +17,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(2),
       children: <Widget>[
         SizedBox(height: 2),
         Row(
@@ -51,7 +51,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           height: 110,
           child: CategoriaListHome(),
         ),
-        SizedBox(height: 0),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -83,6 +83,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           height: 250,
           child: PromocaoListHome(),
         ),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

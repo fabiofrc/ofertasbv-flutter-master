@@ -4,12 +4,12 @@ class Constants {
   static String appName = "Furniture App";
 
   //Colors for theme
-  static Color lightPrimary = Color(0xfffcfcff);
-  static Color darkPrimary = Colors.black;
+  static Color lightPrimary = Colors.blue[900];
+  static Color darkPrimary = Colors.white;
   static Color lightAccent = Colors.orange;
   static Color darkAccent = Colors.orangeAccent;
   static Color lightBG = Color(0xfffcfcff);
-  static Color darkBG = Colors.black;
+  static Color darkBG = Colors.white;
 
   static ThemeData lightTheme = ThemeData(
     backgroundColor: lightBG,
@@ -76,7 +76,7 @@ class Constants {
 
   static TextStyle textoAppHomeTitulo = TextStyle(
     fontWeight: FontWeight.w400,
-    color: Colors.blue[900],
+    color: Colors.white,
     fontSize: 14,
   );
 
@@ -88,11 +88,11 @@ class Constants {
 
   static TextStyle textoHomeTitulo = TextStyle(
     fontWeight: FontWeight.w400,
-    color: Colors.blue[800],
+    color: Colors.grey[900],
     fontSize: 16,
     fontFamily: "Raleway",
   );
 
   static Color colorIconsMenu = Colors.deepOrangeAccent;
-  static Color colorIconsAppMenu = Colors.blue[900];
+  static Color colorIconsAppMenu = Colors.white;
 }

@@ -222,8 +222,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.network(
-                                        ConstantApi.urlArquivoPromocao + p.foto,
+                                    : Image.asset(
+                                        ConstantApi.urlAsset,
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill,

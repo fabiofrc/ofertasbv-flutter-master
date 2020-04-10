@@ -136,7 +136,7 @@ class _CategoriaListState extends State<CategoriaList>
             ),
             subtitle: Text("${c.dataRegistro}"),
             trailing: Text("${c.id}"),
-            onTap: () {
+            onLongPress: () {
               showDialogAlert(context, c);
             },
           ),

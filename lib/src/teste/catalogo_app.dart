@@ -46,7 +46,7 @@ class _CatalogoAppState extends State<CatalogoApp> {
                 Icons.dashboard,
                 color: Colors.deepOrangeAccent,
               ),
-              title: Text("Dashboard", style: Constants.textoHomeTitulo,)),
+              title: Text("Menu", style: Constants.textoHomeTitulo,)),
           BubbleBottomBarItem(
             backgroundColor: Colors.grey[700],
             icon: Icon(

@@ -64,6 +64,7 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
   void _onClickUpload() async {
     if (file != null) {
       var url = await CategoriaApiProvider.upload(file, c.foto);
+      print(" URL : $url");
     }
   }
 
@@ -161,16 +162,21 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill)
-                                    : Image.network(
-                                        ConstantApi.urlArquivoCategoria +
-                                            c.foto,
+                                    : Image.asset(
+                                        ConstantApi.urlAsset,
                                         height: 150,
                                         width: 200,
                                         fit: BoxFit.fill,
                                       ),
                                 SizedBox(height: 15),
                                 c.foto != null
-                                    ? Text("${c.foto}")
+                                    ? Image.asset(
+                                        ConstantApi.urlAsset +
+                                            c.foto,
+                                        height: 150,
+                                        width: 200,
+                                        fit: BoxFit.fill,
+                                      )
                                     : Text("sem arquivo"),
                                 RaisedButton.icon(
                                   icon: Icon(Icons.file_upload),
@@ -180,7 +186,7 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                   ),
                                   elevation: 0.0,
                                   onPressed: () {
-                                    _onClickUpload;
+                                    _onClickUpload();
                                     showDefaultSnackbar(
                                         context, "Anexo: ${c.foto}");
                                   },

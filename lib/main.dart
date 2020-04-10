@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_controller.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
 import 'package:ofertasbv/src/endereco/endereco_controller.dart';
@@ -28,31 +30,9 @@ void main() {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
+    theme: Constants.lightTheme,
+    home: SplashScreenOne(),
   ));
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("demo"),
-      ),
-      body: Center(
-        child: Text("teste"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.plus_one),
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
 }
 
 

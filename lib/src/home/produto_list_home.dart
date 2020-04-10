@@ -83,7 +83,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
 
         return GestureDetector(
           child: Card(
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(right: 10),
             elevation: 1,
             child: AnimatedContainer(
               duration: Duration(seconds: 4),

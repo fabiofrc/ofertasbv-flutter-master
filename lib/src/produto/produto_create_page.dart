@@ -451,8 +451,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     height: 150,
                                     width: 200,
                                     fit: BoxFit.fill)
-                                    : Image.network(
-                                  ConstantApi.urlArquivoProduto + p.foto,
+                                    : Image.asset(
+                                  ConstantApi.urlAsset,
                                   height: 150,
                                   width: 200,
                                   fit: BoxFit.fill,

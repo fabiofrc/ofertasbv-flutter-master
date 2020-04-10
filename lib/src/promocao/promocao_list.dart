@@ -146,7 +146,7 @@ class _PromocaoListState extends State<PromocaoList>
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text(p.descricao),
-            onTap: () {
+            onLongPress: () {
               showDialogAlert(context, p);
             },
           ),
