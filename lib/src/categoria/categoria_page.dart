@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
@@ -17,6 +18,16 @@ class CategoriaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Categorias"),
         actions: <Widget>[
+          Observer(
+            builder: (context) {
+              return Chip(
+                label: Text(
+                  (_bloc.categorias.length ?? 0).toString(),
+                  style: TextStyle(color: Colors.deepOrangeAccent),
+                ),
+              );
+            },
+          ),
           SizedBox(width: 20),
           IconButton(
             icon: Icon(

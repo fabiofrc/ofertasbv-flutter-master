@@ -69,7 +69,7 @@ class Constants {
 
   static TextStyle textoAppTitulo = TextStyle(
     fontWeight: FontWeight.w400,
-    color: Colors.blue[900],
+    color: Colors.white,
     fontSize: 18,
     fontFamily: "Raleway",
   );

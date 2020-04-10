@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
@@ -9,18 +10,19 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_create_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_list.dart';
 
 class SubcategoriaPage extends StatefulWidget {
-
   Categoria c;
+
   SubcategoriaPage({Key key, this.c}) : super(key: key);
 
   @override
-  _SubcategoriaPageState createState() => _SubcategoriaPageState(c:this.c);
+  _SubcategoriaPageState createState() => _SubcategoriaPageState(c: this.c);
 }
 
 class _SubcategoriaPageState extends State<SubcategoriaPage> {
   final _bloc = GetIt.I.get<SubCategoriaController>();
 
   Categoria c;
+
   _SubcategoriaPageState({this.c});
 
   @override
@@ -29,17 +31,16 @@ class _SubcategoriaPageState extends State<SubcategoriaPage> {
       appBar: AppBar(
         title: Text("Subcategorias"),
         actions: <Widget>[
-//          StreamBuilder<Object>(
-//            stream: _bloc.counter,
-//            builder: (context, data) {
-//              return Chip(
-//                label: Text(
-//                  (data.data ?? 0).toString(),
-//                  style: TextStyle(color: Colors.deepOrangeAccent),
-//                ),
-//              );
-//            },
-//          ),
+          Observer(
+            builder: (context) {
+              return Chip(
+                label: Text(
+                  (_bloc.subCategorias.length ?? 0).toString(),
+                  style: TextStyle(color: Colors.deepOrangeAccent),
+                ),
+              );
+            },
+          ),
           SizedBox(width: 20),
           IconButton(
             icon: Icon(
@@ -53,7 +54,9 @@ class _SubcategoriaPageState extends State<SubcategoriaPage> {
           ),
         ],
       ),
-      body: SubcategoriaList(c: c,),
+      body: SubcategoriaList(
+        c: c,
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -65,8 +68,10 @@ class _SubcategoriaPageState extends State<SubcategoriaPage> {
             elevation: 10,
             child: Icon(Icons.add),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SubCategoriaCreatePage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SubCategoriaCreatePage()));
             },
           )
         ],

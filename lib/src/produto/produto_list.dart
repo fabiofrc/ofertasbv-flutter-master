@@ -193,13 +193,13 @@ class _ProdutoListState extends State<ProdutoList>
                       )),
                   Container(
                     width: 50,
-                    child: Icon(Icons.favorite_border),
+                    child: Icon(Icons.favorite_border, color: Colors.pink[800],),
                   ),
                 ],
               ),
             ),
           ),
-          onTap: () {
+          onLongPress: () {
              showDialogAlert(context, p);
           },
         );

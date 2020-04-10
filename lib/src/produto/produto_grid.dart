@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
+import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
@@ -42,6 +43,53 @@ class _ProdutoGridState extends State<ProdutoGrid>
 
   Future<void> onRefresh() {
     return _bloc.getAll();
+  }
+
+  showDialogAlert(BuildContext context, Produto p) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button for close dialog!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('INFORMAÇÃOES'),
+          content: Text(p.nome),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('CANCELAR'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('EDITAR'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return ProdutoCreatePage(
+                        produto: p,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            FlatButton(
+              child: const Text('VER DETALHES'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return ProdutoDetalhes(p);
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -127,14 +175,8 @@ class _ProdutoGridState extends State<ProdutoGrid>
               ),
             ),
           ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ProdutoDetalhes(p);
-                },
-              ),
-            );
+          onLongPress: () {
+            showDialogAlert(context, p);
           },
         );
       },

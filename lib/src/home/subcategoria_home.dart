@@ -14,7 +14,7 @@ class _SubCategoriaHomeState extends State<SubCategoriaHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("departamento & produto", style: Constants.textoAppTitulo,),
+        title: Text("departamento & produto", style: Constants.textoAppTitulo),
       ),
       body: ListView(
         children: <Widget>[

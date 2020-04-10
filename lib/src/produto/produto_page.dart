@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
@@ -36,17 +37,16 @@ class _ProdutoPageState extends State<ProdutoPage> {
       appBar: AppBar(
         title: Text("Produtos"),
         actions: <Widget>[
-//          StreamBuilder<Object>(
-//            stream: _bloc.counter,
-//            builder: (context, data) {
-//              return Chip(
-//                label: Text(
-//                  (data.data ?? 0).toString(),
-//                  style: TextStyle(color: Colors.deepOrangeAccent),
-//                ),
-//              );
-//            },
-//          ),
+          Observer(
+            builder: (context) {
+              return Chip(
+                label: Text(
+                  (_bloc.produtos.length ?? 0).toString(),
+                  style: TextStyle(color: Colors.deepOrangeAccent),
+                ),
+              );
+            },
+          ),
           SizedBox(width: 20),
           IconButton(
             icon: Icon(

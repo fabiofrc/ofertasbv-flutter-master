@@ -7,7 +7,6 @@ import 'package:ofertasbv/src/categoria/categoria_controller.dart';
 import 'package:ofertasbv/src/endereco/endereco_controller.dart';
 import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
-import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
@@ -25,7 +24,6 @@ void main() {
   getIt.registerSingleton<ProdutoController>(ProdutoController());
   getIt.registerSingleton<EnderecoController>(EnderecoController());
   getIt.registerSingleton<PedidoController>(PedidoController());
-  getIt.registerSingleton<PedidoItemController>(PedidoItemController());
   getIt.registerSingleton<UsuarioController>(UsuarioController());
 
   runApp(MaterialApp(
