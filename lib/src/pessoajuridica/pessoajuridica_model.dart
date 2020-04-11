@@ -1,3 +1,6 @@
+import 'package:ofertasbv/src/endereco/endereco_model.dart';
+import 'package:ofertasbv/src/usuario/usuario_model.dart';
+
 class PessoaJuridica {
   int id;
   String nome;
@@ -6,6 +9,8 @@ class PessoaJuridica {
   String tipoPessoa;
   String dataRegistro;
   String foto;
+  Usuario usuario;
+  List<Endereco> enderecos;
   String razaoSocial;
   String cnpj;
   bool novo;
@@ -19,6 +24,8 @@ class PessoaJuridica {
         this.tipoPessoa,
         this.dataRegistro,
         this.foto,
+        this.usuario,
+        this.enderecos,
         this.razaoSocial,
         this.cnpj,
         this.novo,
@@ -32,6 +39,14 @@ class PessoaJuridica {
     tipoPessoa = json['tipoPessoa'];
     dataRegistro = json['dataRegistro'];
     foto = json['foto'];
+    usuario =
+    json['usuario'] != null ? new Usuario.fromJson(json['usuario']) : null;
+    if (json['enderecos'] != null) {
+      enderecos = new List<Endereco>();
+      json['enderecos'].forEach((v) {
+        enderecos.add(new Endereco.fromJson(v));
+      });
+    }
     razaoSocial = json['razaoSocial'];
     cnpj = json['cnpj'];
     novo = json['novo'];
@@ -47,6 +62,12 @@ class PessoaJuridica {
     data['tipoPessoa'] = this.tipoPessoa;
     data['dataRegistro'] = this.dataRegistro;
     data['foto'] = this.foto;
+    if (this.usuario != null) {
+      data['usuario'] = this.usuario.toJson();
+    }
+    if (this.enderecos != null) {
+      data['enderecos'] = this.enderecos.map((v) => v.toJson()).toList();
+    }
     data['razaoSocial'] = this.razaoSocial;
     data['cnpj'] = this.cnpj;
     data['novo'] = this.novo;

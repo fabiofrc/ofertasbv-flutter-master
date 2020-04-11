@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
@@ -137,8 +138,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
             child: Card(
               elevation: 0.5,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
+
                 children: <Widget>[
                   AspectRatio(
                     aspectRatio: 0.9,
@@ -154,18 +154,16 @@ class _ProdutoGridState extends State<ProdutoGrid>
                     child: Container(
                       padding: EdgeInsets.all(5),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             p.nome,
-                            style: TextStyle(fontWeight: FontWeight.w500),
+                            style: GoogleFonts.lato(fontSize: 16),
                           ),
                           Text(
                             "R\$ ${p.estoque.precoCusto}",
-                            style: TextStyle(
-                              color: Colors.green[700],
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
+                            style: GoogleFonts.lato(fontSize: 18, color: Colors.green),
                           ),
                         ],
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_page.dart';
@@ -35,7 +36,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Catalogo app"),
+        title: Text("Catalogo app", style: GoogleFonts.lato()),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -116,9 +117,11 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 padding: EdgeInsets.all(20),
               ),
-              Text(
-                "Produto",
-                style: TextStyle(color: Colors.blue[900]),
+              Center(
+                child: Text(
+                  "Produto",
+                  style: GoogleFonts.lato(fontSize: 12),
+                ),
               ),
             ],
           ),
@@ -149,7 +152,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Departamento",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -179,7 +182,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Oferta",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -269,7 +272,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "SubCategoria",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -316,6 +319,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
@@ -328,12 +332,10 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 padding: EdgeInsets.all(20),
               ),
-              Text(
-                "SubCategoria & produto",
-                style: TextStyle(
-                  color: Colors.blue[900],
-                ),
-              ),
+               Text(
+                  "SubCategoria & produto",
+                  style: GoogleFonts.lato(fontSize: 12),
+              )
             ],
           ),
         ),
@@ -362,7 +364,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Central de atendimento",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -392,7 +394,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "QR code",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -422,7 +424,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Cod de barra",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
@@ -452,7 +454,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Sobre",
-                style: TextStyle(color: Colors.blue[900]),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),

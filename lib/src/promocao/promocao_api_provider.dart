@@ -49,6 +49,16 @@ class PromocaoApiProvider {
     return null;
   }
 
+  Future<String> download(String foto) async {
+    try {
+      var response = await dio.client.patch("http://192.168.1.5:8080/promocoes/download/$foto");
+      return response.toString();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
   static Future<FormData> upload(File file, String fileName) async {
     var arquivo = file.path;
     var fileDir = file.path;

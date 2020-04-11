@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
@@ -83,8 +84,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
               duration: Duration(seconds: 4),
               width: 300,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: <Widget>[
                   AspectRatio(
                     aspectRatio: 1.6,
@@ -97,13 +97,22 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                     ),
                   ),
                   SizedBox(height: 6),
-                  Text(
-                    p.nome,
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-                  ),
-                  Text(
-                    p.descricao,
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
+                  Container(
+                    padding: EdgeInsets.only(top: 4, left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 16),
+                        ),
+                        Text(
+                          p.descricao,
+                          style: GoogleFonts.lato(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

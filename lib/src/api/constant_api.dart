@@ -6,7 +6,7 @@ class ConstantApi {
   static String urlArquivoCategoria = urlList + "/categorias/download/";
   static String urlArquivoSubCategoria = urlList + "/subcategorias/download/";
   static String urlArquivoProduto = urlList + "/produtos/download/";
-  static String urlArquivoPessoa = urlList + "/pessoas/download/";
+  static String urlArquivoPessoaJuridica = urlList + "/pessoajuridicas/download/";
   static String urlArquivoPromocao = urlList + "/promocoes/download/";
   static String urlArquivoArquivo = urlList + "/arquivos/download/";
 }

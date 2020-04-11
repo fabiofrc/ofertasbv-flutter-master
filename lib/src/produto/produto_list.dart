@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
@@ -169,11 +170,12 @@ class _ProdutoListState extends State<ProdutoList>
                   Container(
                       width: 180,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             p.nome,
-                            style: TextStyle(fontWeight: FontWeight.w500),
+                            style: GoogleFonts.lato(fontSize: 16),
                           ),
                           Text(
                             "cód. ${p.id}",
@@ -183,11 +185,7 @@ class _ProdutoListState extends State<ProdutoList>
                           ),
                           Text(
                             "R\$ ${p.estoque.precoCusto}",
-                            style: TextStyle(
-                              color: Colors.green[700],
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
+                            style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
                           ),
                         ],
                       )),

@@ -20,6 +20,9 @@ abstract class PromocaoControllerBase with Store {
   int promocao;
 
   @observable
+  String urlDownloadPromocoes;
+
+  @observable
   Exception error;
 
   @action
@@ -35,6 +38,12 @@ abstract class PromocaoControllerBase with Store {
   Future<List<Promocao>> getAllByPessoaById(int id) async {
     promocoes = await _promocaoApiProvider.getAllByPessoaById(id);
     return promocoes;
+  }
+
+  @action
+  Future<String> getDownloadFoto(String foto) async {
+    urlDownloadPromocoes = await _promocaoApiProvider.download(foto);
+    return urlDownloadPromocoes;
   }
 
   @action

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
@@ -108,7 +109,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   AspectRatio(
-                    aspectRatio: 1.1,
+                    aspectRatio: 1.3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(0),
                       child: Image.network(
@@ -117,7 +118,19 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                       ),
                     ),
                   ),
-                  Text(c.nome.toLowerCase(), style: TextStyle(fontSize: 12),),
+                  Container(
+                    padding: EdgeInsets.only(top: 4, left: 4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          c.nome,
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -126,7 +139,9 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return SubcategoriaPage(c: c,);
+                  return SubcategoriaPage(
+                    c: c,
+                  );
                 },
               ),
             );

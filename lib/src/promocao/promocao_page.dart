@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -29,7 +30,7 @@ class _PromocaoPageState extends State<PromocaoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ofertas"),
+        title: Text("Ofertas", style: GoogleFonts.lato()),
         actions: <Widget>[
           Observer(
             builder: (context) {

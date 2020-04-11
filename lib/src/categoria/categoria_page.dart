@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -16,7 +17,7 @@ class CategoriaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categorias"),
+        title: Text("Categorias", style: GoogleFonts.lato()),
         actions: <Widget>[
           Observer(
             builder: (context) {

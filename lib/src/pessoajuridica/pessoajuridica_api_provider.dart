@@ -3,15 +3,16 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
+import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
 
 class PessoaJuridicaApiProvider {
   CustonDio dio = CustonDio();
 
-  Future<List<Pessoa>> getAll() async {
+  Future<List<PessoaJuridica>> getAll() async {
     try {
       print("carregando pessoas juridicas");
       var response = await dio.client.get("/pessoajuridicas");
-      return (response.data as List).map((c) => Pessoa.fromJson(c)).toList();
+      return (response.data as List).map((c) => PessoaJuridica.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
@@ -139,7 +140,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
             ),
             title: Text(
               s.nome,
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: GoogleFonts.lato(fontSize: 16),
             ),
             subtitle: Text(s.categoria.nome),
             trailing: Text("${s.id}"),

@@ -60,21 +60,21 @@ class _HomePageState extends State<HomePage>
               unselectedLabelColor: Colors.white,
               tabs: [
                 Tab(
-                  child: Text("Home", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Home", style: GoogleFonts.lato(),),
                   //icon: Icon(Icons.home),
                 ),
 
                 Tab(
-                  child: Text("Produto", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Produto", style: GoogleFonts.lato(),),
                   //icon: Icon(Icons.shopping_cart),
                 ),
 
                 Tab(
-                  child: Text("Oferta", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Oferta", style: GoogleFonts.lato(),),
                   //icon: Icon(Icons.add_alert),
                 ),
                 Tab(
-                  child: Text("Departamento", style: Constants.textoAppHomeTitulo,),
+                  child: Text("Departamento", style: GoogleFonts.lato(),),
                   //icon: Icon(Icons.location_city),
                 ),
               ],

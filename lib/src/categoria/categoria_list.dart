@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
@@ -132,7 +133,7 @@ class _CategoriaListState extends State<CategoriaList>
             ),
             title: Text(
               c.nome,
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: GoogleFonts.lato(fontSize: 16),
             ),
             subtitle: Text("${c.dataRegistro}"),
             trailing: Text("${c.id}"),

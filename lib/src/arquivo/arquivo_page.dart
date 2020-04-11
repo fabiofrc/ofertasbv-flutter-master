@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_controller.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_create_page.dart';
@@ -14,10 +15,7 @@ class ArquivoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Arquivos",
-          style: Constants.textoAppTitulo,
-        ),
+        title: Text("Arquivos", style: GoogleFonts.lato()),
         elevation: 0.0,
         actions: <Widget>[
           SizedBox(width: 20),
