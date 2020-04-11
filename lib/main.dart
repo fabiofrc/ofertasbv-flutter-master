@@ -17,7 +17,6 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/usuario/usuario_controller.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-
 void main() {
   GetIt getIt = GetIt.I;
 
@@ -34,14 +33,12 @@ void main() {
   getIt.registerSingleton<PessoaJuridicaController>(PessoaJuridicaController());
   getIt.registerSingleton<PessoaFisicaController>(PessoaFisicaController());
 
-
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: Constants.lightTheme,
     home: SplashScreenOne(),
   ));
 }
-
 
 class SplashScreenOne extends StatefulWidget {
   @override
@@ -69,11 +66,11 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        seconds: 4,
+        seconds: 7,
         navigateAfterSeconds: HomePage(),
         title: Text(
           'OFERTASBV',
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: GoogleFonts.lato(fontSize: 25, color: Colors.white),
         ),
         image: Image.asset(urlLogo),
         //backgroundColor: Color(0xff622F74),

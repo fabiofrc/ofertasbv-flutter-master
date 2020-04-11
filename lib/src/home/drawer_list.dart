@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
@@ -52,7 +53,7 @@ class DrawerList extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "OFERTASBV",
-                  style: TextStyle(color: Colors.blue[900]),
+                  style: GoogleFonts.lato(color: Colors.blue[900]),
                 ),
                 Text("ofertasbv.com.br"),
               ],

@@ -7,7 +7,10 @@ import 'package:ofertasbv/src/categoria/categoria_page.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_list.dart';
+import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_list.dart';
+import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
 import 'package:ofertasbv/src/produto/produto_grid.dart';
+import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/teste/catalogo_app.dart';
@@ -60,21 +63,21 @@ class _HomePageState extends State<HomePage>
               unselectedLabelColor: Colors.white,
               tabs: [
                 Tab(
-                  child: Text("Home", style: GoogleFonts.lato(),),
+                  child: Text("HOME", style: GoogleFonts.lato(fontSize: 15),),
                   //icon: Icon(Icons.home),
                 ),
 
                 Tab(
-                  child: Text("Produto", style: GoogleFonts.lato(),),
+                  child: Text("PRODUTO", style: GoogleFonts.lato(fontSize: 15),),
                   //icon: Icon(Icons.shopping_cart),
                 ),
 
                 Tab(
-                  child: Text("Oferta", style: GoogleFonts.lato(),),
+                  child: Text("OFERTA", style: GoogleFonts.lato(fontSize: 15),),
                   //icon: Icon(Icons.add_alert),
                 ),
                 Tab(
-                  child: Text("Departamento", style: GoogleFonts.lato(),),
+                  child: Text("LOJA", style: GoogleFonts.lato(fontSize: 15),),
                   //icon: Icon(Icons.location_city),
                 ),
               ],
@@ -84,9 +87,9 @@ class _HomePageState extends State<HomePage>
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               CatalogoHome(),
-              ProdutoGrid(),
+              ProdutoList(),
               PromocaoList(),
-              CategoriaList(),
+              PessoaJuridicaList(),
               //PessoaList(),
             ],
           ),

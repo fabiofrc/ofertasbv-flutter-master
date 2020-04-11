@@ -60,7 +60,7 @@ class PessoaJuridicaApiProvider {
 
     FormData formData = FormData.fromMap(paramentros);
 
-    var response = await Dio().post("http://192.168.1.5:8080/pessoasjuridicas/upload", data: formData);
+    var response = await Dio().post("http://192.168.1.5:8080/pessoajuridicas/upload", data: formData);
     print("RESPONSE: $response");
     print("fileDir: $fileDir");
     return formData;

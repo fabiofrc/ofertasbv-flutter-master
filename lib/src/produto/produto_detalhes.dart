@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
@@ -29,10 +30,16 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(p.nome),
+        title: Text(
+          p.nome,
+          style: GoogleFonts.lato(),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(CupertinoIcons.search, color: Constants.colorIconsAppMenu,),
+            icon: Icon(
+              CupertinoIcons.search,
+              color: Constants.colorIconsAppMenu,
+            ),
             onPressed: () {
               showSearch(
                 context: context,
@@ -76,21 +83,14 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                 ListTile(
                   title: Text(
                     p.nome,
-                    style: TextStyle(fontSize: 20, color: Colors.grey[900]),
+                    style: GoogleFonts.lato(),
                   ),
                 ),
                 ListTile(
-                  title: Text(
-                    p.unidade,
-                    style: TextStyle(fontSize: 20, color: Colors.grey[900]),
-                  ),
+                  title: Text(p.unidade, style: GoogleFonts.lato()),
                   trailing: Text(
                     "R\$ ${p.estoque.precoCusto}",
-                    style: TextStyle(
-                      color: Colors.green[700],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                    ),
+                    style: GoogleFonts.lato(color: Colors.green, fontSize: 18),
                   ),
                 ),
               ],
@@ -111,7 +111,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                     RaisedButton.icon(
                       label: Text(
                         "Ir para Produtos",
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.lato(color: Colors.white),
                       ),
                       icon: Icon(
                         Icons.shopping_cart,
@@ -135,7 +135,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                     RaisedButton.icon(
                       label: Text(
                         "Ir para Ofertas",
-                        style: TextStyle(color: Colors.white),
+                        style: GoogleFonts.lato(color: Colors.white),
                       ),
                       icon: Icon(
                         Icons.list,
@@ -169,12 +169,12 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
               children: <Widget>[
                 Text(
                   "Código: ${p.id}",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(height: 10),
                 Text(
                   "${p.descricao}",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(height: 10),
               ],

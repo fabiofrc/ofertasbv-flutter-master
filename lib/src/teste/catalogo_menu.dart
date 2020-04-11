@@ -7,6 +7,7 @@ import 'package:ofertasbv/src/categoria/categoria_page.dart';
 import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/subcategoria_home.dart';
 import 'package:ofertasbv/src/pessoa/pessoa_page.dart';
+import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
@@ -187,72 +188,12 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             ],
           ),
         ),
-//        GestureDetector(
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return PessoaPage();
-//                },
-//              ),
-//            );
-//          },
-//          child: Column(
-//            children: <Widget>[
-//              Container(
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.circular(10),
-//                ),
-//                child: Icon(
-//                  MdiIcons.shoppingSearch,
-//                  color: Constants.colorIconsMenu,
-//                  size: 40,
-//                ),
-//                padding: EdgeInsets.all(20),
-//              ),
-//              Text(
-//                "Loja",
-//                style: TextStyle(color: Colors.blue[900]),
-//              ),
-//            ],
-//          ),
-//        ),
-//        GestureDetector(
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return PessoaPage();
-//                },
-//              ),
-//            );
-//          },
-//          child: Column(
-//            children: <Widget>[
-//              Container(
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.circular(10),
-//                ),
-//                child: Icon(
-//                  MdiIcons.accountOutline,
-//                  color: Constants.colorIconsMenu,
-//                  size: 40,
-//                ),
-//                padding: EdgeInsets.all(20),
-//              ),
-//              Text(
-//                "Cliente",
-//                style: TextStyle(color: Colors.blue[900]),
-//              ),
-//            ],
-//          ),
-//        ),
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return SubcategoriaPage();
+                  return PessoaJuridicaPage();
                 },
               ),
             );
@@ -264,49 +205,21 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.shopping,
+                  MdiIcons.shoppingSearch,
                   color: Constants.colorIconsMenu,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
               ),
               Text(
-                "SubCategoria",
-                style: GoogleFonts.lato(fontSize: 12),
+                "Loja",
+                  style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
-//        GestureDetector(
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return MapaPageApp();
-//                },
-//              ),
-//            );
-//          },
-//          child: Column(
-//            children: <Widget>[
-//              Container(
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.circular(10),
-//                ),
-//                child: Icon(
-//                  MdiIcons.mapSearch,
-//                  color: Constants.colorIconsMenu,
-//                  size: 40,
-//                ),
-//                padding: EdgeInsets.all(20),
-//              ),
-//              Text(
-//                "Mapa",
-//                style: TextStyle(color: Colors.blue[900]),
-//              ),
-//            ],
-//          ),
-//        ),
+
+
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -332,9 +245,9 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 padding: EdgeInsets.all(20),
               ),
-               Text(
-                  "SubCategoria & produto",
-                  style: GoogleFonts.lato(fontSize: 12),
+              Text(
+                "Paginação",
+                style: GoogleFonts.lato(fontSize: 12),
               )
             ],
           ),

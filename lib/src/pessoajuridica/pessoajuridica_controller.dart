@@ -10,7 +10,7 @@ class PessoaJuridicaController = PessoaJuridicaControllerBase
 abstract class PessoaJuridicaControllerBase with Store {
   PessoaJuridicaApiProvider _pessoaJuridicaApiProvider;
 
-  PessoaJuridicaController() {
+  PessoaJuridicaControllerBase() {
     _pessoaJuridicaApiProvider = PessoaJuridicaApiProvider();
   }
 

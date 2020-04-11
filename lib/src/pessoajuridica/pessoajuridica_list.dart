@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/pessoajuridica/pessoajurica_detalhes.dart';
 import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_controller.dart';
 import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_create_page.dart';
 import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
@@ -13,8 +14,7 @@ class PessoaJuridicaList extends StatefulWidget {
   _PessoaJuridicaListState createState() => _PessoaJuridicaListState();
 }
 
-class _PessoaJuridicaListState extends State<PessoaJuridicaList>
-    with AutomaticKeepAliveClientMixin<PessoaJuridicaList> {
+class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
   final _bloc = GetIt.I.get<PessoaJuridicaController>();
 
   @override
@@ -33,7 +33,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
       barrierDismissible: false, // user must tap button for close dialog!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Localização'),
+          title: Text('Localização', style: GoogleFonts.lato(),),
           content: Text(p.nome),
           actions: <Widget>[
             FlatButton(
@@ -48,7 +48,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return PessoaJuridicaCreatePage();
+                      return PessoaJuridicaCreatePage(pessoaJuridica: p,);
                     },
                   ),
                 );
@@ -57,13 +57,13 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
             FlatButton(
               child: const Text('DETALHES'),
               onPressed: () {
-//                Navigator.of(context).push(
-//                  MaterialPageRoute(
-//                    builder: (BuildContext context) {
-//                      return PessoaDetalhes(p);
-//                    },
-//                  ),
-//                );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PessoaJuridicaDetalhes(pessoaJuridica: p,);
+                    },
+                  ),
+                );
               },
             )
           ],
@@ -80,7 +80,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
         builder: (context) {
           List<PessoaJuridica> pessoas = _bloc.pessoaJuridicas;
           if (_bloc.error != null) {
-            return Text("Não foi possível buscar categorias");
+            return Text("Não foi possível buscar categorias juridicas");
           }
 
           if (pessoas == null) {
@@ -131,7 +131,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
               p.nome,
               style: GoogleFonts.lato(fontSize: 16),
             ),
-            subtitle: Text("${p.dataRegistro}"),
+            subtitle: Text(p.razaoSocial),
             trailing: Text("${p.id}"),
             onLongPress: () {
               showDialogAlert(context, p);
@@ -142,7 +142,4 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList>
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => null;
 }

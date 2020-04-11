@@ -16,8 +16,11 @@ import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
 import 'package:ofertasbv/src/usuario/usuario_model.dart';
 
 class PessoaJuridicaCreatePage extends StatefulWidget {
+  PessoaJuridica pessoaJuridica;
+  PessoaJuridicaCreatePage({Key key, this.pessoaJuridica}) : super(key: key);
+
   @override
-  _PessoaJuridicaCreatePageState createState() => _PessoaJuridicaCreatePageState();
+  _PessoaJuridicaCreatePageState createState() => _PessoaJuridicaCreatePageState(p: this.pessoaJuridica);
 }
 
 class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
@@ -26,6 +29,8 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
   PessoaJuridica p;
   Usuario u;
   Endereco e;
+
+  _PessoaJuridicaCreatePageState({this.p});
 
   DateTime dataAtual = DateTime.now();
   String _valor;
@@ -152,6 +157,8 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
+    u = p.usuario;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Cadastro pessoa"),
@@ -274,18 +281,34 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
+                                  initialValue: p.nome,
                                   onSaved: (value) => p.nome = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
-                                    labelText: "Nome completo",
-                                    hintText: "nome pessoa",
+                                    labelText: "Nome",
+                                    hintText: "nome",
+                                    prefixIcon: Icon(Icons.people),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 50,
+                                ),
+
+                                TextFormField(
+                                  initialValue: p.razaoSocial,
+                                  onSaved: (value) => p.razaoSocial = value,
+                                  validator: (value) =>
+                                  value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Razão social ",
+                                    hintText: "razão social",
                                     prefixIcon: Icon(Icons.people),
                                   ),
                                   keyboardType: TextInputType.text,
                                   maxLength: 50,
                                 ),
                                 TextFormField(
+                                  initialValue: p.cnpj,
                                   onSaved: (value) => p.cnpj = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
@@ -298,6 +321,7 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
                                   maxLength: 11,
                                 ),
                                 TextFormField(
+                                  initialValue: p.telefone,
                                   onSaved: (value) => p.telefone = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
@@ -313,6 +337,7 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
                                   ],
                                 ),
                                 TextFormField(
+                                  initialValue: u.email,
                                   onSaved: (value) => u.email = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
@@ -324,6 +349,7 @@ class _PessoaJuridicaCreatePageState extends State<PessoaJuridicaCreatePage> {
                                   keyboardType: TextInputType.text,
                                 ),
                                 TextFormField(
+                                  initialValue: u.senha,
                                   onSaved: (value) => u.senha = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,

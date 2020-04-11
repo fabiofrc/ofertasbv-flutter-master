@@ -2,6 +2,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/teste/leitor_codigo_barra.dart';
@@ -46,7 +47,7 @@ class _CatalogoAppState extends State<CatalogoApp> {
                 Icons.dashboard,
                 color: Colors.deepOrangeAccent,
               ),
-              title: Text("Menu", style: Constants.textoHomeTitulo,)),
+              title: Text("Menu", style: GoogleFonts.lato())),
           BubbleBottomBarItem(
             backgroundColor: Colors.grey[700],
             icon: Icon(
@@ -57,7 +58,7 @@ class _CatalogoAppState extends State<CatalogoApp> {
               FontAwesomeIcons.barcode,
               color: Colors.deepOrangeAccent,
             ),
-            title: Text("Scanner", style: Constants.textoHomeTitulo,),
+            title: Text("Scanner", style: GoogleFonts.lato(),),
           ),
 
           BubbleBottomBarItem(
@@ -70,7 +71,7 @@ class _CatalogoAppState extends State<CatalogoApp> {
               CupertinoIcons.info,
               color: Colors.deepOrangeAccent,
             ),
-            title: Text("Sobre", style: Constants.textoHomeTitulo,),
+            title: Text("Sobre", style: GoogleFonts.lato(),),
           ),
         ],
         onTap: onBarTapItem,
