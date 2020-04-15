@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
@@ -18,6 +19,26 @@ class ArquivoPage extends StatelessWidget {
         title: Text("Arquivos", style: GoogleFonts.lato()),
         elevation: 0.0,
         actions: <Widget>[
+          Observer(
+            builder: (context) {
+              if (_bloc.error != null) {
+                return Text("Não foi possível carregar");
+              }
+
+              if (_bloc.arquivos == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return Chip(
+                label: Text(
+                  (_bloc.arquivos.length ?? 0).toString(),
+                  style: TextStyle(color: Colors.deepOrangeAccent),
+                ),
+              );
+            },
+          ),
           SizedBox(width: 20),
           IconButton(
             icon: Icon(

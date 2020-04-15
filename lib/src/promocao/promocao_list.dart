@@ -1,11 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_create_page.dart';
 import 'package:ofertasbv/src/promocao/promocao_detalhes.dart';
@@ -13,7 +12,7 @@ import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
 
 class PromocaoList extends StatefulWidget {
-  Pessoa p;
+  Loja p;
 
   PromocaoList({Key key, this.p}) : super(key: key);
 
@@ -25,7 +24,7 @@ class _PromocaoListState extends State<PromocaoList>
     with AutomaticKeepAliveClientMixin<PromocaoList> {
   final _bloc = GetIt.I.get<PromocaoController>();
 
-  Pessoa p;
+  Loja p;
 
   _PromocaoListState({this.p});
 
@@ -150,6 +149,15 @@ class _PromocaoListState extends State<PromocaoList>
             subtitle: Text(p.descricao),
             onLongPress: () {
               showDialogAlert(context, p);
+            },
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return PromocaoDetalhes(p);
+                  },
+                ),
+              );
             },
           ),
         );

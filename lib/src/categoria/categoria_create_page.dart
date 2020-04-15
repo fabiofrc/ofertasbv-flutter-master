@@ -1,10 +1,13 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
@@ -29,6 +32,7 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
 
   Categoria c;
   File file;
+  bool isButtonDesable = false;
 
   _CategoriaCreatePageState({this.c});
 
@@ -81,25 +85,34 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
     );
   }
 
-  void showToast(String msg, {int duration, int gravity}) {
-    //Toast.show(msg, context, duration: duration, gravity: gravity);
+  void showToast(String cardTitle) {
+    Fluttertoast.showToast(
+      msg: "$cardTitle",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.indigo,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     //controllerNome.text = c.nome;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categoria cadastros"),
+        title: Text("Categoria cadastros", style: GoogleFonts.lato()),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.file_upload,
               color: Constants.colorIconsAppMenu,
             ),
-            onPressed: _onClickUpload,
+            onPressed: () {
+              _onClickFoto();
+            },
           )
         ],
       ),
@@ -137,62 +150,77 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                   maxLines: 2,
                                   //initialValue: c.nome,
                                 ),
+                                SizedBox(height: 10),
+                                DateTimeField(
+                                  initialValue: c.dataRegistro,
+                                  format: dateFormat,
+                                  validator: (value) =>
+                                      value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => c.dataRegistro = value,
+                                  decoration: InputDecoration(
+                                    labelText: "data registro",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
                         Card(
-                          child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.picture_in_picture),
-                                  label: Text(
-                                    "Ir para geleria de foto",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickFoto,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("vá para galeria do seu aparelho..."),
+                                    RaisedButton(
+                                      child: Icon(Icons.photo),
+                                      shape: new CircleBorder(),
+                                      onPressed: _onClickFoto,
+                                    )
+                                  ],
                                 ),
-                                SizedBox(height: 15),
-                                file != null
-                                    ? Image.file(file,
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fill,
-                                      ),
-                                SizedBox(height: 15),
-                                c.foto != null
-                                    ? Image.asset(
-                                        ConstantApi.urlAsset +
-                                            c.foto,
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fill,
-                                      )
-                                    : Text("sem arquivo"),
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.file_upload),
-                                  label: Text(
-                                    "Anexar foto de capa",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: () {
-                                    _onClickUpload();
-                                    showDefaultSnackbar(
-                                        context, "Anexo: ${c.foto}");
-                                  },
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: <Widget>[
+                                    file != null
+                                        ? Image.file(file,
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.fill)
+                                        : Image.asset(
+                                            ConstantApi.urlAsset,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                    SizedBox(height: 15),
+                                    c.foto != null
+                                        ? Text("${c.foto}")
+                                        : Text("sem arquivo"),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -201,27 +229,41 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: Text(
+                  child: RaisedButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    label: Text(
                       "Enviar",
                       style: TextStyle(color: Colors.white),
                     ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    textColor: Colors.white,
+                    splashColor: Colors.red,
+                    color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        DateTime dataAgora = DateTime.now();
-                        c.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(c);
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CategoriaPage(),
-                          ),
-                        );
+                        if (file == null) {
+                          showToast("deve anexar uma foto!");
+                        } else {
+                          _onClickUpload();
+                          _bloc.create(c);
+
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CategoriaPage(),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),
-                )
+                ),
               ],
             );
           }

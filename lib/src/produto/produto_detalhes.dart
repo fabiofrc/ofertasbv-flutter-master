@@ -18,10 +18,35 @@ class ProdutoDetalhes extends StatefulWidget {
   _ProdutoDetalhesState createState() => _ProdutoDetalhesState();
 }
 
-class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
+class _ProdutoDetalhesState extends State<ProdutoDetalhes>
+    with SingleTickerProviderStateMixin {
+  AnimationController animationController;
+  Animation<double> animation;
+
   @override
   void initState() {
     super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+
+    animation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.bounceInOut,
+    );
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    animationController.dispose();
   }
 
   @override
@@ -46,7 +71,31 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                 delegate: ProdutoSearchDelegate(),
               );
             },
-          )
+          ),
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 1, right: 10),
+                child: Icon(Icons.shopping_cart),
+              ),
+              Container(
+                width: 18,
+                height: 18,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.black, width: 1),
+                    color: Colors.orangeAccent.withOpacity(.7)),
+                child: Center(
+                  child: Text(
+                    "0",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       body: buildContainer(p),
@@ -75,28 +124,29 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
           elevation: 0.0,
           child: Container(
             color: Colors.transparent,
-            padding: EdgeInsets.all(0),
-            child: Column(
+            padding: EdgeInsets.all(10),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                ListTile(
-                  title: Text(
-                    p.nome,
-                    style: GoogleFonts.lato(),
-                  ),
+                Text(
+                  p.nome,
+                  style: GoogleFonts.lato(fontSize: 18),
                 ),
-                ListTile(
-                  title: Text(p.unidade, style: GoogleFonts.lato()),
-                  trailing: Text(
-                    "R\$ ${p.estoque.precoCusto}",
-                    style: GoogleFonts.lato(color: Colors.green, fontSize: 18),
+                IconButton(
+                  icon: Icon(
+                    Icons.favorite_border,
+                    color: Colors.pink[900],
                   ),
+                  onPressed: () {
+                    print("Favoritar");
+                  },
                 ),
               ],
             ),
           ),
         ),
+
         Card(
           elevation: 0.0,
           child: Container(
@@ -110,14 +160,17 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "Ir para Produtos",
-                        style: GoogleFonts.lato(color: Colors.white),
+                        "ver vais produtos",
+                        style: GoogleFonts.lato(color: Colors.pink[900]),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: Colors.white,
+                        color: Colors.pink[900],
                       ),
-                      color: Colors.orangeAccent,
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -134,15 +187,17 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "Ir para Ofertas",
-                        style: GoogleFonts.lato(color: Colors.white),
+                        "ver mais ofertas",
+                        style: GoogleFonts.lato(color: Colors.blue[900]),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       icon: Icon(
                         Icons.list,
-                        color: Colors.white,
+                        color: Colors.blue[900],
                       ),
-                      color: Colors.blue[900],
-                      elevation: 0.0,
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -180,7 +235,69 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes> {
               ],
             ),
           ),
-        )
+        ),
+        Container(
+          height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
+                  child: RaisedButton(
+                    color: Colors.pink[900],
+                    onPressed: () {
+                      setState(() {
+                        animationController.forward();
+                      });
+                    },
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Adicionar\nao carrinho",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 4,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Container(
+                    height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.share, color: Colors.white,),
+                      color: Colors.blue[900],
+                      onPressed: () {},
+                      label: Text(
+                        "Compartilhar",
+                        style: GoogleFonts.lato(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

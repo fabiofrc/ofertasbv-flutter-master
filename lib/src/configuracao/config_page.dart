@@ -3,33 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
+import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
 import 'package:ofertasbv/src/categoria/categoria_page.dart';
+import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
+import 'package:ofertasbv/src/configuracao/teste_cad.dart';
 import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/subcategoria_home.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_page.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_page.dart';
+import 'package:ofertasbv/src/loja/loja_page.dart';
+import 'package:ofertasbv/src/permissao/permissao_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
-import 'package:ofertasbv/src/teste/leitor_codigo_barra.dart';
-import 'package:ofertasbv/src/teste/leitor_qr_code.dart';
-import 'package:ofertasbv/src/teste/mapa_principal.dart';
 
-class CatalogoMenu extends StatefulWidget {
+class ConfigPage extends StatefulWidget {
   @override
-  _CatalogoMenuState createState() => _CatalogoMenuState();
+  _ConfigPageState createState() => _ConfigPageState();
 }
 
-class _CatalogoMenuState extends State<CatalogoMenu> {
-  PageController _pageController;
-  int _page = 0;
-
-  void navigationTapped(int page) {
-    _pageController.jumpToPage(page);
-  }
-
+class _ConfigPageState extends State<ConfigPage> {
   @override
   Widget build(BuildContext context) {
     double largura = MediaQuery.of(context).size.width;
@@ -37,7 +30,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Catalogo app", style: GoogleFonts.lato()),
+        title: Text("Configurações", style: GoogleFonts.lato()),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -73,17 +66,17 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
   }
 
   Widget _builderBodyBack() => Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.grey[200],
-              Colors.grey[200],
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-      );
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [
+          Colors.grey[200],
+          Colors.grey[200],
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+    ),
+  );
 
   GridView buildGridView(BuildContext context) {
     return GridView.count(
@@ -113,7 +106,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 child: Icon(
                   MdiIcons.cartArrowDown,
-                  color: Constants.colorIconsMenu,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
@@ -146,18 +139,51 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 child: Icon(
                   MdiIcons.cardSearchOutline,
-                  color: Constants.colorIconsMenu,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
               ),
               Text(
-                "Departamento",
+                "Categoria",
                 style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SubcategoriaPage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.cardSearchOutline,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "SubCategoria",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -176,7 +202,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 child: Icon(
                   MdiIcons.bellOutline,
-                  color: Constants.colorIconsMenu,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
@@ -193,7 +219,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return PessoaJuridicaPage();
+                  return LojaPage();
                 },
               ),
             );
@@ -206,58 +232,120 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 ),
                 child: Icon(
                   MdiIcons.shoppingSearch,
-                  color: Constants.colorIconsMenu,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
               ),
               Text(
                 "Loja",
-                  style: GoogleFonts.lato(fontSize: 12),
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PermissaoPage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.email,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Usuário",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PermissaoPage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.map,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Permissão",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ArquivoPage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.map,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Arquivo",
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
 
 
+
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return SubCategoriaHome();
-                },
-              ),
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  MdiIcons.shopify,
-                  color: Constants.colorIconsMenu,
-                  size: 40,
-                ),
-                padding: EdgeInsets.all(20),
-              ),
-              Text(
-                "Paginação",
-                style: GoogleFonts.lato(fontSize: 12),
-              )
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return SobrePage();
+                  return MapaPageApp();
                 },
               ),
             );
@@ -269,25 +357,26 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.phone,
-                  color: Constants.colorIconsMenu,
+                  MdiIcons.map,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
               ),
               Text(
-                "Central de atendimento",
+                "Mapas",
                 style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
+
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return LeitorQRCode();
+                  return TesteCard();
                 },
               ),
             );
@@ -299,79 +388,21 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.qrcodeScan,
-                  color: Constants.colorIconsMenu,
+                  MdiIcons.map,
+                  color: Constants.colorIconsConfig,
                   size: 40,
                 ),
                 padding: EdgeInsets.all(20),
               ),
               Text(
-                "QR code",
+                "Card",
                 style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return LeitorCodigoBarra();
-                },
-              ),
-            );
-          },
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  MdiIcons.barcode,
-                  color: Constants.colorIconsMenu,
-                  size: 40,
-                ),
-                padding: EdgeInsets.all(20),
-              ),
-              Text(
-                "Cod de barra",
-                style: GoogleFonts.lato(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return SobrePage();
-                },
-              ),
-            );
-          },
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  MdiIcons.informationOutline,
-                  color: Constants.colorIconsMenu,
-                  size: 40,
-                ),
-                padding: EdgeInsets.all(20),
-              ),
-              Text(
-                "Sobre",
-                style: GoogleFonts.lato(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
+
+
       ],
     );
   }

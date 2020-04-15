@@ -1,28 +1,39 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_controller.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_create_page.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_list.dart';
+import 'package:ofertasbv/src/permissao/permissao_controller.dart';
+import 'package:ofertasbv/src/permissao/permissao_create_page.dart';
+import 'package:ofertasbv/src/permissao/permissao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 
-class PessoaJuridicaPage extends StatelessWidget {
-  final _bloc = GetIt.I.get<PessoaJuridicaController>();
+class PermissaoPage extends StatelessWidget {
+  final _bloc = GetIt.I.get<PermissaoController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lojas", style: GoogleFonts.lato()),
+        title: Text("Permissões", style: GoogleFonts.lato()),
         actions: <Widget>[
           Observer(
             builder: (context) {
+              if (_bloc.error != null) {
+                return Text("Não foi possível carregar");
+              }
+
+              if (_bloc.permissoes == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return Chip(
                 label: Text(
-                  (_bloc.pessoaJuridicas.length ?? 0).toString(),
+                  (_bloc.permissoes.length ?? 0).toString(),
                   style: TextStyle(color: Colors.deepOrangeAccent),
                 ),
               );
@@ -41,7 +52,7 @@ class PessoaJuridicaPage extends StatelessWidget {
           )
         ],
       ),
-      body: PessoaJuridicaList(),
+      body: PermissaoList(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -56,7 +67,7 @@ class PessoaJuridicaPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PessoaJuridicaCreatePage(),
+                  builder: (context) => PermissaoCreatePage(),
                 ),
               );
             },

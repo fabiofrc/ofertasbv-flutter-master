@@ -20,6 +20,20 @@ class SubcategoriaApiProvider {
     return null;
   }
 
+  static Future<List<SubCategoria>> getAllTeste() async {
+    try {
+      CustonDio dio = CustonDio();
+      print("carregando subcategorias");
+      var response = await dio.client.get("/subcategorias");
+      return (response.data as List)
+          .map((c) => SubCategoria.fromJson(c))
+          .toList();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
   Future<List<SubCategoria>> getAllByCategoriaById(int id) async {
     try {
       print("carregando subcategorias da categoria");

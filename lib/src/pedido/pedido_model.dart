@@ -1,6 +1,6 @@
+import 'package:ofertasbv/src/cliente/cliente_model.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
-import 'package:ofertasbv/src/pessoafisica/pessoafisica_model.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
 
 class Pedido {
   int id;
@@ -8,8 +8,8 @@ class Pedido {
   String dataRegistro;
   int valorTotal;
   List<PedidoItem> pedidoItems;
-  PessoaFisica pessoaFisica;
-  PessoaJuridica pessoaJuridica;
+  Loja loja;
+  Cliente cliente;
   String statusPedido;
   String formaPagamento;
   bool novo;
@@ -25,8 +25,8 @@ class Pedido {
         this.dataRegistro,
         this.valorTotal,
         this.pedidoItems,
-        this.pessoaFisica,
-        this.pessoaJuridica,
+        this.cliente,
+        this.loja,
         this.statusPedido,
         this.formaPagamento,
         this.novo,
@@ -47,11 +47,11 @@ class Pedido {
         pedidoItems.add(new PedidoItem.fromJson(v));
       });
     }
-    pessoaFisica = json['pessoaFisica'] != null
-        ? new PessoaFisica.fromJson(json['pessoaFisica'])
+    cliente = json['cliente'] != null
+        ? new Cliente.fromJson(json['cliente'])
         : null;
-    pessoaJuridica = json['pessoaJuridica'] != null
-        ? new PessoaJuridica.fromJson(json['pessoaJuridica'])
+    loja = json['loja'] != null
+        ? new Loja.fromJson(json['loja'])
         : null;
     statusPedido = json['statusPedido'];
     formaPagamento = json['formaPagamento'];
@@ -72,11 +72,11 @@ class Pedido {
     if (this.pedidoItems != null) {
       data['pedidoItems'] = this.pedidoItems.map((v) => v.toJson()).toList();
     }
-    if (this.pessoaFisica != null) {
-      data['pessoaFisica'] = this.pessoaFisica.toJson();
+    if (this.cliente != null) {
+      data['cliente'] = this.cliente.toJson();
     }
-    if (this.pessoaJuridica != null) {
-      data['pessoaJuridica'] = this.pessoaJuridica.toJson();
+    if (this.loja != null) {
+      data['loja'] = this.loja.toJson();
     }
     data['statusPedido'] = this.statusPedido;
     data['formaPagamento'] = this.formaPagamento;

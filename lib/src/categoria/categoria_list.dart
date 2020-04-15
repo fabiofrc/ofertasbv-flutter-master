@@ -135,7 +135,7 @@ class _CategoriaListState extends State<CategoriaList>
               c.nome,
               style: GoogleFonts.lato(fontSize: 16),
             ),
-            subtitle: Text("${c.dataRegistro}"),
+            subtitle: Text("${c.dataRegistro.toLocal()}"),
             trailing: Text("${c.id}"),
             onLongPress: () {
               showDialogAlert(context, c);

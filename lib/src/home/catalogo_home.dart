@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_page.dart';
 import 'package:ofertasbv/src/home/categoria_list_home.dart';
@@ -25,14 +26,13 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           children: <Widget>[
             Text(
               "departamento",
-              style: Constants.textoHomeTitulo,
+              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style: TextStyle(
-                  color: Colors.deepOrangeAccent,
-                ),
+                style:
+                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -57,14 +57,13 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           children: <Widget>[
             Text(
               "ofertas",
-              style: Constants.textoHomeTitulo,
+              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style: TextStyle(
-                  color: Colors.deepOrangeAccent,
-                ),
+                style:
+                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -89,14 +88,13 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           children: <Widget>[
             Text(
               "novidades",
-              style: Constants.textoHomeTitulo,
+              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style: TextStyle(
-                  color: Colors.deepOrangeAccent,
-                ),
+                style:
+                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
               ),
               onPressed: () {
                 Navigator.of(context).push(

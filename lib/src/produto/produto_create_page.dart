@@ -3,42 +3,52 @@ import 'dart:io';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
+import 'package:ofertasbv/src/estoque/estoque_model.dart';
+import 'package:ofertasbv/src/loja/loja_api_provider.dart';
+import 'package:ofertasbv/src/loja/loja_controller.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/produto/produto_api_provider.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_api_provider.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 
 class ProdutoCreatePage extends StatefulWidget {
-
   Produto produto;
 
   ProdutoCreatePage({Key key, this.produto}) : super(key: key);
 
   @override
-  _ProdutoCreatePageState createState() => _ProdutoCreatePageState(p: this.produto);
+  _ProdutoCreatePageState createState() =>
+      _ProdutoCreatePageState(p: this.produto);
 }
 
 class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   final _bloc = GetIt.I.get<ProdutoController>();
-
   final _blocSubCategoria = GetIt.I.get<SubCategoriaController>();
+  final _blocPessoa = GetIt.I.get<LojaController>();
 
-  //final _blocPessoa = GetIt.I.get<PessoaController>();
+  Future<List<SubCategoria>> categorias = SubcategoriaApiProvider.getAllTeste();
+  Future<List<Loja>> lojas = LojaApiProvider.getAllTeste();
 
   Produto p;
-  SubCategoria _subCategoriaSelecionada;
-  Pessoa _pessoaSelecionada;
+  Estoque e;
+  SubCategoria subCategoriaSelecionada;
+  Loja lojaSelecionada;
+
 
   _ProdutoCreatePageState({this.p});
 
@@ -57,8 +67,12 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   void initState() {
     if (p == null) {
       p = Produto();
+      e = Estoque();
+    }else{
+      e = p.estoque;
     }
-    //_blocPessoa.getAll();
+
+    _blocPessoa.getAll();
     _blocSubCategoria.getAll();
     _audioCache.loadAll(["beep-07.mp3"]);
     super.initState();
@@ -119,22 +133,34 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     );
   }
 
+  void showToast(String cardTitle) {
+    Fluttertoast.showToast(
+      msg: "$cardTitle",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.indigo,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    p.pessoa = _pessoaSelecionada;
-    p.subCategoria = _subCategoriaSelecionada;
+    p.estoque = e;
+    p.loja = lojaSelecionada;
+    p.subCategoria = subCategoriaSelecionada;
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Produto cadastros"),
+        title: Text("Produto cadastros", style: GoogleFonts.lato(),),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.file_upload,
               color: Constants.colorIconsAppMenu,
             ),
-            onPressed: _onClickUpload,
+            onPressed: _onClickFoto,
           )
         ],
       ),
@@ -163,9 +189,10 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                               children: <Widget>[
                                 TextFormField(
                                   initialValue: p.codigoBarra,
-                                  controller: p.codigoBarra == null ?_controllerCodigoBarra : null,
-                                  onSaved: (value) =>
-                                      p.codigoBarra = value,
+                                  controller: p.codigoBarra == null
+                                      ? _controllerCodigoBarra
+                                      : null,
+                                  onSaved: (value) => p.codigoBarra = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -213,8 +240,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 SizedBox(height: 20),
                                 TextFormField(
                                   initialValue: p.descricao,
-                                  onSaved: (value) =>
-                                      p.descricao = value,
+                                  onSaved: (value) => p.descricao = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -226,35 +252,61 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                   maxLength: 100,
                                   maxLines: 2,
                                 ),
-//                                TextFormField(
-//                                  onSaved: (value) {
-//                                    _produto.quantidade = int.parse(value);
-//                                  },
-//                                  validator: (value) =>
-//                                      value.isEmpty ? "campo obrigário" : null,
-//                                  decoration: InputDecoration(
-//                                    labelText: "Quantidade em estoque",
-//                                    hintText: "quantidade produto",
-//                                    prefixIcon: Icon(Icons.mode_edit),
-//                                  ),
-//                                  keyboardType: TextInputType.number,
-//                                  maxLength: 10,
-//                                ),
-//                                TextFormField(
-//                                  onSaved: (value) {
-//                                    _produto.valorUnitario =
-//                                        double.parse(value);
-//                                  },
-//                                  validator: (value) =>
-//                                      value.isEmpty ? "campo obrigário" : null,
-//                                  decoration: InputDecoration(
-//                                    labelText: "Valor do produto",
-//                                    hintText: "valor produto",
-//                                    prefixIcon: Icon(Icons.monetization_on),
-//                                  ),
-//                                  keyboardType: TextInputType.number,
-//                                  maxLength: 10,
-//                                ),
+                                TextFormField(
+                                  initialValue: e.quantidade.toString(),
+                                  onSaved: (value) {
+                                    p.estoque.quantidade = int.parse(value);
+                                  },
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Quantidade em estoque",
+                                    hintText: "quantidade produto",
+                                    prefixIcon: Icon(Icons.mode_edit),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                ),
+                                TextFormField(
+                                  initialValue: e.precoCusto.toString(),
+                                  onSaved: (value) {
+                                    p.estoque.precoCusto = double.parse(value);
+                                  },
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Valor do produto",
+                                    hintText: "valor produto",
+                                    prefixIcon: Icon(Icons.monetization_on),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                ),
+                                DateTimeField(
+                                  initialValue: p.dataRegistro,
+                                  format: dateFormat,
+                                  validator: (value) =>
+                                  value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => p.dataRegistro = value,
+                                  decoration: InputDecoration(
+                                    labelText: "data registro",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                      currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -316,8 +368,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                       onChanged: (String valor) {
                                         setState(() {
                                           p.unidade = valor;
-                                          print(
-                                              "resultado: " + p.unidade);
+                                          print("resultado: " + p.unidade);
                                         });
                                       },
                                     ),
@@ -328,8 +379,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                       onChanged: (String valor) {
                                         setState(() {
                                           p.unidade = valor;
-                                          print(
-                                              "resultado: " + p.unidade);
+                                          print("resultado: " + p.unidade);
                                         });
                                       },
                                     ),
@@ -340,8 +390,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                       onChanged: (String valor) {
                                         setState(() {
                                           p.unidade = valor;
-                                          print(
-                                              "resultado: " + p.unidade);
+                                          print("resultado: " + p.unidade);
                                         });
                                       },
                                     ),
@@ -351,127 +400,124 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                             ),
                           ),
                         ),
-//                        Card(
-//                          child: Container(
-//                            padding: EdgeInsets.all(10),
-//                            child: Column(
-//                              children: <Widget>[
-//                                StreamBuilder(
-//                                  stream: _blocSubCategoria.outController,
-//                                  builder: (context, snapshot) {
-//                                    List<SubCategoria> subcategorias =
-//                                        snapshot.data;
-//                                    if (subcategorias != null) {
-//                                      return DropdownButtonFormField<
-//                                          SubCategoria>(
-//                                        hint: Text('Selecione subcategoria...'),
-//                                        // ignore: unrelated_type_equality_checks
-//                                        value: _subCategoriaSelecionada == ""
-//                                            ? null
-//                                            : _subCategoriaSelecionada,
-////                                  onSaved: (value) =>
-////                                      _produto.subCategoria = value,
-//                                        items: subcategorias
-//                                            .map((SubCategoria subcategoria) {
-//                                          return DropdownMenuItem<SubCategoria>(
-//                                            value: subcategoria,
-//                                            child: Text(subcategoria.nome),
-//                                          );
-//                                        }).toList(),
-//                                        onChanged: changeCategorias,
-//                                      );
-//                                    } else {
-//                                      return Container(
-//                                        decoration: new BoxDecoration(
-//                                            color: Colors.white),
-//                                      );
-//                                    }
-//                                  },
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                        ),
-//                        Card(
-//                          child: Container(
-//                            padding: EdgeInsets.all(10),
-//                            child: Column(
-//                              children: <Widget>[
-//                                StreamBuilder(
-//                                  stream: _blocPessoa.outController,
-//                                  builder: (context, snapshot) {
-//                                    List<Pessoa> pessoas = snapshot.data;
-//                                    if (pessoas != null) {
-//                                      return DropdownButtonFormField<Pessoa>(
-//                                        hint: Text('Selecione loja...'),
-//                                        // ignore: unrelated_type_equality_checks
-//                                        value: _pessoaSelecionada == ""
-//                                            ? null
-//                                            : _pessoaSelecionada,
-//                                        //onSaved: (value) => _produto.pessoa = value,
-//                                        items: pessoas.map((Pessoa pessoa) {
-//                                          return DropdownMenuItem<Pessoa>(
-//                                            value: pessoa,
-//                                            child: Text(pessoa.nome),
-//                                          );
-//                                        }).toList(),
-//                                        onChanged: changePessoas,
-//                                      );
-//                                    } else {
-//                                      return Container(
-//                                        decoration: new BoxDecoration(
-//                                            color: Colors.white),
-//                                      );
-//                                    }
-//                                  },
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                        ),
                         Card(
                           child: Container(
                             width: double.infinity,
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.picture_in_picture),
-                                  label: Text(
-                                    "Ir pra galeria de foto",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickFoto,
-                                ),
-                                SizedBox(height: 15),
-                                SizedBox(height: 15),
-                                file != null
-                                    ? Image.file(file,
-                                    height: 150,
-                                    width: 200,
-                                    fit: BoxFit.fill)
-                                    : Image.asset(
-                                  ConstantApi.urlAsset,
-                                  height: 150,
-                                  width: 200,
-                                  fit: BoxFit.fill,
-                                ),
-                                SizedBox(height: 15),
-                                p.foto != null
-                                    ? Text("${p.foto}")
-                                    : Text("sem arquivo"),
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.file_upload),
-                                  label: Text(
-                                    "Anexar foto de capa",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickUpload,
-                                ),
+                                FutureBuilder<List<SubCategoria>>(
+                                    future: categorias,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return DropdownButtonFormField<
+                                            SubCategoria>(
+                                          autovalidate: true,
+                                          value: subCategoriaSelecionada,
+                                          items: snapshot.data.map((categoria) {
+                                            return DropdownMenuItem<
+                                                SubCategoria>(
+                                              value: categoria,
+                                              child: Text(categoria.nome),
+                                            );
+                                          }).toList(),
+                                          hint: Text("Select categoria"),
+                                          onChanged: (SubCategoria c) {
+                                            setState(() {
+                                              subCategoriaSelecionada = c;
+                                              print(
+                                                  subCategoriaSelecionada.nome);
+                                            });
+                                          },
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text("${snapshot.error}");
+                                      }
+
+                                      return Container(width: 0.0, height: 0.0);
+                                    }),
                               ],
                             ),
+                          ),
+                        ),
+                        Card(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: <Widget>[
+                                FutureBuilder<List<Loja>>(
+                                    future: lojas,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return DropdownButtonFormField<Loja>(
+                                          autovalidate: true,
+                                          value: lojaSelecionada,
+                                          items: snapshot.data.map((pessoa) {
+                                            return DropdownMenuItem<Loja>(
+                                              value: pessoa,
+                                              child: Text(pessoa.nome),
+                                            );
+                                          }).toList(),
+                                          hint: Text("Select pessoa"),
+                                          onChanged: (Loja c) {
+                                            setState(() {
+                                              lojaSelecionada = c;
+                                              print(lojaSelecionada.nome);
+                                            });
+                                          },
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text("${snapshot.error}");
+                                      }
+
+                                      return Container(width: 0.0, height: 0.0);
+                                    }),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("vá para galeria do seu aparelho..."),
+                                    RaisedButton(
+                                      child: Icon(Icons.photo),
+                                      shape: new CircleBorder(),
+                                      onPressed: _onClickFoto,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: <Widget>[
+                                    file != null
+                                        ? Image.file(file,
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.fill)
+                                        : Image.asset(
+                                      ConstantApi.urlAsset,
+                                      height: 100,
+                                      width: 100,
+                                    ),
+                                    SizedBox(height: 15),
+                                    p.foto != null
+                                        ? Text("${p.foto}")
+                                        : Text("sem arquivo"),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -480,27 +526,41 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: Text(
+                  child: RaisedButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    label: Text(
                       "Enviar",
                       style: TextStyle(color: Colors.white),
                     ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    textColor: Colors.white,
+                    splashColor: Colors.red,
+                    color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        DateTime dataAgora = DateTime.now();
-                        p.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(p);
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProdutoPage(),
-                          ),
-                        );
+                        if (file == null) {
+                          showToast("deve anexar uma foto!");
+                        } else {
+                          _onClickUpload();
+                          _bloc.create(p);
+
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProdutoPage(),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),
-                )
+                ),
               ],
             );
           }
@@ -511,15 +571,15 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
 
   void changeCategorias(SubCategoria s) {
     setState(() {
-      _subCategoriaSelecionada = s;
-      print("SubCategoria.:  ${_subCategoriaSelecionada.nome}");
+      subCategoriaSelecionada = s;
+      print("SubCategoria.:  ${subCategoriaSelecionada.nome}");
     });
   }
 
-  void changePessoas(Pessoa p) {
+  void changePessoas(Loja p) {
     setState(() {
-      _pessoaSelecionada = p;
-      print("CAT.:  ${_pessoaSelecionada.id}");
+      lojaSelecionada = p;
+      print("Loja.:  ${lojaSelecionada.id}");
     });
   }
 }

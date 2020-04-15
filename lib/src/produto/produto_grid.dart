@@ -138,7 +138,6 @@ class _ProdutoGridState extends State<ProdutoGrid>
             child: Card(
               elevation: 0.5,
               child: Column(
-
                 children: <Widget>[
                   AspectRatio(
                     aspectRatio: 0.9,
@@ -163,7 +162,8 @@ class _ProdutoGridState extends State<ProdutoGrid>
                           ),
                           Text(
                             "R\$ ${p.estoque.precoCusto}",
-                            style: GoogleFonts.lato(fontSize: 18, color: Colors.green),
+                            style: GoogleFonts.lato(
+                                fontSize: 18, color: Colors.green),
                           ),
                         ],
                       ),
@@ -175,6 +175,15 @@ class _ProdutoGridState extends State<ProdutoGrid>
           ),
           onLongPress: () {
             showDialogAlert(context, p);
+          },
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProdutoDetalhes(p);
+                },
+              ),
+            );
           },
         );
       },

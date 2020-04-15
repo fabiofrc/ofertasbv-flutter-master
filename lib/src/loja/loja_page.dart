@@ -4,20 +4,20 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
-import 'package:ofertasbv/src/categoria/categoria_list.dart';
+import 'package:ofertasbv/src/loja/loja_create_page.dart';
+import 'package:ofertasbv/src/loja/loja_list.dart';
+import 'package:ofertasbv/src/loja/loja_controller.dart';
+
 import 'package:ofertasbv/src/produto/produto_search.dart';
 
-import 'categoria_controller.dart';
-import 'categoria_create_page.dart';
-
-class CategoriaPage extends StatelessWidget {
-  final _bloc = GetIt.I.get<CategoriaController>();
+class LojaPage extends StatelessWidget {
+  final _bloc = GetIt.I.get<LojaController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categorias", style: GoogleFonts.lato()),
+        title: Text("Lojas", style: GoogleFonts.lato()),
         actions: <Widget>[
           Observer(
             builder: (context) {
@@ -25,7 +25,7 @@ class CategoriaPage extends StatelessWidget {
                 return Text("Não foi possível carregar");
               }
 
-              if (_bloc.categorias == null) {
+              if (_bloc.lojas == null) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
@@ -33,7 +33,7 @@ class CategoriaPage extends StatelessWidget {
 
               return Chip(
                 label: Text(
-                  (_bloc.categorias.length ?? 0).toString(),
+                  (_bloc.lojas.length ?? 0).toString(),
                   style: TextStyle(color: Colors.deepOrangeAccent),
                 ),
               );
@@ -52,7 +52,7 @@ class CategoriaPage extends StatelessWidget {
           )
         ],
       ),
-      body: CategoriaList(),
+      body: LojaList(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -67,7 +67,7 @@ class CategoriaPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CategoriaCreatePage(),
+                  builder: (context) => LojaCreatePage(),
                 ),
               );
             },

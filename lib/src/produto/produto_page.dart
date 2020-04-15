@@ -40,6 +40,16 @@ class _ProdutoPageState extends State<ProdutoPage> {
         actions: <Widget>[
           Observer(
             builder: (context) {
+              if (_bloc.error != null) {
+                return Text("Não foi possível carregar");
+              }
+
+              if (_bloc.produtos == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return Chip(
                 label: Text(
                   (_bloc.produtos.length ?? 0).toString(),

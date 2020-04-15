@@ -150,6 +150,7 @@ class _ProdutoListState extends State<ProdutoList>
           child: Card(
             margin: EdgeInsets.only(bottom: 1),
             child: Container(
+              height: 130,
               padding: EdgeInsets.all(10),
               child: Row(
                 verticalDirection: VerticalDirection.up,
@@ -185,20 +186,33 @@ class _ProdutoListState extends State<ProdutoList>
                           ),
                           Text(
                             "R\$ ${p.estoque.precoCusto}",
-                            style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
+                            style: GoogleFonts.lato(
+                                fontSize: 20, color: Colors.green),
                           ),
                         ],
                       )),
                   Container(
                     width: 50,
-                    child: Icon(Icons.favorite_border, color: Colors.pink[800],),
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.pink[800],
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           onLongPress: () {
-             showDialogAlert(context, p);
+            showDialogAlert(context, p);
+          },
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProdutoDetalhes(p);
+                },
+              ),
+            );
           },
         );
       },

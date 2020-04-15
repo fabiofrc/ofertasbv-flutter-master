@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -25,18 +24,30 @@ class _ProdutoTabState extends State<ProdutoTab> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Produtos", style: GoogleFonts.lato(),),
-          actions: <Widget>[
-           Observer(
-            builder: (context) {
-              return Chip(
-                label: Text(
-                  (_bloc.produtos.length ?? 0).toString(),
-                  style: TextStyle(color: Colors.deepOrangeAccent),
-                ),
-              );
-            },
+          title: Text(
+            "Produtos",
+            style: GoogleFonts.lato(),
           ),
+          actions: <Widget>[
+            Observer(
+              builder: (context) {
+                if (_bloc.error != null) {
+                  return Text("Não foi possível carregar");
+                }
+
+                if (_bloc.produtos == null) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Chip(
+                  label: Text(
+                    (_bloc.produtos.length ?? 0).toString(),
+                    style: TextStyle(color: Colors.deepOrangeAccent),
+                  ),
+                );
+              },
+            ),
             SizedBox(width: 20),
             IconButton(
               icon: Icon(

@@ -1,14 +1,19 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/loja/loja_api_provider.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_api_provider.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
@@ -27,7 +32,11 @@ class PromocaoCreatePage extends StatefulWidget {
 
 class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
   final _bloc = GetIt.I.get<PromocaoController>();
+
+  Future<List<Loja>> lojas = LojaApiProvider.getAllTeste();
+
   Promocao p;
+  Loja lojaSelecionada;
 
   DateTime dataAtual = DateTime.now();
   String _valor;
@@ -83,6 +92,17 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
     );
   }
 
+  void showToast(String cardTitle) {
+    Fluttertoast.showToast(
+      msg: "$cardTitle",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.indigo,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //NumberFormat formatter = NumberFormat("00.00");
@@ -91,18 +111,21 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
     var formatadorNumber = NumberFormat("#.0#", "pt_BR");
     //var resultado = formatadorNumber.format(_promocao.desconto);
 
-    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+    DateFormat dateFormatTeste = DateFormat('dd-MM-yyyy');
+
+    p.loja = lojaSelecionada;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Promoção cadastro"),
+        title: Text("Promoção cadastro", style: GoogleFonts.lato(),),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.file_upload,
               color: Constants.colorIconsAppMenu,
             ),
-            onPressed: _onClickUpload,
+            onPressed: _onClickFoto,
           )
         ],
       ),
@@ -172,30 +195,87 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
 //                            ],
                                 ),
                                 SizedBox(height: 15),
-                                TextFormField(
-                                  initialValue: p.dataInicio,
-                                  onSaved: (value) => p.dataInicio = value,
+                                DateTimeField(
+                                  initialValue: p.dataRegistro,
+                                  format: dateFormatTeste,
                                   validator: (value) =>
-                                      value.isEmpty ? "campo obrigário" : null,
+                                  value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => p.dataRegistro = value,
                                   decoration: InputDecoration(
-                                    labelText: "Início",
-                                    hintText: "inicício promoção",
-                                    prefixIcon: Icon(Icons.calendar_today),
+                                    labelText: "data registro",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
                                   ),
-                                  keyboardType: TextInputType.datetime,
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                      currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
                                 ),
                                 SizedBox(height: 15),
-                                TextFormField(
-                                  initialValue: p.dataFinal,
-                                  onSaved: (value) => p.dataFinal = value,
+                                DateTimeField(
+                                  initialValue: p.dataInicio,
+                                  format: dateFormatTeste,
                                   validator: (value) =>
-                                      value.isEmpty ? "campo obrigário" : null,
+                                      value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => p.dataInicio = value,
                                   decoration: InputDecoration(
-                                    labelText: "Encerramento",
-                                    hintText: "encerramento promoção",
-                                    prefixIcon: Icon(Icons.calendar_today),
+                                    labelText: "data início",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
                                   ),
-                                  keyboardType: TextInputType.datetime,
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                ),
+                                DateTimeField(
+                                  initialValue: p.dataFinal,
+                                  format: dateFormatTeste,
+                                  validator: (value) =>
+                                      value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => p.dataFinal = value,
+                                  decoration: InputDecoration(
+                                    labelText: "data ençerramento",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                  onChanged: (DateTime teste) {
+                                    setState(() {
+                                      p.dataInicio = teste;
+                                      print("${p.dataInicio}");
+                                    });
+                                  },
                                 ),
                               ],
                             ),
@@ -207,47 +287,78 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                             padding: EdgeInsets.all(10),
                             child: Column(
                               children: <Widget>[
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.picture_in_picture),
-                                  label: Text(
-                                    "Ir para galeria de foto",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickFoto,
-                                ),
-                                SizedBox(height: 15),
-                                file != null
-                                    ? Image.file(file,
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 150,
-                                        width: 200,
-                                        fit: BoxFit.fill,
-                                      ),
-                                SizedBox(height: 15),
-                                p.foto != null
-                                    ? Text("${p.foto}")
-                                    : Text("sem arquivo"),
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.file_upload),
-                                  label: Text(
-                                    "Anexar foto de capa",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: () {
-                                    _onClickUpload();
-                                    print("teste upload");
-                                    showDefaultSnackbar(
-                                        context, "Anexo: ${p.foto}");
-                                  },
-                                ),
+                                FutureBuilder<List<Loja>>(
+                                    future: lojas,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return DropdownButtonFormField<Loja>(
+                                          autovalidate: true,
+                                          value: lojaSelecionada,
+                                          items: snapshot.data.map((pessoa) {
+                                            return DropdownMenuItem<Loja>(
+                                              value: pessoa,
+                                              child: Text(pessoa.nome),
+                                            );
+                                          }).toList(),
+                                          hint: Text("Select pessoa"),
+                                          onChanged: (Loja c) {
+                                            setState(() {
+                                              lojaSelecionada = c;
+                                              print(lojaSelecionada.nome);
+                                            });
+                                          },
+                                        );
+                                      } else if (snapshot.hasError) {
+                                        return Text("${snapshot.error}");
+                                      }
+
+                                      return Container(width: 0.0, height: 0.0);
+                                    }),
                               ],
                             ),
+                          ),
+                        ),
+                        Card(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("vá para galeria do seu aparelho..."),
+                                    RaisedButton(
+                                      child: Icon(Icons.photo),
+                                      shape: new CircleBorder(),
+                                      onPressed: _onClickFoto,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: <Widget>[
+                                    file != null
+                                        ? Image.file(file,
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.fill)
+                                        : Image.asset(
+                                            ConstantApi.urlAsset,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                    SizedBox(height: 15),
+                                    p.foto != null
+                                        ? Text("${p.foto}")
+                                        : Text("sem arquivo"),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -256,27 +367,41 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: Text(
+                  child: RaisedButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    label: Text(
                       "Enviar",
                       style: TextStyle(color: Colors.white),
                     ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    textColor: Colors.white,
+                    splashColor: Colors.red,
+                    color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        DateTime dataAgora = DateTime.now();
-                        p.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(p);
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PromocaoPage(),
-                          ),
-                        );
+                        if (file == null) {
+                          showToast("deve anexar uma foto!");
+                        } else {
+                          _onClickUpload();
+                          _bloc.create(p);
+
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PromocaoPage(),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),
-                )
+                ),
               ],
             );
           }

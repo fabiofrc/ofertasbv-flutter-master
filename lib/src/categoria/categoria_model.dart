@@ -9,7 +9,7 @@ class Categoria {
   int id;
   String nome;
   String foto;
-  String dataRegistro;
+  DateTime dataRegistro;
   List<SubCategoria> subCategorias;
 
   Categoria(
@@ -23,7 +23,7 @@ class Categoria {
     id = json['id'];
     nome = json['nome'];
     foto = json['foto'];
-    dataRegistro = json["dataRegistro"];
+    dataRegistro = DateTime.parse(json['dataRegistro']);
     if (json['subCategorias'] != null) {
       subCategorias = new List<SubCategoria>();
       json['subCategorias'].forEach((v) {
@@ -37,7 +37,7 @@ class Categoria {
     data['id'] = this.id;
     data['nome'] = this.nome;
     data['foto'] = this.foto;
-    data['dataRegistro'] = this.dataRegistro;
+    data['dataRegistro'] = this.dataRegistro.toIso8601String();
     if (this.subCategorias != null) {
       data['subCategorias'] =
           this.subCategorias.map((v) => v.toJson()).toList();

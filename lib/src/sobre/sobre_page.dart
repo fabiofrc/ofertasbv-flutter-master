@@ -45,7 +45,7 @@ class SobrePage extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

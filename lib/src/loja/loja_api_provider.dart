@@ -2,29 +2,44 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 
-class PessoaJuridicaApiProvider {
+class LojaApiProvider {
   CustonDio dio = CustonDio();
 
-  Future<List<PessoaJuridica>> getAll() async {
+  Future<List<Loja>> getAll() async {
     try {
-      print("carregando pessoas juridicas");
-      var response = await dio.client.get("/pessoajuridicas");
-      return (response.data as List).map((c) => PessoaJuridica.fromJson(c)).toList();
+      print("carregando lojas");
+      var response = await dio.client.get("/lojas");
+      return (response.data as List)
+          .map((c) => Loja.fromJson(c))
+          .toList();
     } on DioError catch (e) {
       print(e.message);
     }
     return null;
   }
 
-  Future<List<Pessoa>> getAllByTipo(String tipoPessoa) async {
+  static Future<List<Loja>> getAllTeste() async {
+    try {
+      CustonDio dio = CustonDio();
+      print("carregando lojas");
+      var response = await dio.client.get("/lojas");
+      return (response.data as List)
+          .map((c) => Loja.fromJson(c))
+          .toList();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  Future<List<Loja>> getAllByTipo(String tipoPessoa) async {
     try {
       print("carregando tipo pessoas");
       CustonDio dio = CustonDio();
-      var response = await dio.client.get("/pessoajuridicas/tipo/$tipoPessoa");
-      return (response.data as List).map((c) => Pessoa.fromJson(c)).toList();
+      var response = await dio.client.get("/lojas/tipo/$tipoPessoa");
+      return (response.data as List).map((c) => Loja.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);
     }
@@ -33,7 +48,8 @@ class PessoaJuridicaApiProvider {
 
   Future<int> create(Map<String, dynamic> data) async {
     try {
-      var response = await dio.client.post("/pessoajuridicas/create", data: data);
+      var response =
+          await dio.client.post("/lojas/create", data: data);
       return response.statusCode;
     } on DioError catch (e) {
       print(e.message);
@@ -43,7 +59,7 @@ class PessoaJuridicaApiProvider {
 
   Future<int> update(Map<String, dynamic> data, int id) async {
     try {
-      var response = await dio.client.patch("/pessoajuridicas/$id", data: data);
+      var response = await dio.client.patch("/lojas/$id", data: data);
       return response.statusCode;
     } on DioError catch (e) {
       throw (e.message);
@@ -60,7 +76,8 @@ class PessoaJuridicaApiProvider {
 
     FormData formData = FormData.fromMap(paramentros);
 
-    var response = await Dio().post("http://192.168.1.5:8080/pessoajuridicas/upload", data: formData);
+    var response = await Dio()
+        .post("http://192.168.1.5:8080/lojas/upload", data: formData);
     print("RESPONSE: $response");
     print("fileDir: $fileDir");
     return formData;

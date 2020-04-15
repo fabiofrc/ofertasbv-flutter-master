@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ofertasbv/const.dart';
+import 'package:ofertasbv/src/configuracao/leitor_codigo_barra.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
-import 'package:ofertasbv/src/teste/leitor_codigo_barra.dart';
 
 import 'catalogo_menu.dart';
 

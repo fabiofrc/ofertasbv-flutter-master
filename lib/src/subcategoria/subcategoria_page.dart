@@ -34,6 +34,16 @@ class _SubcategoriaPageState extends State<SubcategoriaPage> {
         actions: <Widget>[
           Observer(
             builder: (context) {
+              if (_bloc.error != null) {
+                return Text("Não foi possível carregar");
+              }
+
+              if (_bloc.subCategorias == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return Chip(
                 label: Text(
                   (_bloc.subCategorias.length ?? 0).toString(),

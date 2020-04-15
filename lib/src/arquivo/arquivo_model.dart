@@ -2,12 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/util/date_converter.dart';
 
-@JsonSerializable()
-@CustomDateTimeConverter()
+//@JsonSerializable()
+//@CustomDateTimeConverter()
 class Arquivo {
   int id;
   String nome;
-  String dataRegistro;
+  DateTime dataRegistro;
   String foto;
   Produto produto;
 
@@ -16,7 +16,7 @@ class Arquivo {
   Arquivo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
-    dataRegistro = json['dataRegistro'];
+    dataRegistro = DateTime.parse(json['dataRegistro']);
     foto = json['foto'];
     produto =
         json['produto'] != null ? new Produto.fromJson(json['produto']) : null;
@@ -26,7 +26,7 @@ class Arquivo {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nome'] = this.nome;
-    data['dataRegistro'] = this.dataRegistro;
+    data['dataRegistro'] = this.dataRegistro.toLocal();
     data['foto'] = this.foto;
     if (this.produto != null) {
       data['produto'] = this.produto.toJson();

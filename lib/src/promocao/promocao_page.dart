@@ -4,14 +4,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_create_page.dart';
 import 'promocao_list.dart';
 
 class PromocaoPage extends StatefulWidget {
-  Pessoa p;
+  Loja p;
 
   PromocaoPage({Key key, this.p}) : super(key: key);
 
@@ -22,7 +22,7 @@ class PromocaoPage extends StatefulWidget {
 class _PromocaoPageState extends State<PromocaoPage> {
   final _bloc = GetIt.I.get<PromocaoController>();
 
-  Pessoa p;
+  Loja p;
 
   _PromocaoPageState({this.p});
 
@@ -34,6 +34,16 @@ class _PromocaoPageState extends State<PromocaoPage> {
         actions: <Widget>[
           Observer(
             builder: (context) {
+              if (_bloc.error != null) {
+                return Text("Não foi possível carregar");
+              }
+
+              if (_bloc.promocoes == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return Chip(
                 label: Text(
                   (_bloc.promocoes.length ?? 0).toString(),

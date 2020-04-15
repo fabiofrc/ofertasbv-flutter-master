@@ -17,14 +17,19 @@ environment:
   sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
+
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+
   mobx: ^1.1.1
   flutter_mobx: ^1.1.0
   build_runner: ^1.6.5
   mobx_codegen:
   get_it: ^4.0.1
 
-  flutter:
-    sdk: flutter
   search_map_place: ^0.1.0+2
   flutter_google_places: ^0.2.3
   google_maps_flutter: ^0.5.21+7
@@ -32,7 +37,7 @@ dependencies:
   fluttertoast: ^3.1.0
   dio: ^3.0.3
   http: ^0.12.0+2
-  intl: ^0.15.8
+  intl: ^0.16.0
   date_format: ^1.0.8
 
 
@@ -44,7 +49,7 @@ dependencies:
   splashscreen: ^1.2.0
   image_picker: ^0.6.1+11
   masked_text_input_formatter: ^0.0.1
-  datetime_picker_formfield: ^0.4.3
+  datetime_picker_formfield:
   barcode_scan: ^1.0.0
   toast: ^0.1.5
   link: ^1.1.0

@@ -95,5 +95,6 @@ class Constants {
   );
 
   static Color colorIconsMenu = Colors.deepOrangeAccent;
+  static Color colorIconsConfig = Colors.black;
   static Color colorIconsAppMenu = Colors.white;
 }

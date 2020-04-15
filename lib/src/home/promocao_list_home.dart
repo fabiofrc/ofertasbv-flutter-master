@@ -5,13 +5,13 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_detalhes.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 
 class PromocaoListHome extends StatefulWidget {
-  Pessoa p;
+  Loja p;
 
   PromocaoListHome({Key key, this.p}) : super(key: key);
 
@@ -23,7 +23,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
     with AutomaticKeepAliveClientMixin<PromocaoListHome> {
   final _bloc = GetIt.I.get<PromocaoController>();
 
-  Pessoa p;
+  Loja p;
 
   _PromocaoListHomeState({this.p});
 

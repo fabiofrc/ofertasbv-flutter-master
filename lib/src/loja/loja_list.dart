@@ -4,18 +4,18 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajurica_detalhes.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_controller.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_create_page.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
+import 'package:ofertasbv/src/loja/loja_create_page.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
+import 'package:ofertasbv/src/loja/loja_detalhes.dart';
+import 'package:ofertasbv/src/loja/loja_controller.dart';
 
-class PessoaJuridicaList extends StatefulWidget {
+class LojaList extends StatefulWidget {
   @override
-  _PessoaJuridicaListState createState() => _PessoaJuridicaListState();
+  _LojaListState createState() => _LojaListState();
 }
 
-class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
-  final _bloc = GetIt.I.get<PessoaJuridicaController>();
+class _LojaListState extends State<LojaList> {
+  final _bloc = GetIt.I.get<LojaController>();
 
   @override
   void initState() {
@@ -27,13 +27,16 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
     return _bloc.getAll();
   }
 
-  showDialogAlert(BuildContext context, PessoaJuridica p) async {
+  showDialogAlert(BuildContext context, Loja p) async {
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button for close dialog!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Localização', style: GoogleFonts.lato(),),
+          title: Text(
+            'Localização',
+            style: GoogleFonts.lato(),
+          ),
           content: Text(p.nome),
           actions: <Widget>[
             FlatButton(
@@ -48,7 +51,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return PessoaJuridicaCreatePage(pessoaJuridica: p,);
+                      return LojaCreatePage(loja: p,);
                     },
                   ),
                 );
@@ -60,7 +63,9 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return PessoaJuridicaDetalhes(pessoaJuridica: p,);
+                      return LojaDetalhes(
+                        loja: p,
+                      );
                     },
                   ),
                 );
@@ -78,12 +83,12 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
       padding: EdgeInsets.only(top: 0),
       child: Observer(
         builder: (context) {
-          List<PessoaJuridica> pessoas = _bloc.pessoaJuridicas;
+          List<Loja> lojas = _bloc.lojas;
           if (_bloc.error != null) {
-            return Text("Não foi possível buscar categorias juridicas");
+            return Text("Não foi possível buscar lojas");
           }
 
-          if (pessoas == null) {
+          if (lojas == null) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -91,20 +96,20 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
 
           return RefreshIndicator(
             onRefresh: onRefresh,
-            child: builderList(pessoas),
+            child: builderList(lojas),
           );
         },
       ),
     );
   }
 
-  ListView builderList(List<PessoaJuridica> pessoas) {
+  ListView builderList(List<Loja> lojas) {
     final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     return ListView.builder(
-      itemCount: pessoas.length,
+      itemCount: lojas.length,
       itemBuilder: (context, index) {
-        PessoaJuridica p = pessoas[index];
+        Loja p = lojas[index];
 
         return Card(
           margin: EdgeInsets.all(1),
@@ -115,7 +120,7 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
               borderRadius: BorderRadius.circular(10),
               child: p.foto != null
                   ? Image.network(
-                      ConstantApi.urlArquivoPessoaJuridica + p.foto,
+                      ConstantApi.urlArquivoLoja + p.foto,
                       height: 200,
                       width: 80,
                       fit: BoxFit.cover,
@@ -136,10 +141,20 @@ class _PessoaJuridicaListState extends State<PessoaJuridicaList> {
             onLongPress: () {
               showDialogAlert(context, p);
             },
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return LojaDetalhes(
+                      loja: p,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         );
       },
     );
   }
-
 }

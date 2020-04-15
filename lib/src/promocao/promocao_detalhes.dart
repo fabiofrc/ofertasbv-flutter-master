@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
@@ -34,7 +34,7 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(p.nome),
+        title: Text(p.nome, style: GoogleFonts.lato()),
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
@@ -75,7 +75,7 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
               children: <Widget>[
                 Text(
                   p.nome,
-                  style: TextStyle(fontSize: 20, color: Colors.grey[900]),
+                  style: GoogleFonts.lato(fontSize: 18),
                 ),
               ],
             ),
@@ -93,14 +93,17 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "Ir para Produtos",
-                        style: TextStyle(color: Colors.white),
+                        "ver mais produtos",
+                        style: GoogleFonts.lato(color: Colors.pink[900]),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: Colors.white,
+                        color: Colors.pink[900],
                       ),
-                      color: Colors.orangeAccent,
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -117,15 +120,17 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "Ir para Ofertas",
-                        style: TextStyle(color: Colors.white),
+                        "ver mais ofertas",
+                        style: GoogleFonts.lato(color: Colors.blue[900]),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       icon: Icon(
                         Icons.list,
-                        color: Colors.white,
+                        color: Colors.blue[900],
                       ),
-                      color: Colors.blue[900],
-                      elevation: 0.0,
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -151,39 +156,35 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
               children: <Widget>[
                 Text(
                   "Código: ${p.id}",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Promoção: ${p.nome}",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Descrição: ${p.descricao}",
-                  style: TextStyle(fontSize: 20),
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
-                  "Mercado: ${p.pessoa.nome}",
-                  style: TextStyle(fontSize: 20),
+                  "Mercado: ${p.loja.nome}",
+                  style: GoogleFonts.lato(),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   "Desconto: ${p.desconto} %",
-                  style: TextStyle(
-                    color: Colors.green[700],
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
+                  style: GoogleFonts.lato(),
                 ),
               ],
             ),

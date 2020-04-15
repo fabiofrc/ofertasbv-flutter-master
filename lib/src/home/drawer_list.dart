@@ -5,12 +5,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
 import 'package:ofertasbv/src/categoria/categoria_page.dart';
+import 'package:ofertasbv/src/configuracao/config_page.dart';
+import 'package:ofertasbv/src/configuracao/leitor_codigo_barra.dart';
 import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
-import 'package:ofertasbv/src/teste/leitor_codigo_barra.dart';
-import 'package:ofertasbv/src/teste/mapa_principal.dart';
 
 class DrawerList extends StatelessWidget {
   @override
@@ -251,6 +251,28 @@ class DrawerList extends StatelessWidget {
               MaterialPageRoute(
                 builder: (BuildContext context) {
                   return ArquivoPage();
+                },
+              ),
+            );
+          },
+        ),
+        ListTile(
+          selected: true,
+          leading: Icon(
+            MdiIcons.adjust,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Configurações",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ConfigPage();
                 },
               ),
             );

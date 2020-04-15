@@ -1,10 +1,12 @@
 import 'dart:core';
 import 'dart:io';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 
@@ -12,22 +14,25 @@ import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_api_provider.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_controller.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_model.dart';
+import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
 
 class ArquivoCreatePage extends StatefulWidget {
-
   @override
   _ArquivoCreatePageState createState() => _ArquivoCreatePageState();
 }
 
 class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
   final _bloc = GetIt.I.get<ArquivoController>();
-  Arquivo arquivo = Arquivo();
+  Arquivo a;
   File file;
 
   var controllerNome = TextEditingController();
 
   @override
   void initState() {
+    if (a == null) {
+      a = Arquivo();
+    }
     _bloc.getAll();
     super.initState();
   }
@@ -45,16 +50,29 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
 
     setState(() {
       this.file = f;
-      arquivo.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${arquivo.foto}");
+      a.foto = file.path.split('/').last;
+      print(" upload de arquivo : ${a.foto}");
     });
   }
 
   void _onClickUpload() async {
     if (file != null) {
-      var url = await ArquivoApiProvider.upload(file, arquivo.foto);
+      var url = await ArquivoApiProvider.upload(file, a.foto);
       print(" upload de arquivo : $url");
     }
+  }
+
+  void showDefaultSnackbar(BuildContext context, String content) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 
   void showToast(String msg, {int duration, int gravity}) {
@@ -63,12 +81,12 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     //controllerNome.text = a.nome;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Arquivo cadastros"),
+        title: Text("Arquivo cadastros", style: GoogleFonts.lato()),
         centerTitle: true,
         elevation: 0.0,
         actions: <Widget>[
@@ -98,7 +116,7 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
-                                  onSaved: (value) => arquivo.nome = value,
+                                  onSaved: (value) => a.nome = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -111,51 +129,77 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                                   maxLines: 2,
                                   //initialValue: c.nome,
                                 ),
+                                DateTimeField(
+                                  initialValue: a.dataRegistro,
+                                  format: dateFormat,
+                                  validator: (value) =>
+                                      value == null ? "campo obrigário" : null,
+                                  onSaved: (value) => a.dataRegistro = value,
+                                  decoration: InputDecoration(
+                                    labelText: "data registro",
+                                    hintText: "99-09-9999",
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      size: 24,
+                                    ),
+                                  ),
+                                  onShowPicker: (context, currentValue) {
+                                    return showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(2000),
+                                      initialDate:
+                                          currentValue ?? DateTime.now(),
+                                      locale: Locale('pt', 'BR'),
+                                      lastDate: DateTime(2030),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
+                        SizedBox(height: 15),
                         Card(
-                          child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.picture_in_picture),
-                                  label: Text(
-                                    "Ir para geleria de foto",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickFoto,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("vá para galeria do seu aparelho..."),
+                                    RaisedButton(
+                                      child: Icon(Icons.photo),
+                                      shape: new CircleBorder(),
+                                      onPressed: _onClickFoto,
+                                    )
+                                  ],
                                 ),
-                                SizedBox(height: 15),
-                                file != null
-                                    ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.fill)
-                                    : Image.asset(
-                                        ConstantApi.urlAsset,
-                                        height: 100,
-                                        width: 100,
-                                      ),
-                                SizedBox(height: 15),
-                                arquivo.foto != null
-                                    ? Text("${arquivo.foto}")
-                                    : Text("sem arquivo"),
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.file_upload),
-                                  label: Text(
-                                    "Anexar foto para galeria",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  elevation: 0.0,
-                                  onPressed: _onClickUpload,
+                              ),
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  children: <Widget>[
+                                    file != null
+                                        ? Image.file(file,
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.fill)
+                                        : Image.asset(
+                                            ConstantApi.urlAsset,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                    SizedBox(height: 15),
+                                    a.foto != null
+                                        ? Text("${a.foto}")
+                                        : Text("sem arquivo"),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -164,20 +208,41 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  child: RaisedButton(
-                    child: Text(
+                  child: RaisedButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    label: Text(
                       "Enviar",
                       style: TextStyle(color: Colors.white),
                     ),
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    textColor: Colors.white,
+                    splashColor: Colors.red,
+                    color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        DateTime dataAgora = DateTime.now();
-                        arquivo.dataRegistro = dateFormat.format(dataAgora);
-                        _bloc.create(arquivo);
+                        if (file == null) {
+                          showToast("deve anexar uma foto!");
+                        } else {
+                          _onClickUpload();
+                          _bloc.create(a);
+
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ArquivoPage(),
+                            ),
+                          );
+                        }
                       }
                     },
                   ),
-                )
+                ),
               ],
             );
           }

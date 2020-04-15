@@ -3,7 +3,7 @@ import 'package:ofertasbv/src/categoria/categoria_model.dart';
 class SubCategoria {
   int id;
   String nome;
-  String dataRegistro;
+  DateTime dataRegistro;
   String foto;
   Categoria categoria;
 
@@ -13,7 +13,7 @@ class SubCategoria {
   SubCategoria.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
-    dataRegistro = json['dataRegistro'];
+    dataRegistro = DateTime.parse(json['dataRegistro']);
     foto = json['foto'];
     categoria = json['categoria'] != null
         ? new Categoria.fromJson(json['categoria'])
@@ -24,7 +24,7 @@ class SubCategoria {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nome'] = this.nome;
-    data['dataRegistro'] = this.dataRegistro;
+    data['dataRegistro'] = this.dataRegistro.toIso8601String();
     data['foto'] = this.foto;
     if (this.categoria != null) {
       data['categoria'] = this.categoria.toJson();

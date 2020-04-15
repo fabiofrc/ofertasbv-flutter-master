@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_controller.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
+import 'package:ofertasbv/src/cliente/cliente_controller.dart';
 import 'package:ofertasbv/src/endereco/endereco_controller.dart';
 import 'package:ofertasbv/src/home/home.dart';
+import 'package:ofertasbv/src/loja/loja_controller.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/permissao/permissao_controller.dart';
-import 'package:ofertasbv/src/pessoafisica/pessoafisica_controller.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
@@ -30,13 +31,18 @@ void main() {
   getIt.registerSingleton<PedidoItemController>(PedidoItemController());
   getIt.registerSingleton<UsuarioController>(UsuarioController());
   getIt.registerSingleton<PermissaoController>(PermissaoController());
-  getIt.registerSingleton<PessoaJuridicaController>(PessoaJuridicaController());
-  getIt.registerSingleton<PessoaFisicaController>(PessoaFisicaController());
+  getIt.registerSingleton<ClienteController>(ClienteController());
+  getIt.registerSingleton<LojaController>(LojaController());
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: Constants.lightTheme,
     home: SplashScreenOne(),
+    localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate
+    ],
+    supportedLocales: [const Locale('pt', 'BR')],
   ));
 }
 

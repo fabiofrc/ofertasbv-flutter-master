@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/layout/home_tabe.dart';
-import 'package:ofertasbv/src/teste/catalogo_menu.dart';
 
 
 class HomeScreen extends StatelessWidget {

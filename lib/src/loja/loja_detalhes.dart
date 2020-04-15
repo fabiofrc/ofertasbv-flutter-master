@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_model.dart';
-import 'package:ofertasbv/src/pessoajuridica/pessoajuridica_page.dart';
+import 'package:ofertasbv/src/loja/loja_model.dart';
+import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
-import 'package:ofertasbv/src/promocao/promocao_page.dart';
 
-class PessoaJuridicaDetalhes extends StatefulWidget {
-  PessoaJuridica pessoaJuridica;
 
-  PessoaJuridicaDetalhes({Key key, this.pessoaJuridica}) : super(key: key);
+class LojaDetalhes extends StatefulWidget {
+  Loja loja;
+
+  LojaDetalhes({Key key, this.loja}) : super(key: key);
 
   @override
-  _PessoaJuridicaDetalhesState createState() =>
-      _PessoaJuridicaDetalhesState(p: this.pessoaJuridica);
+  _LojaDetalhesState createState() =>
+      _LojaDetalhesState(p: this.loja);
 }
 
-class _PessoaJuridicaDetalhesState extends State<PessoaJuridicaDetalhes> {
-  PessoaJuridica p;
+class _LojaDetalhesState extends State<LojaDetalhes> {
+  Loja p;
 
-  _PessoaJuridicaDetalhesState({this.p});
+  _LojaDetalhesState({this.p});
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,13 @@ class _PessoaJuridicaDetalhesState extends State<PessoaJuridicaDetalhes> {
     );
   }
 
-  buildContainer(PessoaJuridica p) {
+  buildContainer(Loja p) {
     return ListView(
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.2,
           child: p.foto != null
-              ? Image.network(ConstantApi.urlArquivoPessoaJuridica + p.foto,
+              ? Image.network(ConstantApi.urlArquivoLoja + p.foto,
                   fit: BoxFit.fill)
               : Image.asset(
                   ConstantApi.urlAsset,
@@ -147,7 +147,7 @@ class _PessoaJuridicaDetalhesState extends State<PessoaJuridicaDetalhes> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return PessoaJuridicaPage();
+                              return LojaPage();
                             },
                           ),
                         );
@@ -184,10 +184,10 @@ class _PessoaJuridicaDetalhesState extends State<PessoaJuridicaDetalhes> {
                       style: GoogleFonts.lato(),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      "Endereço: ${p.enderecos[0].logradouro + ", " + p.enderecos[0].numero}",
-                      style: GoogleFonts.lato(),
-                    ),
+//                    Text(
+//                      "Endereço: ${p.enderecos[0].logradouro + ", " + p.enderecos[0].numero}",
+//                      style: GoogleFonts.lato(),
+//                    ),
                   ],
                 )
               ],
