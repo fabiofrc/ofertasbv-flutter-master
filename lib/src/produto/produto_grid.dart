@@ -121,11 +121,11 @@ class _ProdutoGridState extends State<ProdutoGrid>
 
   builderGrid(List<Produto> produtos) {
     return GridView.builder(
-      padding: EdgeInsets.all(1),
+      padding: EdgeInsets.only(top: 5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 1.0,
-        crossAxisSpacing: 1.0,
+        mainAxisSpacing: 1,
+        crossAxisSpacing: 4,
         childAspectRatio: 0.65,
       ),
       itemCount: produtos.length,
@@ -133,44 +133,45 @@ class _ProdutoGridState extends State<ProdutoGrid>
         Produto p = produtos[index];
         return GestureDetector(
           child: AnimatedContainer(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
-            child: Card(
-              elevation: 0.5,
-              child: Column(
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 0.9,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.network(
-                        ConstantApi.urlArquivoProduto + p.foto,
-                        fit: BoxFit.fill,
-                      ),
+            child: Column(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 0.9,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.foto,
+                      fit: BoxFit.fill,
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.nome,
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                          Text(
-                            "R\$ ${p.estoque.precoCusto}",
-                            style: GoogleFonts.lato(
-                                fontSize: 18, color: Colors.green),
-                          ),
-                        ],
-                      ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 16),
+                        ),
+                        Text(
+                          "R\$ ${p.estoque.precoCusto}",
+                          style: GoogleFonts.lato(
+                              fontSize: 18, color: Colors.green),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           onLongPress: () {

@@ -8,10 +8,10 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/loja/loja_controller.dart';
 import 'package:ofertasbv/src/loja/loja_detalhes.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
-
 
 class MapaPageApp extends StatefulWidget {
   @override
@@ -59,7 +59,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Minha localização e lojas', style: GoogleFonts.lato()),
+        title: Text('localização comercial', style: GoogleFonts.lato()),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -89,7 +89,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
                             BitmapDescriptor.hueOrange),
                         infoWindow: InfoWindow(
                           title: p.nome,
-                          snippet: p.enderecos[0].logradouro,
+                          snippet: p.enderecos[0].logradouro + ", " + p.enderecos[0].numero,
                         ),
                         markerId: MarkerId(p.nome),
                         position: LatLng(p.enderecos[0].latitude ?? 0.0,
@@ -109,7 +109,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
                     myLocationButtonEnabled: true,
                     rotateGesturesEnabled: true,
                     trafficEnabled: false,
-                    mapType: MapType.normal,
+                    mapType: MapType.satellite,
                     onMapCreated: criarMapa,
                     initialCameraPosition: posicaoCamera,
                     markers: Set.of(allMarkers),
@@ -155,48 +155,53 @@ class _MapaPageAppState extends State<MapaPageApp> {
       itemBuilder: (context, index) {
         Loja p = lojas[index];
         return GestureDetector(
-          child: Card(
-            color: Colors.transparent,
-            margin: EdgeInsets.all(1),
-            elevation: 0.0,
-            child: AnimatedContainer(
-              duration: Duration(seconds: 1),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[300]),
-                color: p.nome == selectedCard ? Colors.grey[200] : Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              width: 200,
-              padding: EdgeInsets.all(2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  ListTile(
-                    leading: CircleAvatar(
-                      child: Text(
-                        p.nome.substring(0, 1).toUpperCase(),
-                        style: GoogleFonts.lato(),
-                      ),
-                      backgroundColor: Colors.grey[300],
-                      foregroundColor: Colors.blue[900],
-                    ),
-                    title: Text(
-                      p.nome,
-                      style: GoogleFonts.lato(),
-                    ),
-                    subtitle: Text(
-                      p.enderecos[0].numero,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: p.enderecos[0].numero == selectedCard
-                            ? Colors.white
-                            : Colors.grey.withOpacity(0.9),
-                        fontWeight: FontWeight.w600,
-                      ),
+          child: AnimatedContainer(
+            duration: Duration(seconds: 2),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[300]),
+              color: p.nome == selectedCard ? Colors.grey[100] : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 200,
+            padding: EdgeInsets.all(2),
+            child: Row(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.2,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.foto,
+                      fit: BoxFit.fill,
                     ),
                   ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          p.nome,
+                          style: TextStyle(
+                            color: Colors.deepPurple[900],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "Nº. ${p.enderecos[0].numero}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           onTap: () {

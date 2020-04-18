@@ -47,6 +47,8 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
 
   _SubCategoriaCreatePageState({this.s});
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     categorias;
@@ -74,10 +76,16 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      s.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${s.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath = arquivo.replaceAll("$arquivo", "subcategoria-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      s.foto = filePath;
+      //print(" upload de arquivo : ${s.foto}");
     });
   }
 
@@ -88,7 +96,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
         content: Text(content),
@@ -120,7 +128,10 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("SubCategoria cadastros", style: GoogleFonts.lato(),),
+        title: Text(
+          "SubCategoria cadastros",
+          style: GoogleFonts.lato(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.file_upload),

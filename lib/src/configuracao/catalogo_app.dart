@@ -16,6 +16,29 @@ class CatalogoApp extends StatefulWidget {
 class _CatalogoAppState extends State<CatalogoApp> {
   int elementIndex = 0;
 
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Meus Pedidos',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Minha conta',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,55 +48,24 @@ class _CatalogoAppState extends State<CatalogoApp> {
         SobrePage(),
       ].elementAt(elementIndex),
 
-      bottomNavigationBar: BubbleBottomBar(
-        backgroundColor: Colors.grey[200],
-        opacity: 0.1,
-        currentIndex: elementIndex,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-        elevation: 0.0,
-        fabLocation: BubbleBottomBarFabLocation.end,
-        hasNotch: true,
-        hasInk: true,
-        inkColor: Colors.transparent,
-        items: <BubbleBottomBarItem>[
-          BubbleBottomBarItem(
-              backgroundColor: Colors.grey[700],
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.black,
-              ),
-              activeIcon: Icon(
-                Icons.dashboard,
-                color: Colors.deepOrangeAccent,
-              ),
-              title: Text("Menu", style: GoogleFonts.lato())),
-          BubbleBottomBarItem(
-            backgroundColor: Colors.grey[700],
-            icon: Icon(
-              FontAwesomeIcons.barcode,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              FontAwesomeIcons.barcode,
-              color: Colors.deepOrangeAccent,
-            ),
-            title: Text("Scanner", style: GoogleFonts.lato(),),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Aplicativos'),
           ),
-
-          BubbleBottomBarItem(
-            backgroundColor: Colors.grey[700],
-            icon: Icon(
-              CupertinoIcons.info,
-              color: Colors.black,
-            ),
-            activeIcon: Icon(
-              CupertinoIcons.info,
-              color: Colors.deepOrangeAccent,
-            ),
-            title: Text("Sobre", style: GoogleFonts.lato(),),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            title: Text('Meus pedidos'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            title: Text('Minha conta'),
           ),
         ],
-        onTap: onBarTapItem,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }

@@ -38,12 +38,14 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
   Promocao p;
   Loja lojaSelecionada;
 
+  _PromocaoCreatePageState({this.p});
+
   DateTime dataAtual = DateTime.now();
   String _valor;
   String valorSlecionado;
   File file;
 
-  _PromocaoCreatePageState({this.p});
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -65,10 +67,15 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      p.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${p.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath = arquivo.replaceAll("$arquivo", "promocao-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      p.foto = filePath;
     });
   }
 
@@ -80,7 +87,7 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
         content: Text(content),
@@ -118,7 +125,10 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Promoção cadastro", style: GoogleFonts.lato(),),
+        title: Text(
+          "Promoção cadastro",
+          style: GoogleFonts.lato(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -199,7 +209,7 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                   initialValue: p.dataRegistro,
                                   format: dateFormatTeste,
                                   validator: (value) =>
-                                  value == null ? "campo obrigário" : null,
+                                      value == null ? "campo obrigário" : null,
                                   onSaved: (value) => p.dataRegistro = value,
                                   decoration: InputDecoration(
                                     labelText: "data registro",
@@ -214,7 +224,7 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                       context: context,
                                       firstDate: DateTime(2000),
                                       initialDate:
-                                      currentValue ?? DateTime.now(),
+                                          currentValue ?? DateTime.now(),
                                       locale: Locale('pt', 'BR'),
                                       lastDate: DateTime(2030),
                                     );

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/loja/loja_create_page.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_detalhes.dart';
@@ -51,7 +52,9 @@ class _LojaListState extends State<LojaList> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return LojaCreatePage(loja: p,);
+                      return LojaCreatePage(
+                        loja: p,
+                      );
                     },
                   ),
                 );
@@ -111,9 +114,9 @@ class _LojaListState extends State<LojaList> {
       itemBuilder: (context, index) {
         Loja p = lojas[index];
 
-        return Card(
-          margin: EdgeInsets.all(1),
-          elevation: 0.0,
+        return Container(
+          margin: EdgeInsets.only(top: 4),
+          color: Colors.white,
           child: ListTile(
             isThreeLine: true,
             leading: ClipRRect(
@@ -134,10 +137,77 @@ class _LojaListState extends State<LojaList> {
             ),
             title: Text(
               p.nome,
-              style: GoogleFonts.lato(fontSize: 16),
+              style: GoogleFonts.lato(
+                  fontSize: 16,
+                  textStyle: TextStyle(fontWeight: FontWeight.w600)),
             ),
             subtitle: Text(p.razaoSocial),
-            trailing: Text("${p.id}"),
+            trailing: PopupMenuButton<String>(
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.more_vert),
+              onSelected: (valor) {
+                if (valor == "novo") {
+                  print("novo");
+                }
+
+                if (valor == "editar") {
+                  print("editar");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return LojaCreatePage(
+                          loja: p,
+                        );
+                      },
+                    ),
+                  );
+                }
+                if (valor == "delete") {
+                  print("delete");
+                }
+
+                if (valor == "local") {
+                  print("local");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return MapaPageApp();
+                      },
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'novo',
+                  child: ListTile(
+                    leading: Icon(Icons.add),
+                    title: Text('novo'),
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'editar',
+                  child: ListTile(
+                    leading: Icon(Icons.edit),
+                    title: Text('editar'),
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'delete',
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('delete'),
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'local',
+                  child: ListTile(
+                    leading: Icon(Icons.location_on),
+                    title: Text('local'),
+                  ),
+                )
+              ],
+            ),
             onLongPress: () {
               showDialogAlert(context, p);
             },

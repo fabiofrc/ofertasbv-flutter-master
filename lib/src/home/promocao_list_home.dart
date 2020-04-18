@@ -77,45 +77,48 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
         Promocao p = promocoes[index];
 
         return GestureDetector(
-          child: Card(
+          child: AnimatedContainer(
             margin: EdgeInsets.only(right: 10),
-            elevation: 1,
-            child: AnimatedContainer(
-              duration: Duration(seconds: 4),
-              width: 300,
-              child: Column(
-
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 1.6,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        ConstantApi.urlArquivoPromocao + p.foto,
-                        fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            duration: Duration(seconds: 4),
+            width: 300,
+            child: Column(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                    child: Image.network(
+                      ConstantApi.urlArquivoPromocao + p.foto,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 6),
+                Container(
+                  padding: EdgeInsets.only(top: 4, left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text(
+                        p.nome,
+                        style: GoogleFonts.lato(fontSize: 16, textStyle: TextStyle(fontWeight: FontWeight.w600)),
                       ),
-                    ),
+                      Text(
+                        p.loja.nome,
+                        style: GoogleFonts.lato(fontSize: 13),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 6),
-                  Container(
-                    padding: EdgeInsets.only(top: 4, left: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 16),
-                        ),
-                        Text(
-                          p.descricao,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           onTap: () {

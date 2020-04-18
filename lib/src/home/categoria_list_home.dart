@@ -98,41 +98,45 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
         Categoria c = categorias[index];
 
         return GestureDetector(
-          child: Card(
+          child: AnimatedContainer(
             margin: EdgeInsets.only(right: 10),
-            elevation: 1,
-            child: AnimatedContainer(
-              duration: Duration(seconds: 4),
-              width: 90,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 1.3,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        ConstantApi.urlArquivoCategoria + c.foto,
-                        fit: BoxFit.fill,
+            duration: Duration(seconds: 4),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: 90,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                    child: Image.network(
+                      ConstantApi.urlArquivoCategoria + c.foto,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 4, left: 4),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text(
+                        c.nome,
+                        style: GoogleFonts.lato(fontSize: 12),
                       ),
-                    ),
+                    ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 4, left: 4),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          c.nome,
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           onTap: () {

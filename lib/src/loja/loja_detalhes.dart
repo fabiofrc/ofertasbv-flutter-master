@@ -7,15 +7,13 @@ import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 
-
 class LojaDetalhes extends StatefulWidget {
   Loja loja;
 
   LojaDetalhes({Key key, this.loja}) : super(key: key);
 
   @override
-  _LojaDetalhesState createState() =>
-      _LojaDetalhesState(p: this.loja);
+  _LojaDetalhesState createState() => _LojaDetalhesState(p: this.loja);
 }
 
 class _LojaDetalhesState extends State<LojaDetalhes> {
@@ -27,7 +25,10 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(p.nome, style: GoogleFonts.lato(),),
+        title: Text(
+          p.nome,
+          style: GoogleFonts.lato(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -112,13 +113,16 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
                     RaisedButton.icon(
                       label: Text(
                         "Ir para ofertas",
-                        style: GoogleFonts.lato(color: Colors.white),
+                        style: GoogleFonts.lato(color: Colors.pink[900]),
                       ),
                       icon: Icon(
                         Icons.search,
-                        color: Colors.white,
+                        color: Colors.pink[900],
                       ),
-                      color: Colors.orangeAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                      ),
+                      color: Colors.white,
                       onPressed: () {
 //                        Navigator.of(context).push(
 //                          MaterialPageRoute(
@@ -136,13 +140,16 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
                     RaisedButton.icon(
                       label: Text(
                         "Ir para mercados",
-                        style: GoogleFonts.lato(color: Colors.white),
+                        style: GoogleFonts.lato(color: Colors.blue[900]),
                       ),
                       icon: Icon(
                         Icons.list,
-                        color: Colors.white,
+                        color: Colors.blue[900],
                       ),
-                      color: Colors.blue[900],
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                      ),
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -163,33 +170,30 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
           elevation: 0.0,
           child: Container(
             padding: EdgeInsets.all(20),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Cod. Inscrição: ${p.id}",
-                      style: GoogleFonts.lato(),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Categoria: ${p.tipoPessoa}",
-                      style: GoogleFonts.lato(),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Email: ${p.usuario.email}",
-                      style: GoogleFonts.lato(),
-                    ),
-                    SizedBox(height: 10),
+                ListTile(
+                  title: Text(
+                    "${p.nome}",
+                    style: GoogleFonts.lato(),
+                  ),
+                  leading: Icon(Icons.local_convenience_store),
+                ),
+
+                ListTile(
+                  title: Text(
+                    "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero}",
+                    style: GoogleFonts.lato(),
+                  ),
+                  leading: Icon(Icons.location_on),
+                ),
+
+                SizedBox(height: 10),
 //                    Text(
 //                      "Endereço: ${p.enderecos[0].logradouro + ", " + p.enderecos[0].numero}",
 //                      style: GoogleFonts.lato(),
 //                    ),
-                  ],
-                )
               ],
             ),
           ),

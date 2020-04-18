@@ -66,8 +66,8 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
       body: SplashScreen(
         gradientBackground: LinearGradient(
           colors: [
-            Colors.blue[900],
-            Colors.indigo[500],
+            Colors.redAccent[400],
+            Colors.pink[300],
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -75,7 +75,7 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
         seconds: 7,
         navigateAfterSeconds: HomePage(),
         title: Text(
-          'OFERTASBV',
+          'U-NOSSO',
           style: GoogleFonts.lato(fontSize: 25, color: Colors.white),
         ),
         image: Image.asset(urlLogo),

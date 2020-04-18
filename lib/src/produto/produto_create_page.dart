@@ -44,6 +44,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   Future<List<SubCategoria>> categorias = SubcategoriaApiProvider.getAllTeste();
   Future<List<Loja>> lojas = LojaApiProvider.getAllTeste();
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   Produto p;
   Estoque e;
   SubCategoria subCategoriaSelecionada;
@@ -106,10 +108,15 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      p.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${p.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath = arquivo.replaceAll("$arquivo", "produto-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      p.foto = filePath;
     });
   }
 
@@ -121,9 +128,9 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.pink[900],
         content: Text(content),
         action: SnackBarAction(
           label: "OK",

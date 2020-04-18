@@ -36,6 +36,8 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
 
   _LojaCreatePageState({this.p});
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   DateTime dataAtual = DateTime.now();
   String _valor;
   String valorSlecionado;
@@ -72,10 +74,15 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      p.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${p.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath = arquivo.replaceAll("$arquivo", "loja-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      p.foto = filePath;
     });
   }
 
@@ -86,9 +93,9 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.pink[900],
         content: Text(content),
         action: SnackBarAction(
           label: "OK",

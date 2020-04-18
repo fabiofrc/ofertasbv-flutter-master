@@ -41,51 +41,6 @@ class _SubcategoriaListState extends State<SubcategoriaList>
     return _bloc.getAll();
   }
 
-  showDialogAlert(BuildContext context, SubCategoria p) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button for close dialog!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('INFORMAÇÃOES'),
-          content: Text(p.nome),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('CANCELAR'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: const Text('EDITAR'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return SubCategoriaCreatePage(subCategoria: p);
-                    },
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: const Text('VER PRODUTOS'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ProdutoPage(s: p);
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +81,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
               borderRadius: BorderRadius.circular(10),
               child: s.foto != null
                   ? Image.network(
-                      ConstantApi.urlArquivoCategoria + s.foto,
+                      ConstantApi.urlArquivoSubCategoria + s.foto,
                       height: 200,
                       width: 80,
                       fit: BoxFit.cover,
@@ -140,13 +95,57 @@ class _SubcategoriaListState extends State<SubcategoriaList>
             ),
             title: Text(
               s.nome,
-              style: GoogleFonts.lato(fontSize: 16),
+              style: GoogleFonts.lato(
+                  fontSize: 16,
+                  textStyle: TextStyle(fontWeight: FontWeight.w600)),
             ),
             subtitle: Text(s.categoria.nome),
-            trailing: Text("${s.id}"),
-            onLongPress: () {
-              showDialogAlert(context, s);
-            },
+            trailing: PopupMenuButton<String>(
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.more_vert),
+              onSelected: (valor) {
+                if (valor == "novo") {
+                  print("novo");
+                }
+                if (valor == "editar") {
+                  print("editar");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return SubCategoriaCreatePage(subCategoria: s);
+                      },
+                    ),
+                  );
+                }
+                if (valor == "delete") {
+                  print("delete");
+                }
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'novo',
+                  child: ListTile(
+                    leading: Icon(Icons.add),
+                    title: Text('novo'),
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'editar',
+                  child: ListTile(
+                    leading: Icon(Icons.edit),
+                    title: Text('editar'),
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'delete',
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('Delete'),
+                  ),
+                )
+              ],
+            ),
+            onLongPress: () {},
           ),
         );
       },

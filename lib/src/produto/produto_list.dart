@@ -67,53 +67,6 @@ class _ProdutoListState extends State<ProdutoList>
     return null;
   }
 
-  showDialogAlert(BuildContext context, Produto p) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button for close dialog!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('INFORMAÇÃOES'),
-          content: Text(p.nome),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('CANCELAR'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: const Text('EDITAR'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ProdutoCreatePage(
-                        produto: p,
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: const Text('VER DETALHES'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ProdutoDetalhes(p);
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -147,64 +100,117 @@ class _ProdutoListState extends State<ProdutoList>
         Produto p = produtos[index];
 
         return GestureDetector(
-          child: Card(
-            margin: EdgeInsets.only(bottom: 1),
-            child: Container(
-              height: 130,
-              padding: EdgeInsets.all(10),
-              child: Row(
-                verticalDirection: VerticalDirection.up,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    color: Colors.red,
-                    width: 100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        ConstantApi.urlArquivoProduto + p.foto,
-                        fit: BoxFit.fill,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            margin: EdgeInsets.only(top: 4),
+            height: 120,
+            padding: EdgeInsets.all(10),
+            child: Row(
+              verticalDirection: VerticalDirection.up,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  color: Colors.red,
+                  width: 100,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(0),
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.foto,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                Container(
+                    width: 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          p.nome,
+                          style: GoogleFonts.lato(
+                              fontSize: 16,
+                              textStyle:
+                                  TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Text(
+                          p.descricao,
+                          style: GoogleFonts.lato(
+                              fontSize: 16,
+                              textStyle:
+                                  TextStyle(fontWeight: FontWeight.w400)),
+                        ),
+                        Text(
+                          "cód. ${p.id}",
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          "R\$ ${p.estoque.precoCusto}",
+                          style: GoogleFonts.lato(
+                              fontSize: 20, color: Colors.green),
+                        ),
+                      ],
+                    )),
+                Container(
+                  width: 50,
+                  child: PopupMenuButton<String>(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(Icons.more_vert),
+                    onSelected: (valor) {
+                      if (valor == "novo") {
+                        print("novo");
+                      }
+                      if (valor == "editar") {
+                        print("editar");
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return ProdutoCreatePage(
+                                produto: p,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      if (valor == "editar") {
+                        print("editar");
+                      }
+                    },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'novo',
+                        child: ListTile(
+                          leading: Icon(Icons.add),
+                          title: Text('novo'),
+                        ),
                       ),
-                    ),
+                      const PopupMenuItem<String>(
+                        value: 'editar',
+                        child: ListTile(
+                          leading: Icon(Icons.edit),
+                          title: Text('editar'),
+                        ),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'delete',
+                        child: ListTile(
+                          leading: Icon(Icons.delete),
+                          title: Text('Delete'),
+                        ),
+                      )
+                    ],
                   ),
-                  Container(
-                      width: 180,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            p.nome,
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                          Text(
-                            "cód. ${p.id}",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            "R\$ ${p.estoque.precoCusto}",
-                            style: GoogleFonts.lato(
-                                fontSize: 20, color: Colors.green),
-                          ),
-                        ],
-                      )),
-                  Container(
-                    width: 50,
-                    child: Icon(
-                      Icons.favorite_border,
-                      color: Colors.pink[800],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          onLongPress: () {
-            showDialogAlert(context, p);
-          },
+          onLongPress: () {},
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(

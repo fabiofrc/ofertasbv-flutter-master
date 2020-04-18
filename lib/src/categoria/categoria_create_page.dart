@@ -34,6 +34,8 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
   File file;
   bool isButtonDesable = false;
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   _CategoriaCreatePageState({this.c});
 
   var controllerNome = TextEditingController();
@@ -58,10 +60,15 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      c.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${c.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath = arquivo.replaceAll("$arquivo", "categoria-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      c.foto = filePath;
     });
   }
 
@@ -73,9 +80,9 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.pink[900],
         content: Text(content),
         action: SnackBarAction(
           label: "OK",

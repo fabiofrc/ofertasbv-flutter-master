@@ -83,51 +83,55 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
         Produto p = produtos[index];
 
         return GestureDetector(
-          child: Card(
+          child: AnimatedContainer(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
             margin: EdgeInsets.only(right: 10),
-            elevation: 1,
-            child: AnimatedContainer(
-              duration: Duration(seconds: 4),
-              width: 300,
-              child: Row(
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 1.2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(0),
-                      child: Image.network(
-                        ConstantApi.urlArquivoProduto + p.foto,
-                        fit: BoxFit.fill,
-                      ),
+            duration: Duration(seconds: 4),
+            width: 300,
+            child: Row(
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 1.2,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.foto,
+                      fit: BoxFit.fill,
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(
-                            p.nome,
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                          Text(
-                            "cód. ${p.id}",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          Text(
-                            "R\$ ${p.estoque.precoCusto}",
-                            style: GoogleFonts.lato(fontSize: 18, color: Colors.green),
-                          ),
-                        ],
-                      ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 16),
+                        ),
+                        Text(
+                          "cód. ${p.id}",
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.w400),
+                        ),
+                        Text(
+                          "R\$ ${p.estoque.precoCusto}",
+                          style: GoogleFonts.lato(
+                              fontSize: 18, color: Colors.green),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           onTap: () {

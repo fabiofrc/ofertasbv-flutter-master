@@ -48,7 +48,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
         ),
         Container(
           color: Colors.transparent,
-          height: 110,
+          height: 120,
           child: CategoriaListHome(),
         ),
         SizedBox(height: 10),
@@ -87,7 +87,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "novidades",
+              "produtos em destaque",
               style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
             ),
             FlatButton(

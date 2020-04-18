@@ -62,10 +62,24 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
           ),
         ],
       ),
-      body: Stack(
+      body: ListView(
+        scrollDirection: Axis.vertical,
         children: <Widget>[
-          _builderBodyBack(),
-          buildGridView(context),
+          Container(
+            height: 150,
+            width: 200,
+            color: Colors.grey,
+          ),
+          Container(
+            height: 300,
+            width: 200,
+            color: Colors.pink,
+          ),
+          Container(
+            height: 150,
+            width: 200,
+            color: Colors.grey,
+          ),
         ],
       ),
     );
@@ -212,13 +226,11 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
               ),
               Text(
                 "Loja",
-                  style: GoogleFonts.lato(fontSize: 12),
+                style: GoogleFonts.lato(fontSize: 12),
               ),
             ],
           ),
         ),
-
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -371,7 +383,6 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -402,7 +413,6 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(

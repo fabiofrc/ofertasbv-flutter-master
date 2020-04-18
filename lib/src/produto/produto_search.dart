@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
 
@@ -16,7 +16,6 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
       IconButton(
         icon: Icon(
           Icons.clear,
-          color: Constants.colorIconsAppMenu,
         ),
         onPressed: () {
           query = "";
@@ -30,7 +29,6 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
     return IconButton(
       icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
-        color: Constants.colorIconsAppMenu,
         progress: transitionAnimation,
       ),
       onPressed: () {
@@ -51,6 +49,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
     return Observer(
       builder: (context) {
         List<Produto> produtos = _bloc.produtos;
+
         if (_bloc.error != null) {
           return Text("Não foi possível buscar produtos");
         }
@@ -61,9 +60,20 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
           );
         }
 
-        final resultados = query.isEmpty ? [] : produtos
-            .where((p) => p.nome.toLowerCase().startsWith(query.toLowerCase()))
-            .toList();
+        final resultados = query.isEmpty
+            ? []
+            : produtos
+                .where(
+                    (p) => p.nome.toLowerCase().startsWith(query.toLowerCase()))
+                .toList();
+
+        if (resultados.length == 0) {
+          return Center(
+            child: Container(
+              child: Text("Escreva o nome do produto que procura"),
+            ),
+          );
+        }
 
         return ListView.builder(
           itemBuilder: (context, index) {
@@ -88,7 +98,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return ProdutoPage(pd: p);
+                      return ProdutoDetalhes(p);
                     },
                   ),
                 );

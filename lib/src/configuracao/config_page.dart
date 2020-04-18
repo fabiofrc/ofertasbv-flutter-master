@@ -138,7 +138,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.cardSearchOutline,
+                  MdiIcons.bagCarryOn,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -170,7 +170,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.cardSearchOutline,
+                  MdiIcons.bagCarryOnCheck,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -262,7 +262,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.email,
+                  MdiIcons.accountOutline,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -293,7 +293,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.map,
+                  MdiIcons.key,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -324,7 +324,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.map,
+                  MdiIcons.googlePhotos,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -388,7 +388,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.map,
+                  MdiIcons.abTesting,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),

@@ -27,6 +27,8 @@ class _PermissaoCreatePageState extends State<PermissaoCreatePage> {
 
   _PermissaoCreatePageState({this.p});
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   var controllerNome = TextEditingController();
 
   @override
@@ -47,7 +49,7 @@ class _PermissaoCreatePageState extends State<PermissaoCreatePage> {
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
         content: Text(content),

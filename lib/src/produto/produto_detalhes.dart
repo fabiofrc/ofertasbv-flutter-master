@@ -1,9 +1,14 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/produto/produto_tab.dart';
@@ -20,12 +25,27 @@ class ProdutoDetalhes extends StatefulWidget {
 
 class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     with SingleTickerProviderStateMixin {
+  final pedidoController = GetIt.I.get<PedidoController>();
+
   AnimationController animationController;
   Animation<double> animation;
+  static final _scaleTween = Tween<double>(begin: 1.0, end: 1.5);
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isFavorito = false;
+
+  Produto produto;
+
+  AudioCache _audioCache = AudioCache(prefix: "audios/");
+  _executar(String nomeAudio) {
+    _audioCache.play(nomeAudio + ".mp3");
+  }
 
   @override
   void initState() {
-    super.initState();
+    if (produto == null) {
+      produto = Produto();
+    }
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 100),
@@ -41,6 +61,8 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
         animationController.reverse();
       }
     });
+
+    super.initState();
   }
 
   @override
@@ -49,14 +71,28 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     animationController.dispose();
   }
 
+  void showDefaultSnackbar(BuildContext context, String content) {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.pink[900],
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Produto p = widget.p;
+    produto = widget.p;
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
-          p.nome,
+          produto.nome,
           style: GoogleFonts.lato(),
         ),
         actions: <Widget>[
@@ -72,33 +108,50 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
               );
             },
           ),
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 1, right: 10),
-                child: Icon(Icons.shopping_cart),
-              ),
-              Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(color: Colors.black, width: 1),
-                    color: Colors.orangeAccent.withOpacity(.7)),
-                child: Center(
-                  child: Text(
-                    "0",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+          Observer(
+            builder: (context) {
+              var text = "";
+              return Stack(
+                alignment: Alignment.topRight,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 12, right: 16),
+                    child: Icon(
+                      Icons.shopping_cart,
+                      color: text == "0" ? Colors.white : Colors.white,
+                      size: 26,
+                    ),
                   ),
-                ),
-              ),
-            ],
+                  AnimatedBuilder(
+                    animation: animation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _scaleTween.evaluate(animation),
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10, right: 10),
+                      width: 18,
+                      height: 18,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.black, width: 1),
+                          color: Colors.green.withOpacity(.7)),
+                      child: Center(
+                        child: Text(
+                            (pedidoController.getCarrinhoPedido().getTotalItens() ?? 0).toString(),
+                            style: TextStyle(color: Colors.deepOrangeAccent)),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
           ),
         ],
       ),
-      body: buildContainer(p),
+      body: buildContainer(produto),
     );
   }
 
@@ -125,28 +178,43 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
           child: Container(
             color: Colors.transparent,
             padding: EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
-                  p.nome,
-                  style: GoogleFonts.lato(fontSize: 18),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      p.nome,
+                      style: GoogleFonts.lato(fontSize: 18),
+                    ),
+                    IconButton(
+                      icon: (isFavorito == false
+                          ? Icon(
+                        Icons.favorite_border,
+                        color: Colors.pink[900],
+                      )
+                          : Icon(
+                        Icons.favorite,
+                        color: Colors.pink[900],
+                      )),
+                      onPressed: () {
+                        isFavorito = true;
+                        showDefaultSnackbar(
+                            context, "${p.nome} - Foi adiconado aos favoritos");
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: Colors.pink[900],
-                  ),
-                  onPressed: () {
-                    print("Favoritar");
-                  },
+                Text("R\$ ${p.estoque.precoCusto}",
+                  style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
                 ),
               ],
-            ),
+            )
           ),
         ),
-
         Card(
           elevation: 0.0,
           child: Container(
@@ -160,7 +228,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "ver vais produtos",
+                        "ver mais produtos",
                         style: GoogleFonts.lato(color: Colors.pink[900]),
                       ),
                       shape: RoundedRectangleBorder(
@@ -194,7 +262,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       icon: Icon(
-                        Icons.list,
+                        Icons.add_alert,
                         color: Colors.blue[900],
                       ),
                       color: Colors.white,
@@ -251,6 +319,8 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   child: RaisedButton(
                     color: Colors.pink[900],
                     onPressed: () {
+                      pedidoController.onData(new PedidoItem(produto: p));
+                      _executar("beep_carrinho");
                       setState(() {
                         animationController.forward();
                       });
@@ -284,7 +354,10 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   child: Container(
                     height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
                     child: RaisedButton.icon(
-                      icon: Icon(Icons.share, color: Colors.white,),
+                      icon: Icon(
+                        Icons.share,
+                        color: Colors.white,
+                      ),
                       color: Colors.blue[900],
                       onPressed: () {},
                       label: Text(
