@@ -190,11 +190,17 @@ class _ProdutoGridState extends State<ProdutoGrid>
                         ),
                         SizedBox(height: 2,),
                         RaisedButton.icon(
-                          icon: Icon(Icons.add_shopping_cart),
-                          label: Text("adicionar", style: GoogleFonts.lato(),),
+                          icon: Icon(Icons.add_shopping_cart, color: Colors.orange,),
+                          label: Text(
+                            "adicionar",
+                            style: GoogleFonts.lato(
+                              color: Colors.orange,
+                              textStyle: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           ),
                           onPressed: (){
                             Navigator.of(context).push(

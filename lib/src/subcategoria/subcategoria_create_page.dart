@@ -108,6 +108,31 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
     );
   }
 
+  openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo),
+              title: Text("Photos"),
+              onTap: () {
+                _onClickFoto();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void showToast(String cardTitle) {
     Fluttertoast.showToast(
       msg: "$cardTitle",
@@ -254,7 +279,9 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: _onClickFoto,
+                                      onPressed: (){
+                                        openBottomSheet(context);
+                                      },
                                     )
                                   ],
                                 ),

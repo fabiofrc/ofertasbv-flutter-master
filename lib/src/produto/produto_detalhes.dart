@@ -37,6 +37,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
   Produto produto;
 
   AudioCache _audioCache = AudioCache(prefix: "audios/");
+
   _executar(String nomeAudio) {
     _audioCache.play(nomeAudio + ".mp3");
   }
@@ -96,18 +97,6 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
           style: GoogleFonts.lato(),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              CupertinoIcons.search,
-              color: Constants.colorIconsAppMenu,
-            ),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: ProdutoSearchDelegate(),
-              );
-            },
-          ),
           Observer(
             builder: (context) {
               var text = "";
@@ -115,7 +104,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                 alignment: Alignment.topRight,
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.only(top: 12, right: 16),
+                    padding: const EdgeInsets.only(top: 16, right: 16),
                     child: Icon(
                       Icons.shopping_cart,
                       color: text == "0" ? Colors.white : Colors.white,
@@ -131,7 +120,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 10, right: 10),
+                      margin: EdgeInsets.only(top: 12, right: 10),
                       width: 18,
                       height: 18,
                       decoration: BoxDecoration(
@@ -140,7 +129,11 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                           color: Colors.green.withOpacity(.7)),
                       child: Center(
                         child: Text(
-                            (pedidoController.getCarrinhoPedido().getTotalItens() ?? 0).toString(),
+                            (pedidoController
+                                        .getCarrinhoPedido()
+                                        .getTotalItens() ??
+                                    0)
+                                .toString(),
                             style: TextStyle(color: Colors.deepOrangeAccent)),
                       ),
                     ),
@@ -149,11 +142,24 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
               );
             },
           ),
+          IconButton(
+            icon: Icon(
+              CupertinoIcons.search,
+              color: Constants.colorIconsAppMenu,
+            ),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ProdutoSearchDelegate(),
+              );
+            },
+          ),
         ],
       ),
       body: buildContainer(produto),
     );
   }
+
 
   buildContainer(Produto p) {
     return ListView(
@@ -176,44 +182,44 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
         Card(
           elevation: 0.0,
           child: Container(
-            color: Colors.transparent,
-            padding: EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      p.nome,
-                      style: GoogleFonts.lato(fontSize: 18),
-                    ),
-                    IconButton(
-                      icon: (isFavorito == false
-                          ? Icon(
-                        Icons.favorite_border,
-                        color: Colors.pink[900],
-                      )
-                          : Icon(
-                        Icons.favorite,
-                        color: Colors.pink[900],
-                      )),
-                      onPressed: () {
-                        isFavorito = true;
-                        showDefaultSnackbar(
-                            context, "${p.nome} - Foi adiconado aos favoritos");
-                      },
-                    ),
-                  ],
-                ),
-                Text("R\$ ${p.estoque.precoCusto}",
-                  style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
-                ),
-              ],
-            )
-          ),
+              color: Colors.transparent,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        p.nome,
+                        style: GoogleFonts.lato(fontSize: 18),
+                      ),
+                      IconButton(
+                        icon: (isFavorito == false
+                            ? Icon(
+                                Icons.favorite_border,
+                                color: Colors.pink[900],
+                              )
+                            : Icon(
+                                Icons.favorite,
+                                color: Colors.pink[900],
+                              )),
+                        onPressed: () {
+                          isFavorito = true;
+                          showDefaultSnackbar(context,
+                              "${p.nome} - Foi adiconado aos favoritos");
+                        },
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "R\$ ${p.estoque.precoCusto}",
+                    style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
+                  ),
+                ],
+              )),
         ),
         Card(
           elevation: 0.0,
@@ -317,7 +323,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   width: MediaQuery.of(context).size.width / 3,
                   height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
                   child: RaisedButton(
-                    color: Colors.pink[900],
+                    color: Colors.redAccent,
                     onPressed: () {
                       pedidoController.onData(new PedidoItem(produto: p));
                       _executar("beep_carrinho");
@@ -358,7 +364,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         Icons.share,
                         color: Colors.white,
                       ),
-                      color: Colors.blue[900],
+                      color: Colors.orange[900],
                       onPressed: () {},
                       label: Text(
                         "Compartilhar",

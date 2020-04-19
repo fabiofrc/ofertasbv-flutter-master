@@ -120,14 +120,13 @@ class _ProdutoListState extends State<ProdutoList>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  width: 100,
-                  height: 100,
+                AspectRatio(
+                  aspectRatio: 0.9,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
@@ -160,11 +159,21 @@ class _ProdutoListState extends State<ProdutoList>
                           height: 2,
                         ),
                         RaisedButton.icon(
-                          icon: Icon(Icons.add_shopping_cart),
-                          label: Text("adicionar", style: GoogleFonts.lato(),),
+                          icon: Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.orange,
+                          ),
+                          label: Text(
+                            "adicionar",
+                            style: GoogleFonts.lato(
+                              color: Colors.orange,
+                              textStyle: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
                           ),
                           onPressed: () {
                             Navigator.of(context).push(

@@ -155,6 +155,31 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     );
   }
 
+  openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo),
+              title: Text("Photos"),
+              onTap: () {
+                _onClickFoto();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     p.estoque = e;
@@ -513,7 +538,9 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: _onClickFoto,
+                                      onPressed: (){
+                                        openBottomSheet(context);
+                                      },
                                     )
                                   ],
                                 ),

@@ -93,7 +93,7 @@ class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStat
                 alignment: Alignment.topRight,
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.only(top: 12, right: 16),
+                    padding: const EdgeInsets.only(top: 16, left: 10),
                     child: Icon(
                       Icons.shopping_cart,
                       color: text == "0" ? Colors.white : Colors.white,

@@ -116,6 +116,31 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
     );
   }
 
+  openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo),
+              title: Text("Photos"),
+              onTap: () {
+                _onClickFoto();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   chamarEndereco() async {
     String enderecoDestino = _controllerDestino.text;
 
@@ -410,7 +435,9 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: _onClickFoto,
+                                      onPressed: (){
+                                        openBottomSheet(context);
+                                      },
                                     )
                                   ],
                                 ),

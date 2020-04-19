@@ -103,6 +103,31 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
     );
   }
 
+  openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo),
+              title: Text("Photos"),
+              onTap: () {
+                _onClickFoto();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text("Camera"),
+              onTap: () {},
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
@@ -200,7 +225,9 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: _onClickFoto,
+                                      onPressed: (){
+                                        openBottomSheet(context);
+                                      },
                                     )
                                   ],
                                 ),

@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage>
                   child: Icon(Icons.shopping_cart),
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 10, left: 10),
+                  margin: EdgeInsets.only(bottom: 10, left: 16),
                   width: 18,
                   height: 18,
                   decoration: BoxDecoration(
