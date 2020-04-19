@@ -63,8 +63,20 @@ class _LojaListState extends State<LojaList> {
         Loja p = lojas[index];
 
         return Container(
-          margin: EdgeInsets.only(top: 4),
-          color: Colors.white,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(143, 148, 251, .2),
+                blurRadius: 20.0,
+                offset: Offset(0, 10),
+              )
+            ],
+          ),
+          margin: EdgeInsets.only(top: 1),
+          height: 120,
+          padding: EdgeInsets.all(10),
           child: ListTile(
             isThreeLine: true,
             leading: ClipRRect(

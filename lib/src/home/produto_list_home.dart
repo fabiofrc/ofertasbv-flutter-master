@@ -102,7 +102,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                     ),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),

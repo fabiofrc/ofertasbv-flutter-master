@@ -76,8 +76,18 @@ class _PromocaoListState extends State<PromocaoList>
       itemBuilder: (context, index) {
         Promocao p = promocoes[index];
         return Container(
-          margin: EdgeInsets.only(top: 4),
-          color: Colors.white,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(143, 148, 251, .2),
+                blurRadius: 20.0,
+                offset: Offset(0, 10),
+              )
+            ],
+          ),
           child: ListTile(
             isThreeLine: true,
             leading: ClipRRect(

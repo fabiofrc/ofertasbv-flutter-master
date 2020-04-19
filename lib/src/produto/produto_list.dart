@@ -103,10 +103,17 @@ class _ProdutoListState extends State<ProdutoList>
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(143, 148, 251, .2),
+                  blurRadius: 20.0,
+                  offset: Offset(0, 10),
+                )
+              ],
             ),
-            margin: EdgeInsets.only(top: 4),
-            height: 120,
+            margin: EdgeInsets.only(top: 1),
+            height: 130,
             padding: EdgeInsets.all(10),
             child: Row(
               verticalDirection: VerticalDirection.up,
@@ -114,13 +121,13 @@ class _ProdutoListState extends State<ProdutoList>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  color: Colors.red,
                   width: 100,
+                  height: 100,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(0),
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -130,29 +137,44 @@ class _ProdutoListState extends State<ProdutoList>
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          p.nome,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              textStyle:
-                                  TextStyle(fontWeight: FontWeight.w600)),
+                        Container(
+                          height: 60,
+                          color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                p.nome,
+                                style: GoogleFonts.lato(fontSize: 14),
+                              ),
+                              Text(
+                                "R\$ ${p.estoque.precoCusto}",
+                                style: GoogleFonts.lato(
+                                    fontSize: 16, color: Colors.green),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          p.descricao,
-                          style: GoogleFonts.lato(
-                              fontSize: 16,
-                              textStyle:
-                                  TextStyle(fontWeight: FontWeight.w400)),
+                        SizedBox(
+                          height: 2,
                         ),
-                        Text(
-                          "cód. ${p.id}",
-                          style: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.w400),
-                        ),
-                        Text(
-                          "R\$ ${p.estoque.precoCusto}",
-                          style: GoogleFonts.lato(
-                              fontSize: 20, color: Colors.green),
+                        RaisedButton.icon(
+                          icon: Icon(Icons.add_shopping_cart),
+                          label: Text("adicionar", style: GoogleFonts.lato(),),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return ProdutoDetalhes(p);
+                                },
+                              ),
+                            );
+                          },
                         ),
                       ],
                     )),
@@ -160,6 +182,9 @@ class _ProdutoListState extends State<ProdutoList>
                   width: 50,
                   child: PopupMenuButton<String>(
                     padding: EdgeInsets.zero,
+                    enabled: true,
+                    elevation: 1,
+                    captureInheritedThemes: true,
                     icon: Icon(Icons.more_vert),
                     onSelected: (valor) {
                       if (valor == "novo") {
@@ -212,13 +237,13 @@ class _ProdutoListState extends State<ProdutoList>
           ),
           onLongPress: () {},
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ProdutoDetalhes(p);
-                },
-              ),
-            );
+//            Navigator.of(context).push(
+//              MaterialPageRoute(
+//                builder: (BuildContext context) {
+//                  return ProdutoDetalhes(p);
+//                },
+//              ),
+//            );
           },
         );
       },

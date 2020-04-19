@@ -64,9 +64,19 @@ class _CategoriaListState extends State<CategoriaList>
         Categoria c = categorias[index];
 
         var showMenuSelection;
-        return Card(
-          margin: EdgeInsets.all(1),
-          elevation: 0.0,
+        return Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(143, 148, 251, .2),
+                blurRadius: 20.0,
+                offset: Offset(0, 10),
+              )
+            ],
+          ),
           child: ListTile(
             isThreeLine: true,
             leading: ClipRRect(

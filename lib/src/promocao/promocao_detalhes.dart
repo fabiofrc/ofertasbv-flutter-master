@@ -62,7 +62,7 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
           aspectRatio: 1.2,
           child: Image.network(
             ConstantApi.urlArquivoPromocao + p.foto,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         Card(

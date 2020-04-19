@@ -154,18 +154,57 @@ class _ProdutoGridState extends State<ProdutoGrid>
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(143, 148, 251, .2),
+                          blurRadius: 20.0,
+                          offset: Offset(0, 10),
+                        )
+                      ],
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 16),
+                        Container(
+                          height: 60,
+                          color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                p.nome,
+                                style: GoogleFonts.lato(fontSize: 14),
+                              ),
+                              Text(
+                                "R\$ ${p.estoque.precoCusto}",
+                                style: GoogleFonts.lato(
+                                    fontSize: 16, color: Colors.green),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          "R\$ ${p.estoque.precoCusto}",
-                          style: GoogleFonts.lato(
-                              fontSize: 18, color: Colors.green),
+                        SizedBox(height: 2,),
+                        RaisedButton.icon(
+                          icon: Icon(Icons.add_shopping_cart),
+                          label: Text("adicionar", style: GoogleFonts.lato(),),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          ),
+                          onPressed: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return ProdutoDetalhes(p);
+                                },
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -178,13 +217,13 @@ class _ProdutoGridState extends State<ProdutoGrid>
             showDialogAlert(context, p);
           },
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ProdutoDetalhes(p);
-                },
-              ),
-            );
+//            Navigator.of(context).push(
+//              MaterialPageRoute(
+//                builder: (BuildContext context) {
+//                  return ProdutoDetalhes(p);
+//                },
+//              ),
+//            );
           },
         );
       },

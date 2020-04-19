@@ -23,8 +23,9 @@ class _MapaPageAppState extends State<MapaPageApp> {
   final pessoa = Loja();
 
   var selectedCard = 'WEIGHT';
-  double distanciaKilomentros = 0.0;
+  double distanciaKilomentros = 0;
 
+  //GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
   Geolocator geolocator;
   Position position;
 
@@ -36,17 +37,9 @@ class _MapaPageAppState extends State<MapaPageApp> {
   @override
   void initState() {
     super.initState();
-    geolocator = Geolocator();
-    LocationOptions locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
-      position = position;
-    });
+    getLocation();
+    getCurrentLocation();
     _bloc.getAll();
-  }
-
-  Future<void> onRefresh() {
-    return _bloc.getAll();
   }
 
   selectCard(cardTitle) {
@@ -95,9 +88,30 @@ class _MapaPageAppState extends State<MapaPageApp> {
   static final CameraPosition posicaoCamera = CameraPosition(
     bearing: 192.833,
     target: LatLng(2.817, -60.690),
-    tilt: 59.440,
+    tilt: 54,
     zoom: 16.0,
   );
+
+  getLocation() async {
+    try {
+      geolocator = Geolocator();
+      LocationOptions locationOptions =
+          LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 1);
+      geolocator.getPositionStream(locationOptions).listen((Position position) {
+        position = position;
+      });
+    } catch (e) {
+      print('ERROR:$e');
+    }
+  }
+
+  void getCurrentLocation() async {
+    Position res = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      position = res;
+    });
+  }
 
   Future<void> goToPosition() async {
     final GoogleMapController controller = await completer.future;
@@ -108,20 +122,27 @@ class _MapaPageAppState extends State<MapaPageApp> {
     GoogleMapController googleMapController = await completer.future;
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(latitude, longitude), zoom: 16.0, tilt: 54),
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: 16.0,
+          tilt: 54,
+        ),
       ),
     );
   }
 
   calcularDistancia(double latMercado, double longMercado) async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return await geolocator.distanceBetween(
+      position.latitude,
+      position.longitude,
+      latMercado,
+      longMercado,
+    );
+  }
 
-    double distanciaMetros = await Geolocator().distanceBetween(
-        position.latitude, position.longitude, latMercado, longMercado);
-    distanciaKilomentros = distanciaMetros / 1000;
-    print(" distancia : ${distanciaKilomentros.toStringAsPrecision(2)} km}");
-    return distanciaKilomentros;
+  testeDistancia() async {
+    double distanceInMeters = await Geolocator()
+        .distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
   }
 
   @override
@@ -131,10 +152,10 @@ class _MapaPageAppState extends State<MapaPageApp> {
         title: Text('localização comercial', style: GoogleFonts.lato()),
       ),
       body: Stack(
+        fit: StackFit.expand,
         children: <Widget>[
-
           Container(
-            //height: double.infinity,
+            height: double.infinity,
             padding: EdgeInsets.only(top: 0),
             child: Observer(
               builder: (context) {
@@ -164,61 +185,51 @@ class _MapaPageAppState extends State<MapaPageApp> {
                       position: LatLng(p.enderecos[0].latitude ?? 0.0,
                           p.enderecos[0].longitude ?? 0.0),
                       onTap: () {
-                        calcularDistancia(
-                            p.enderecos[0].latitude, p.enderecos[0].longitude);
                         showDialogAlert(context, p);
                       });
                 }).toList();
 
                 return GoogleMap(
-                  onTap: (pos) {
-                    print(pos);
-                  },
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   rotateGesturesEnabled: true,
                   trafficEnabled: false,
+                  onCameraMove: onCamaraMove,
                   mapType: mapType,
                   onMapCreated: criarMapa,
-                  initialCameraPosition: posicaoCamera,
+                  initialCameraPosition: CameraPosition(
+                    target: position != null
+                        ? LatLng(position.latitude, position.longitude)
+                        : lastMapPosition,
+                    zoom: 16.0,
+                  ),
                   markers: Set.of(allMarkers),
                 );
               },
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: 60, right: 8),
+            padding: EdgeInsets.only(top: 60, right: 10),
             child: Align(
               alignment: Alignment.topRight,
               child: Column(
                 children: <Widget>[
                   FloatingActionButton(
                     onPressed: onMapTypeButtonPressed,
-                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     backgroundColor: Colors.redAccent,
                     child: Icon(
                       Icons.map,
-                      size: 36,
+                      size: 25,
                     ),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  FloatingActionButton(
-                    onPressed: goToPosition,
-                    materialTapTargetSize: MaterialTapTargetSize.padded,
-                    backgroundColor: Colors.redAccent,
-                    child: Icon(
-                      Icons.location_searching,
-                      size: 36,
-                    ),
+                    tooltip: "tipo de mapa",
+                    focusElevation: 5,
+                    mini: true,
                   ),
                 ],
               ),
             ),
           ),
-
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -240,10 +251,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
                     );
                   }
 
-                  return RefreshIndicator(
-                    onRefresh: onRefresh,
-                    child: builderList(pessoas),
-                  );
+                  return builderList(pessoas);
                 },
               ),
             ),
@@ -259,11 +267,11 @@ class _MapaPageAppState extends State<MapaPageApp> {
       itemCount: lojas.length,
       itemBuilder: (context, index) {
         Loja p = lojas[index];
+
         return GestureDetector(
           child: AnimatedContainer(
             duration: Duration(seconds: 2),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300]),
               color: p.nome == selectedCard ? Colors.grey[400] : Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -299,7 +307,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
                         ListTile(
                           leading: Icon(Icons.directions_run),
                           trailing: Text(
-                            "${distanciaKilomentros.toStringAsPrecision(2)} km",
+                            "0.0 km",
                             style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
@@ -316,9 +324,6 @@ class _MapaPageAppState extends State<MapaPageApp> {
           onTap: () {
             selectCard(p.nome);
             movimentarCamera(p.enderecos[0].latitude, p.enderecos[0].longitude);
-            calcularDistancia(
-                p.enderecos[0].latitude, p.enderecos[0].longitude);
-            showToast(p.nome, p.enderecos[0].numero);
           },
         );
       },

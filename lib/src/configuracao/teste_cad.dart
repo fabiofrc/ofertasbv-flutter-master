@@ -21,49 +21,112 @@ class _TesteCardState extends State<TesteCard> {
       appBar: AppBar(
         title: Text("Teste card"),
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 180,
-              width: 120,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.pink.withOpacity(0.9),
-                    BlendMode.color,
-                  ),
-                  image: AssetImage("assets/images/categorias/ofertasbv.png"),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4.0,
-                    spreadRadius: 3.5,
-                    offset: Offset(0.0, 2),
-                  ),
-                ],
-                color: Color(0xff7c94b6),
-                borderRadius: BorderRadius.circular(15.0),
-                border: Border.all(color: Colors.grey[100], width: 2.0),
-              ),
-            ),
-
-            Stack(
+      body: ListView(
+        children: <Widget>[
+         Column(
               children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(143, 148, 251, .2),
+                        blurRadius: 20.0,
+                        offset: Offset(0, 10),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey[100],
+                            ),
+                          ),
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "digite o email",
+                              hintStyle: TextStyle(color: Colors.grey[400])),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+
+                Container(
+                  padding: EdgeInsets.all(5),
+                  height: 300,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(143, 148, 251, .2),
+                        blurRadius: 20.0,
+                        offset: Offset(0, 10),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border(
+
+                          ),
+                        ),
+
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
                 Container(
                   height: 180,
                   width: 120,
-                  color: Colors.pink,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.pink.withOpacity(0.9),
+                        BlendMode.color,
+                      ),
+                      image:
+                          AssetImage("assets/images/categorias/ofertasbv.png"),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4.0,
+                        spreadRadius: 3.5,
+                        offset: Offset(0.0, 2),
+                      ),
+                    ],
+                    color: Color(0xff7c94b6),
+                    borderRadius: BorderRadius.circular(15.0),
+                    border: Border.all(color: Colors.grey[100], width: 2.0),
+                  ),
                 ),
-                Text("Alimentos básicos")
+
               ],
-            )
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

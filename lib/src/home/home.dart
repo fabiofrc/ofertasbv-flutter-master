@@ -86,50 +86,61 @@ class _HomePageState extends State<HomePage>
             ),
           ],
           bottom: TabBar(
-            indicatorPadding: EdgeInsets.only(left: 20),
-            labelPadding: EdgeInsets.only(left: 20),
+            indicatorPadding: EdgeInsets.only(right: 4, left: 4),
+            labelPadding: EdgeInsets.only(right: 4, left: 4),
             isScrollable: true,
             labelColor: Colors.white,
             unselectedLabelColor: Colors.redAccent[800],
             tabs: [
               Tab(
-                icon: Icon(
-                  Icons.home,
-                  size: 20,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(Icons.home),
                 ),
               ),
               Tab(
-                icon: Icon(
-                  Icons.location_on,
-                  size: 20,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text("loja", style: GoogleFonts.lato(fontSize: 16),),
                 ),
               ),
               Tab(
-                child: Text(
-                  "CATEGORIA",
-                  style: GoogleFonts.lato(
-                      fontSize: 13,
-                      textStyle: TextStyle(fontWeight: FontWeight.bold)),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text("categoria", style: GoogleFonts.lato(fontSize: 16),),
                 ),
-//                icon: Icon(Icons.local_convenience_store),
               ),
               Tab(
-                child: Text(
-                  "PRODUTO",
-                  style: GoogleFonts.lato(
-                      fontSize: 13,
-                      textStyle: TextStyle(fontWeight: FontWeight.bold)),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text("produto", style: GoogleFonts.lato(fontSize: 16),),
                 ),
-//                icon: Icon(Icons.shopping_cart),
               ),
               Tab(
-                child: Text(
-                  "OFERTA",
-                  style: GoogleFonts.lato(
-                      fontSize: 13,
-                      textStyle: TextStyle(fontWeight: FontWeight.bold)),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text("oferta", style: GoogleFonts.lato(fontSize: 16),),
                 ),
-//                icon: Icon(Icons.add_alert),
               ),
             ],
           ),
