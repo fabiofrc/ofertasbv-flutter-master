@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_api_provider.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 
@@ -50,6 +51,16 @@ abstract class PromocaoControllerBase with Store {
   Future<int> create(Promocao p) async {
     try {
       promocao = await _promocaoApiProvider.create(p.toJson());
+      return promocao;
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  @action
+  Future<int> createteste(Promocao p, List<Produto> produtos) async {
+    try {
+      promocao = await _promocaoApiProvider.createteste(p.toJson(), produtos);
       return promocao;
     } catch (e) {
       error = e;

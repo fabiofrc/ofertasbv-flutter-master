@@ -23,6 +23,9 @@ class HomeTabe extends StatelessWidget {
         CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
+              automaticallyImplyLeading: true,
+              pinned: true,
+              forceElevated: false,
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.shopping_cart, color: Colors.white),
@@ -66,7 +69,7 @@ class HomeTabe extends StatelessWidget {
               itemExtent: 150.0,
               delegate: SliverChildListDelegate(
                 [
-                  Container(color: Colors.red),
+                  Container(color: Colors.red, child: Text("TESTE 1"),),
                   Container(color: Colors.purple),
                   Container(color: Colors.green),
                   Container(color: Colors.orange),

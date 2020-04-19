@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 
 class PromocaoApiProvider {
@@ -32,6 +33,16 @@ class PromocaoApiProvider {
   Future<int> create(Map<String, dynamic> data) async {
     try {
       var response = await dio.client.post("/promocoes/create", data: data);
+      return response.statusCode;
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  Future<int> createteste(Map<String, dynamic> data, List<Produto> produtos) async {
+    try {
+      var response = await dio.client.post("/promocoes/createteste", data: data);
       return response.statusCode;
     } on DioError catch (e) {
       print(e.message);
@@ -71,7 +82,6 @@ class PromocaoApiProvider {
 
     var response = await Dio().post("http://192.168.1.5:8080/promocoes/upload", data: formData);
     print("RESPONSE: $response");
-    print("fileDir: $fileDir");
     return formData;
   }
 }

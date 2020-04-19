@@ -93,10 +93,25 @@ class _HomePageState extends State<HomePage>
             unselectedLabelColor: Colors.redAccent[800],
             tabs: [
               Tab(
-                icon: Icon(Icons.home, size: 20,),
+                icon: Icon(
+                  Icons.home,
+                  size: 20,
+                ),
               ),
               Tab(
-                icon: Icon(Icons.location_on, size: 20,),
+                icon: Icon(
+                  Icons.location_on,
+                  size: 20,
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "CATEGORIA",
+                  style: GoogleFonts.lato(
+                      fontSize: 13,
+                      textStyle: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+//                icon: Icon(Icons.local_convenience_store),
               ),
               Tab(
                 child: Text(
@@ -116,16 +131,6 @@ class _HomePageState extends State<HomePage>
                 ),
 //                icon: Icon(Icons.add_alert),
               ),
-
-              Tab(
-                child: Text(
-                  "CATEGORIA",
-                  style: GoogleFonts.lato(
-                      fontSize: 13,
-                      textStyle: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-//                icon: Icon(Icons.local_convenience_store),
-              ),
             ],
           ),
         ),
@@ -134,9 +139,9 @@ class _HomePageState extends State<HomePage>
           children: <Widget>[
             CatalogoHome(),
             LojaList(),
+            CategoriaList(),
             ProdutoList(),
             PromocaoList(),
-            CategoriaList(),
           ],
         ),
 

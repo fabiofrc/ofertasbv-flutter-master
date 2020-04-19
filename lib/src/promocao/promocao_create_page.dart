@@ -19,6 +19,7 @@ import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
+import 'package:ofertasbv/src/util/thousandsFormatter.dart';
 
 class PromocaoCreatePage extends StatefulWidget {
   Promocao promocao;
@@ -72,7 +73,8 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
     setState(() {
       this.file = f;
       String arquivo = file.path.split('/').last;
-      String filePath = arquivo.replaceAll("$arquivo", "promocao-" + dataAtual + ".png");
+      String filePath =
+          arquivo.replaceAll("$arquivo", "promocao-" + dataAtual + ".png");
       print("arquivo: $arquivo");
       print("filePath: $filePath");
       p.foto = filePath;
@@ -112,12 +114,6 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    //NumberFormat formatter = NumberFormat("00.00");
-    //_promocao.desconto = num.parse(0.18941.toStringAsPrecision(2));
-
-    var formatadorNumber = NumberFormat("#.0#", "pt_BR");
-    //var resultado = formatadorNumber.format(_promocao.desconto);
-
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
     DateFormat dateFormatTeste = DateFormat('dd-MM-yyyy');
 
@@ -187,7 +183,7 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                   keyboardType: TextInputType.text,
                                 ),
                                 TextFormField(
-                                  initialValue: p.desconto.toString(),
+                                initialValue: p.desconto.toStringAsPrecision(2),
                                   onSaved: (value) =>
                                       p.desconto = double.parse(value),
                                   validator: (value) =>
@@ -199,10 +195,9 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                                   ),
                                   keyboardType: TextInputType.number,
                                   maxLength: 2,
-//                            inputFormatters: [
-//                              MaskedTextInputFormatter(
-//                                  mask: '0.0', separator: '.')
-//                            ],
+                                  inputFormatters: [
+                                    ThousandsFormatter(allowFraction: true)
+                                  ],
                                 ),
                                 SizedBox(height: 15),
                                 DateTimeField(

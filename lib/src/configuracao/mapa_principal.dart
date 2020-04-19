@@ -23,13 +23,13 @@ class _MapaPageAppState extends State<MapaPageApp> {
   final pessoa = Loja();
 
   var selectedCard = 'WEIGHT';
-  double distanciaKilomentros = 0;
+  double distanciaKilomentros = 0.0;
 
   Geolocator geolocator;
   Position position;
 
   Completer<GoogleMapController> completer = Completer<GoogleMapController>();
-  var formatadorNumber = NumberFormat("##0.0##", "pt_BR");
+  var formatadorNumber = NumberFormat("#0.0##", "pt_BR");
 
   List<Marker> allMarkers = [];
 
@@ -55,72 +55,177 @@ class _MapaPageAppState extends State<MapaPageApp> {
     });
   }
 
+  MapType mapType = MapType.normal;
+  static const LatLng center = const LatLng(2.817, -60.690);
+
+  LatLng lastMapPosition = center;
+
+  button(Function function, IconData icon) {
+    return FloatingActionButton(
+      onPressed: function,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
+      backgroundColor: Colors.redAccent,
+      child: Icon(icon, size: 36),
+    );
+  }
+
+  onMapTypeButtonPressed() {
+    setState(() {
+      mapType = mapType == MapType.normal ? MapType.satellite : MapType.normal;
+    });
+  }
+
+  onCamaraMove(CameraPosition position) {
+    lastMapPosition = position.target;
+  }
+
+  criarMapa(GoogleMapController controller) {
+    completer.complete(controller);
+  }
+
+  Marker markers(Loja p) {
+    return Marker(
+      markerId: MarkerId(p.nome),
+      position: LatLng(p.enderecos[0].latitude, p.enderecos[0].longitude),
+      infoWindow: InfoWindow(title: p.nome, snippet: p.enderecos[0].logradouro),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    );
+  }
+
+  static final CameraPosition posicaoCamera = CameraPosition(
+    bearing: 192.833,
+    target: LatLng(2.817, -60.690),
+    tilt: 59.440,
+    zoom: 16.0,
+  );
+
+  Future<void> goToPosition() async {
+    final GoogleMapController controller = await completer.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(posicaoCamera));
+  }
+
+  movimentarCamera(double latitude, double longitude) async {
+    GoogleMapController googleMapController = await completer.future;
+    googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(latitude, longitude), zoom: 16.0, tilt: 54),
+      ),
+    );
+  }
+
+  calcularDistancia(double latMercado, double longMercado) async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    double distanciaMetros = await Geolocator().distanceBetween(
+        position.latitude, position.longitude, latMercado, longMercado);
+    distanciaKilomentros = distanciaMetros / 1000;
+    print(" distancia : ${distanciaKilomentros.toStringAsPrecision(2)} km}");
+    return distanciaKilomentros;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('localização comercial', style: GoogleFonts.lato()),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              //height: double.infinity,
-              padding: EdgeInsets.only(top: 100),
-              child: Observer(
-                builder: (context) {
-                  List<Loja> lojas = _bloc.lojas;
+      body: Stack(
+        children: <Widget>[
 
-                  if (_bloc.error != null) {
-                    return Text("Não foi possível buscar lojas");
-                  }
+          Container(
+            //height: double.infinity,
+            padding: EdgeInsets.only(top: 0),
+            child: Observer(
+              builder: (context) {
+                List<Loja> lojas = _bloc.lojas;
 
-                  if (lojas == null) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+                if (_bloc.error != null) {
+                  return Text("Não foi possível buscar lojas");
+                }
 
-                  allMarkers = lojas.map((p) {
-                    return Marker(
-                        icon: BitmapDescriptor.defaultMarkerWithHue(
-                            BitmapDescriptor.hueOrange),
-                        infoWindow: InfoWindow(
-                          title: p.nome,
-                          snippet: p.enderecos[0].logradouro + ", " + p.enderecos[0].numero,
-                        ),
-                        markerId: MarkerId(p.nome),
-                        position: LatLng(p.enderecos[0].latitude ?? 0.0,
-                            p.enderecos[0].longitude ?? 0.0),
-                        onTap: () {
-                          calcularDistancia(p.enderecos[0].latitude,
-                              p.enderecos[0].longitude);
-                          showDialogAlert(context, p);
-                        });
-                  }).toList();
-
-                  return GoogleMap(
-                    onTap: (pos) {
-                      print(pos);
-                    },
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    rotateGesturesEnabled: true,
-                    trafficEnabled: false,
-                    mapType: MapType.satellite,
-                    onMapCreated: criarMapa,
-                    initialCameraPosition: posicaoCamera,
-                    markers: Set.of(allMarkers),
+                if (lojas == null) {
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
+                }
+
+                allMarkers = lojas.map((p) {
+                  return Marker(
+                      icon: BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueOrange),
+                      infoWindow: InfoWindow(
+                        title: p.nome,
+                        snippet: p.enderecos[0].logradouro +
+                            ", " +
+                            p.enderecos[0].numero,
+                      ),
+                      markerId: MarkerId(p.nome),
+                      position: LatLng(p.enderecos[0].latitude ?? 0.0,
+                          p.enderecos[0].longitude ?? 0.0),
+                      onTap: () {
+                        calcularDistancia(
+                            p.enderecos[0].latitude, p.enderecos[0].longitude);
+                        showDialogAlert(context, p);
+                      });
+                }).toList();
+
+                return GoogleMap(
+                  onTap: (pos) {
+                    print(pos);
+                  },
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  rotateGesturesEnabled: true,
+                  trafficEnabled: false,
+                  mapType: mapType,
+                  onMapCreated: criarMapa,
+                  initialCameraPosition: posicaoCamera,
+                  markers: Set.of(allMarkers),
+                );
+              },
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 60, right: 8),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                children: <Widget>[
+                  FloatingActionButton(
+                    onPressed: onMapTypeButtonPressed,
+                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(
+                      Icons.map,
+                      size: 36,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  FloatingActionButton(
+                    onPressed: goToPosition,
+                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(
+                      Icons.location_searching,
+                      size: 36,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Container(
-              height: 100,
+          ),
+
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 120,
               color: Colors.transparent,
               padding: EdgeInsets.all(2),
+              margin: EdgeInsets.only(bottom: 0),
               child: Observer(
                 builder: (context) {
                   List<Loja> pessoas = _bloc.lojas;
@@ -142,8 +247,8 @@ class _MapaPageAppState extends State<MapaPageApp> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -159,11 +264,12 @@ class _MapaPageAppState extends State<MapaPageApp> {
             duration: Duration(seconds: 2),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey[300]),
-              color: p.nome == selectedCard ? Colors.grey[100] : Colors.white,
+              color: p.nome == selectedCard ? Colors.grey[400] : Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            width: 200,
+            width: 270,
             padding: EdgeInsets.all(2),
+            margin: EdgeInsets.only(left: 10),
             child: Row(
               children: <Widget>[
                 AspectRatio(
@@ -178,7 +284,7 @@ class _MapaPageAppState extends State<MapaPageApp> {
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -190,11 +296,14 @@ class _MapaPageAppState extends State<MapaPageApp> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          "Nº. ${p.enderecos[0].numero}",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
+                        ListTile(
+                          leading: Icon(Icons.directions_run),
+                          trailing: Text(
+                            "${distanciaKilomentros.toStringAsPrecision(2)} km",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ],
@@ -214,44 +323,6 @@ class _MapaPageAppState extends State<MapaPageApp> {
         );
       },
     );
-  }
-
-  void criarMapa(GoogleMapController controller) {
-    completer.complete(controller);
-  }
-
-  Marker markers(Loja p) {
-    return Marker(
-      markerId: MarkerId(p.nome),
-      position: LatLng(p.enderecos[0].latitude, p.enderecos[0].longitude),
-      infoWindow: InfoWindow(title: p.nome, snippet: p.enderecos[0].logradouro),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-    );
-  }
-
-  CameraPosition posicaoCamera = CameraPosition(
-    target: LatLng(2.817, -60.690),
-    zoom: 10,
-  );
-
-  movimentarCamera(double latitude, double longitude) async {
-    GoogleMapController googleMapController = await completer.future;
-    googleMapController.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(latitude, longitude), zoom: 18, tilt: 54),
-      ),
-    );
-  }
-
-  calcularDistancia(double latMercado, double longMercado) async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-    double distanciaMetros = await Geolocator().distanceBetween(
-        position.latitude, position.longitude, latMercado, longMercado);
-    distanciaKilomentros = distanciaMetros / 1000;
-    print(" distancia : ${formatadorNumber.format(distanciaKilomentros)}");
-    return distanciaKilomentros;
   }
 
   showDialogAlert(BuildContext context, Loja p) async {
@@ -303,7 +374,8 @@ class _MapaPageAppState extends State<MapaPageApp> {
 
   void showToast(String cardTitle, String unit) {
     Fluttertoast.showToast(
-      msg: "Loja: $cardTitle - $unit $distanciaKilomentros",
+      msg:
+          "Loja: $cardTitle - $unit - ${distanciaKilomentros.toStringAsPrecision(2)} km",
       gravity: ToastGravity.CENTER,
       timeInSecForIos: 1,
       backgroundColor: Colors.indigo,
@@ -312,5 +384,3 @@ class _MapaPageAppState extends State<MapaPageApp> {
     );
   }
 }
-
-enum ConfirmAction { CANCEL, ACCEPT }

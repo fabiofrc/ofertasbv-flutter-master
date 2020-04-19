@@ -145,7 +145,15 @@ class _SubcategoriaListState extends State<SubcategoriaList>
                 )
               ],
             ),
-            onLongPress: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return ProdutoPage(s: s,);
+                  },
+                ),
+              );
+            },
           ),
         );
       },

@@ -238,8 +238,8 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                                         setState(() {
                                           p.tipoPessoa = valor;
                                           print("resultado: " + p.tipoPessoa);
-                                          showDefaultSnackbar(context,
-                                              "Pessoa: ${p.tipoPessoa}");
+//                                          showDefaultSnackbar(context,
+//                                              "Pessoa: ${p.tipoPessoa}");
                                         });
                                       },
                                     ),
@@ -372,7 +372,7 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                                     hintText: "Email",
                                     prefixIcon: Icon(Icons.email),
                                   ),
-                                  keyboardType: TextInputType.text,
+                                  keyboardType: TextInputType.emailAddress,
                                 ),
                                 SizedBox(
                                   height: 10,

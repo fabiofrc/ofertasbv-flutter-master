@@ -94,7 +94,7 @@ class Constants {
     fontFamily: "Raleway",
   );
 
-  static Color colorIconsMenu = Colors.pink[900];
+  static Color colorIconsMenu = Colors.redAccent;
   static Color colorIconsConfig = Colors.black;
   static Color colorIconsAppMenu = Colors.white;
 }

@@ -13,6 +13,8 @@ class Produto {
   String _codigoBarra;
   bool _status;
   String _unidade;
+  String _tamanho;
+  String _cor;
   SubCategoria _subCategoria;
   Loja _loja;
   List<Arquivo> _arquivos;
@@ -28,6 +30,8 @@ class Produto {
       String codigoBarra,
       bool status,
       String unidade,
+      String tamanho,
+      String cor,
       SubCategoria subCategoria,
       Loja loja,
       List<Arquivo> arquivos,
@@ -41,6 +45,8 @@ class Produto {
     this._codigoBarra = codigoBarra;
     this._status = status;
     this._unidade = unidade;
+    this._tamanho = tamanho;
+    this._cor = cor;
     this._subCategoria = subCategoria;
     this._loja = loja;
     this._arquivos = arquivos;
@@ -83,6 +89,14 @@ class Produto {
 
   set unidade(String unidade) => _unidade = unidade;
 
+  String get tamanho => _tamanho;
+
+  set tamanho(String tamanho) => _tamanho = tamanho;
+
+  String get cor => _cor;
+
+  set cor(String cor) => _cor = cor;
+
   SubCategoria get subCategoria => _subCategoria;
 
   set subCategoria(SubCategoria subCategoria) => _subCategoria = subCategoria;
@@ -109,6 +123,10 @@ class Produto {
     _codigoBarra = json['codigoBarra'];
     _status = json['status'];
     _unidade = json['unidade'];
+
+    _tamanho = json['tamanho'];
+    _cor = json['cor'];
+
     _subCategoria = json['subCategoria'] != null
         ? new SubCategoria.fromJson(json['subCategoria'])
         : null;
@@ -134,6 +152,10 @@ class Produto {
     data['codigoBarra'] = this._codigoBarra;
     data['status'] = this._status;
     data['unidade'] = this._unidade;
+
+    data['tamanho'] = this._tamanho;
+    data['cor'] = this._cor;
+
     if (this._subCategoria != null) {
       data['subCategoria'] = this._subCategoria.toJson();
     }

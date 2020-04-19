@@ -33,20 +33,19 @@ abstract class ProdutoControllerBase with Store {
 
   @action
   Future<List<Produto>> getAllBySubCategoriaById(int id) async {
-    List<Produto> produtos =
-        await _produtoApiProvider.getAllBySubCategoriaById(id);
+    produtos = await _produtoApiProvider.getAllBySubCategoriaById(id);
     return produtos;
   }
 
   @action
   Future<List<Produto>> getAllByPromocaoById(int id) async {
-    List<Produto> produtos = await _produtoApiProvider.getAllByPromocaoById(id);
+    produtos = await _produtoApiProvider.getAllByPromocaoById(id);
     return produtos;
   }
 
   @action
   Future<List<Produto>> getAllByNome(String nome) async {
-    List<Produto> produtos = await _produtoApiProvider.getAllByNome(nome);
+    produtos = await _produtoApiProvider.getAllByNome(nome);
     return produtos;
   }
 

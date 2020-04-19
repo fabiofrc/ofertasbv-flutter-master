@@ -28,58 +28,6 @@ class _LojaListState extends State<LojaList> {
     return _bloc.getAll();
   }
 
-  showDialogAlert(BuildContext context, Loja p) async {
-    return showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button for close dialog!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Localização',
-            style: GoogleFonts.lato(),
-          ),
-          content: Text(p.nome),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('CANCELAR'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: const Text('EDITAR'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return LojaCreatePage(
-                        loja: p,
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: const Text('DETALHES'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return LojaDetalhes(
-                        loja: p,
-                      );
-                    },
-                  ),
-                );
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,16 +156,11 @@ class _LojaListState extends State<LojaList> {
                 )
               ],
             ),
-            onLongPress: () {
-              showDialogAlert(context, p);
-            },
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return LojaDetalhes(
-                      loja: p,
-                    );
+                    return LojaDetalhes(loja: p,);
                   },
                 ),
               );

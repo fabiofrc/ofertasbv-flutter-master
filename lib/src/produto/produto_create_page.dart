@@ -6,12 +6,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/estoque/estoque_model.dart';
@@ -25,6 +27,8 @@ import 'package:ofertasbv/src/produto/produto_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_api_provider.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/currency.dart';
+import 'package:ofertasbv/src/util/thousandsFormatter.dart';
 
 class ProdutoCreatePage extends StatefulWidget {
   Produto produto;
@@ -51,7 +55,6 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   SubCategoria subCategoriaSelecionada;
   Loja lojaSelecionada;
 
-
   _ProdutoCreatePageState({this.p});
 
   Controller controller;
@@ -70,7 +73,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     if (p == null) {
       p = Produto();
       e = Estoque();
-    }else{
+    } else {
       e = p.estoque;
     }
 
@@ -113,7 +116,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     setState(() {
       this.file = f;
       String arquivo = file.path.split('/').last;
-      String filePath = arquivo.replaceAll("$arquivo", "produto-" + dataAtual + ".png");
+      String filePath =
+          arquivo.replaceAll("$arquivo", "produto-" + dataAtual + ".png");
       print("arquivo: $arquivo");
       print("filePath: $filePath");
       p.foto = filePath;
@@ -160,7 +164,10 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Produto cadastros", style: GoogleFonts.lato(),),
+        title: Text(
+          "Produto cadastros",
+          style: GoogleFonts.lato(),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -208,13 +215,13 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     hintText: "Código de barra",
                                   ),
                                   keyboardType: TextInputType.text,
-                                  maxLength: 50,
+                                  maxLength: 20,
                                 ),
                                 RaisedButton.icon(
                                   elevation: 0.0,
                                   textColor: Colors.grey[200],
                                   color: Colors.orangeAccent,
-                                  icon: Icon(Icons.camera_enhance),
+                                  icon: Icon(MdiIcons.barcode),
                                   label: Text("Scanner"),
                                   onPressed: () {
                                     barcodeScanning();
@@ -271,14 +278,19 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     hintText: "quantidade produto",
                                     prefixIcon: Icon(Icons.mode_edit),
                                   ),
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 10,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: false, signed: false),
+                                  inputFormatters: <TextInputFormatter>[
+                                    WhitelistingTextInputFormatter.digitsOnly
+                                  ],
+                                  maxLength: 6,
                                 ),
+
                                 TextFormField(
-                                  initialValue: e.precoCusto.toString(),
-                                  onSaved: (value) {
-                                    p.estoque.precoCusto = double.parse(value);
-                                  },
+                                  initialValue:
+                                      e == null ? 0 : e.precoCusto.toString(),
+                                  onSaved: (value) => p.estoque.precoCusto =
+                                      double.parse(value),
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,
                                   decoration: InputDecoration(
@@ -288,12 +300,16 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                   ),
                                   keyboardType: TextInputType.number,
                                   maxLength: 10,
+                                  inputFormatters: [
+                                    WhitelistingTextInputFormatter.digitsOnly,
+                                    CurrencyFormat()
+                                  ],
                                 ),
                                 DateTimeField(
                                   initialValue: p.dataRegistro,
                                   format: dateFormat,
                                   validator: (value) =>
-                                  value == null ? "campo obrigário" : null,
+                                      value == null ? "campo obrigário" : null,
                                   onSaved: (value) => p.dataRegistro = value,
                                   decoration: InputDecoration(
                                     labelText: "data registro",
@@ -308,7 +324,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                       context: context,
                                       firstDate: DateTime(2000),
                                       initialDate:
-                                      currentValue ?? DateTime.now(),
+                                          currentValue ?? DateTime.now(),
                                       locale: Locale('pt', 'BR'),
                                       lastDate: DateTime(2030),
                                     );
@@ -491,7 +507,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                 padding: EdgeInsets.all(10),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("vá para galeria do seu aparelho..."),
                                     RaisedButton(
@@ -509,14 +525,14 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                   children: <Widget>[
                                     file != null
                                         ? Image.file(file,
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.fill)
+                                            height: 100,
+                                            width: 100,
+                                            fit: BoxFit.fill)
                                         : Image.asset(
-                                      ConstantApi.urlAsset,
-                                      height: 100,
-                                      width: 100,
-                                    ),
+                                            ConstantApi.urlAsset,
+                                            height: 100,
+                                            width: 100,
+                                          ),
                                     SizedBox(height: 15),
                                     p.foto != null
                                         ? Text("${p.foto}")

@@ -9,6 +9,7 @@ import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/configuracao/teste_cad.dart';
 import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/subcategoria_home.dart';
+import 'package:ofertasbv/src/layout/layout_home.dart';
 import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/permissao/permissao_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -402,6 +403,36 @@ class _ConfigPageState extends State<ConfigPage> {
           ),
         ),
 
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return LayoutHomeApp();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.abTesting,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Layout",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
 
       ],
     );

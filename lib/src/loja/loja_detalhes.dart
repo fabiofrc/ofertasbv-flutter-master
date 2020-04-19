@@ -180,20 +180,13 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
                   ),
                   leading: Icon(Icons.local_convenience_store),
                 ),
-
                 ListTile(
                   title: Text(
-                    "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero}",
+                    "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
                     style: GoogleFonts.lato(),
                   ),
                   leading: Icon(Icons.location_on),
                 ),
-
-                SizedBox(height: 10),
-//                    Text(
-//                      "Endereço: ${p.enderecos[0].logradouro + ", " + p.enderecos[0].numero}",
-//                      style: GoogleFonts.lato(),
-//                    ),
               ],
             ),
           ),

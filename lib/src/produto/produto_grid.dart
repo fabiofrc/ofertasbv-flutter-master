@@ -142,12 +142,12 @@ class _ProdutoGridState extends State<ProdutoGrid>
             child: Column(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 0.9,
+                  aspectRatio: 1.2,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),

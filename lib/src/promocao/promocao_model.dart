@@ -10,7 +10,7 @@ class Promocao {
   DateTime _dataRegistro;
   DateTime _dataInicio;
   DateTime _dataFinal;
-  List<Produto> _produtos;
+  List<Produto> _produtos = new List<Produto>();
   Loja _loja;
 
   Promocao(
