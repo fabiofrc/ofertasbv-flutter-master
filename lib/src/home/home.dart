@@ -7,9 +7,11 @@ import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_app.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
+import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
+import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
@@ -28,7 +30,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
         appBar: GradientAppBar(
           gradient: LinearGradient(colors: [Colors.redAccent, Colors.red[600]]),
@@ -94,8 +96,8 @@ class _HomePageState extends State<HomePage>
             ),
           ],
           bottom: TabBar(
-            indicatorPadding: EdgeInsets.only(right: 4, left: 4),
-            labelPadding: EdgeInsets.only(right: 4, left: 4),
+            indicatorPadding: EdgeInsets.only(right: 2, left: 2),
+            labelPadding: EdgeInsets.only(right: 2, left: 2),
             isScrollable: true,
             labelColor: Colors.white,
             unselectedLabelColor: Colors.redAccent[800],
@@ -108,6 +110,16 @@ class _HomePageState extends State<HomePage>
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(Icons.home),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(Icons.local_convenience_store),
                 ),
               ),
               Tab(
@@ -169,6 +181,7 @@ class _HomePageState extends State<HomePage>
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             CatalogoHome(),
+            LojaLocation(),
             LojaList(),
             CategoriaList(),
             ProdutoList(),
