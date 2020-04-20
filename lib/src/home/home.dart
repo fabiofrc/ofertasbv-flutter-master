@@ -6,6 +6,7 @@ import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_app.dart';
+import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
@@ -62,15 +63,17 @@ class _HomePageState extends State<HomePage>
                   width: 18,
                   height: 18,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.black, width: 1),
-                      color: Colors.green.withOpacity(.7)),
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.black, width: 1),
+                    color: Colors.green.withOpacity(.7),
+                  ),
                   child: Center(
                     child: Text(
-                        (pedidoController.getCarrinhoPedido().getTotalItens() ??
-                                0)
-                            .toString(),
-                        style: TextStyle(color: Colors.deepOrangeAccent)),
+                      (pedidoController.getCarrinhoPedido().getTotalItens() ??
+                              0)
+                          .toString(),
+                      style: TextStyle(color: Colors.deepOrangeAccent),
+                    ),
                   ),
                 ),
               ],
@@ -81,8 +84,12 @@ class _HomePageState extends State<HomePage>
                 color: Constants.colorIconsAppMenu,
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CatalogoApp()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CatalogoMenu(),
+                  ),
+                );
               },
             ),
           ],
@@ -110,7 +117,10 @@ class _HomePageState extends State<HomePage>
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text("loja", style: GoogleFonts.lato(fontSize: 16),),
+                  child: Text(
+                    "loja",
+                    style: GoogleFonts.lato(fontSize: 16),
+                  ),
                 ),
               ),
               Tab(
@@ -120,7 +130,10 @@ class _HomePageState extends State<HomePage>
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text("categoria", style: GoogleFonts.lato(fontSize: 16),),
+                  child: Text(
+                    "categoria",
+                    style: GoogleFonts.lato(fontSize: 16),
+                  ),
                 ),
               ),
               Tab(
@@ -130,7 +143,10 @@ class _HomePageState extends State<HomePage>
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text("produto", style: GoogleFonts.lato(fontSize: 16),),
+                  child: Text(
+                    "produto",
+                    style: GoogleFonts.lato(fontSize: 16),
+                  ),
                 ),
               ),
               Tab(
@@ -140,7 +156,10 @@ class _HomePageState extends State<HomePage>
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text("oferta", style: GoogleFonts.lato(fontSize: 16),),
+                  child: Text(
+                    "oferta",
+                    style: GoogleFonts.lato(fontSize: 16),
+                  ),
                 ),
               ),
             ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,6 +13,8 @@ import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/load_list.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProdutoList extends StatefulWidget {
   Promocao p;
@@ -67,8 +71,20 @@ class _ProdutoListState extends State<ProdutoList>
     return null;
   }
 
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
+    Timer timer = Timer(Duration(seconds: 3), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+
+    return isLoading ? ShimmerList() : builderConteudoList();
+  }
+
+  builderConteudoList() {
     return Container(
       padding: EdgeInsets.only(top: 0),
       child: Observer(
@@ -79,9 +95,7 @@ class _ProdutoListState extends State<ProdutoList>
           }
 
           if (produtos == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return ShimmerList();
           }
 
           return RefreshIndicator(
@@ -94,170 +108,255 @@ class _ProdutoListState extends State<ProdutoList>
   }
 
   ListView builderList(List<Produto> produtos) {
+    double containerWidth = 200;
+    double containerHeight = 15;
+
     return ListView.builder(
       itemCount: produtos.length,
       itemBuilder: (context, index) {
         Produto p = produtos[index];
 
-        return GestureDetector(
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromRGBO(143, 148, 251, .2),
-                  blurRadius: 20.0,
-                  offset: Offset(0, 10),
-                )
-              ],
-            ),
-            margin: EdgeInsets.only(top: 1),
-            height: 130,
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.symmetric(vertical: 7.5),
             child: Row(
-              verticalDirection: VerticalDirection.up,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 0.9,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.fitWidth,
-                    ),
+                Container(
+                  height: 110,
+                  width: 110,
+                  color: Colors.grey,
+                  child: Image.network(
+                    ConstantApi.urlArquivoProduto + p.foto,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Container(
-                    width: 180,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                p.nome,
-                                style: GoogleFonts.lato(fontSize: 14),
-                              ),
-                              Text(
-                                "R\$ ${p.estoque.precoCusto}",
-                                style: GoogleFonts.lato(
-                                    fontSize: 16, color: Colors.green),
-                              ),
-                            ],
-                          ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      color: Colors.grey,
+                      child: Text(
+                        p.nome,
+                        style: GoogleFonts.lato(fontSize: 14),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      color: Colors.grey,
+                      child: Text(
+                        p.descricao,
+                        style: GoogleFonts.lato(fontSize: 12),
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth * 0.75,
+                      color: Colors.grey,
+                      child: Text(
+                        "R\$ ${p.estoque.precoCusto}",
+                        style: GoogleFonts.lato(
+                          fontSize: 16,
+                          color: Colors.green,
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        RaisedButton.icon(
-                          icon: Icon(
-                            Icons.add_shopping_cart,
-                            color: Colors.orange,
-                          ),
-                          label: Text(
-                            "adicionar",
-                            style: GoogleFonts.lato(
-                              color: Colors.orange,
-                              textStyle: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return ProdutoDetalhes(p);
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    )),
-                Container(
-                  width: 50,
-                  child: PopupMenuButton<String>(
-                    padding: EdgeInsets.zero,
-                    enabled: true,
-                    elevation: 1,
-                    captureInheritedThemes: true,
-                    icon: Icon(Icons.more_vert),
-                    onSelected: (valor) {
-                      if (valor == "novo") {
-                        print("novo");
-                      }
-                      if (valor == "editar") {
-                        print("editar");
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    RaisedButton.icon(
+                      onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return ProdutoCreatePage(
-                                produto: p,
-                              );
+                              return ProdutoDetalhes(p);
                             },
                           ),
                         );
-                      }
-                      if (valor == "editar") {
-                        print("editar");
-                      }
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
-                        value: 'novo',
-                        child: ListTile(
-                          leading: Icon(Icons.add),
-                          title: Text('novo'),
-                        ),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'editar',
-                        child: ListTile(
-                          leading: Icon(Icons.edit),
-                          title: Text('editar'),
-                        ),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'delete',
-                        child: ListTile(
-                          leading: Icon(Icons.delete),
-                          title: Text('Delete'),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                      },
+                      icon: Icon(Icons.add_shopping_cart),
+                      label: Text("adicionar"),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
-          onLongPress: () {},
-          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return ProdutoDetalhes(p);
-//                },
-//              ),
-//            );
-          },
         );
       },
     );
   }
+
+//  ListView builderList(List<Produto> produtos) {
+//    return ListView.builder(
+//      itemCount: produtos.length,
+//      itemBuilder: (context, index) {
+//        Produto p = produtos[index];
+//
+//        return GestureDetector(
+//          child: Container(
+//            decoration: BoxDecoration(
+//              color: Colors.white,
+//              borderRadius: BorderRadius.circular(10),
+//              boxShadow: [
+//                BoxShadow(
+//                  color: Color.fromRGBO(143, 148, 251, .2),
+//                  blurRadius: 20.0,
+//                  offset: Offset(0, 10),
+//                )
+//              ],
+//            ),
+//            margin: EdgeInsets.only(top: 1),
+//            height: 130,
+//            padding: EdgeInsets.all(10),
+//            child: Row(
+//              verticalDirection: VerticalDirection.up,
+//              crossAxisAlignment: CrossAxisAlignment.center,
+//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//              children: <Widget>[
+//                AspectRatio(
+//                  aspectRatio: 0.9,
+//                  child: ClipRRect(
+//                    borderRadius: BorderRadius.circular(10),
+//                    child: Image.network(
+//                      ConstantApi.urlArquivoProduto + p.foto,
+//                      fit: BoxFit.fitWidth,
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                    width: 180,
+//                    child: Column(
+//                      crossAxisAlignment: CrossAxisAlignment.stretch,
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      children: <Widget>[
+//                        Container(
+//                          height: 60,
+//                          color: Colors.white,
+//                          child: Column(
+//                            crossAxisAlignment: CrossAxisAlignment.stretch,
+//                            mainAxisAlignment: MainAxisAlignment.start,
+//                            children: <Widget>[
+//                              Text(
+//                                p.nome,
+//                                style: GoogleFonts.lato(fontSize: 14),
+//                              ),
+//                              Text(
+//                                "R\$ ${p.estoque.precoCusto}",
+//                                style: GoogleFonts.lato(
+//                                    fontSize: 16, color: Colors.green),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          height: 2,
+//                        ),
+//                        RaisedButton.icon(
+//                          icon: Icon(
+//                            Icons.add_shopping_cart,
+//                            color: Colors.orange,
+//                          ),
+//                          label: Text(
+//                            "adicionar",
+//                            style: GoogleFonts.lato(
+//                              color: Colors.orange,
+//                              textStyle: TextStyle(fontWeight: FontWeight.w600),
+//                            ),
+//                          ),
+//                          elevation: 0,
+//                          shape: RoundedRectangleBorder(
+//                            borderRadius:
+//                                BorderRadius.all(Radius.circular(20.0)),
+//                          ),
+//                          onPressed: () {
+//                            Navigator.of(context).push(
+//                              MaterialPageRoute(
+//                                builder: (BuildContext context) {
+//                                  return ProdutoDetalhes(p);
+//                                },
+//                              ),
+//                            );
+//                          },
+//                        ),
+//                      ],
+//                    )),
+//                Container(
+//                  width: 50,
+//                  child: PopupMenuButton<String>(
+//                    padding: EdgeInsets.zero,
+//                    enabled: true,
+//                    elevation: 1,
+//                    captureInheritedThemes: true,
+//                    icon: Icon(Icons.more_vert),
+//                    onSelected: (valor) {
+//                      if (valor == "novo") {
+//                        print("novo");
+//                      }
+//                      if (valor == "editar") {
+//                        print("editar");
+//                        Navigator.of(context).push(
+//                          MaterialPageRoute(
+//                            builder: (BuildContext context) {
+//                              return ProdutoCreatePage(
+//                                produto: p,
+//                              );
+//                            },
+//                          ),
+//                        );
+//                      }
+//                      if (valor == "editar") {
+//                        print("editar");
+//                      }
+//                    },
+//                    itemBuilder: (BuildContext context) =>
+//                        <PopupMenuEntry<String>>[
+//                      const PopupMenuItem<String>(
+//                        value: 'novo',
+//                        child: ListTile(
+//                          leading: Icon(Icons.add),
+//                          title: Text('novo'),
+//                        ),
+//                      ),
+//                      const PopupMenuItem<String>(
+//                        value: 'editar',
+//                        child: ListTile(
+//                          leading: Icon(Icons.edit),
+//                          title: Text('editar'),
+//                        ),
+//                      ),
+//                      const PopupMenuItem<String>(
+//                        value: 'delete',
+//                        child: ListTile(
+//                          leading: Icon(Icons.delete),
+//                          title: Text('Delete'),
+//                        ),
+//                      )
+//                    ],
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//          onLongPress: () {},
+//          onTap: () {
+////            Navigator.of(context).push(
+////              MaterialPageRoute(
+////                builder: (BuildContext context) {
+////                  return ProdutoDetalhes(p);
+////                },
+////              ),
+////            );
+//          },
+//        );
+//      },
+//    );
+//  }
 
   @override
   // TODO: implement wantKeepAlive
