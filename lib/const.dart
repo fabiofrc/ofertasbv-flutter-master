@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Constants {
   static String appName = "Furniture App";
@@ -19,14 +20,9 @@ class Constants {
     scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
       elevation: 0,
+      textTheme: GoogleFonts.latoTextTheme(
 
-//      textTheme: TextTheme(
-//        title: TextStyle(
-//          color: darkBG,
-//          fontSize: 18.0,
-//          fontWeight: FontWeight.w800,
-//        ),
-//      ),
+      ),
     ),
   );
 

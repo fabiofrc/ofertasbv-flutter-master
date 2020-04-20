@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
-import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
-import 'package:ofertasbv/src/categoria/categoria_page.dart';
+import 'package:ofertasbv/src/configuracao/catalogo_app.dart';
+import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/configuracao/config_page.dart';
-import 'package:ofertasbv/src/configuracao/leitor_codigo_barra.dart';
-import 'package:ofertasbv/src/produto/produto_tab.dart';
-import 'package:ofertasbv/src/promocao/promocao_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
 
 class DrawerList extends StatelessWidget {
   @override
@@ -55,13 +51,13 @@ class DrawerList extends StatelessWidget {
                   "U-NOSSO",
                   style: GoogleFonts.lato(color: Colors.white),
                 ),
-                Text("unosso.com.br"),
+                Text("unosso.com.br",  style: GoogleFonts.lato(color: Colors.grey[200]),),
               ],
             )),
         ListTile(
           selected: true,
           leading: Icon(
-            MdiIcons.adjust,
+            Icons.settings,
             color: Constants.colorIconsMenu,
           ),
           title: Text(
@@ -75,6 +71,27 @@ class DrawerList extends StatelessWidget {
               MaterialPageRoute(
                 builder: (BuildContext context) {
                   return ConfigPage();
+                },
+              ),
+            );
+          },
+        ),
+        ListTile(
+          selected: true,
+          leading: Icon(Icons.apps,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Apps",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return CatalogoMenu();
                 },
               ),
             );

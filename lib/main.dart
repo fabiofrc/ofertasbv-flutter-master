@@ -36,7 +36,17 @@ void main() {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    theme: Constants.lightTheme,
+    theme: ThemeData(
+      textTheme: GoogleFonts.latoTextTheme(),
+      primaryColor: Colors.red,
+      backgroundColor: Colors.grey[300],
+      accentColor: Colors.black,
+      cursorColor: Colors.black,
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+      )
+    ),
     home: SplashScreenOne(),
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,

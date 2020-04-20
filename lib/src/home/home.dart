@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
-import 'package:ofertasbv/src/categoria/categoria_model.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_app.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
@@ -29,7 +29,8 @@ class _HomePageState extends State<HomePage>
     return DefaultTabController(
       length: 5,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: GradientAppBar(
+          gradient: LinearGradient(colors: [Colors.redAccent, Colors.red[600]]),
           primary: true,
           bottomOpacity: 1.0,
           title: Text(
