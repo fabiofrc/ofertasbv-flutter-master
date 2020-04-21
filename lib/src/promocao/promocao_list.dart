@@ -127,8 +127,8 @@ class _PromocaoListState extends State<PromocaoList>
                       width: containerWidth,
                       color: Colors.grey,
                       child: Text(
-                        "Cód. ${p.id}",
-                        style: GoogleFonts.lato(fontSize: 12),
+                        p.descricao,
+                        style: GoogleFonts.lato(fontSize: 14),
                       ),
                     ),
                     SizedBox(height: 5),
@@ -137,8 +137,8 @@ class _PromocaoListState extends State<PromocaoList>
                       width: containerWidth * 0.75,
                       color: Colors.grey,
                       child: Text(
-                        p.descricao,
-                        style: GoogleFonts.lato(fontSize: 14),
+                        "${p.loja.nome}",
+                        style: GoogleFonts.lato(fontSize: 12),
                       ),
                     ),
                     SizedBox(height: 5),

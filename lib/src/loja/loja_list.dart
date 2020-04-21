@@ -18,7 +18,8 @@ class LojaList extends StatefulWidget {
   _LojaListState createState() => _LojaListState();
 }
 
-class _LojaListState extends State<LojaList>  with AutomaticKeepAliveClientMixin<LojaList>{
+class _LojaListState extends State<LojaList>
+    with AutomaticKeepAliveClientMixin<LojaList> {
   final _bloc = GetIt.I.get<LojaController>();
 
   @override
@@ -111,7 +112,7 @@ class _LojaListState extends State<LojaList>  with AutomaticKeepAliveClientMixin
                       width: containerWidth,
                       color: Colors.grey,
                       child: Text(
-                        "Cód. ${p.id}",
+                        "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
                         style: GoogleFonts.lato(fontSize: 12),
                       ),
                     ),
@@ -131,7 +132,9 @@ class _LojaListState extends State<LojaList>  with AutomaticKeepAliveClientMixin
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return LojaDetalhes(loja: p,);
+                              return LojaDetalhes(
+                                loja: p,
+                              );
                             },
                           ),
                         );

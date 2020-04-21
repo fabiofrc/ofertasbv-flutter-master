@@ -150,8 +150,8 @@ class _ProdutoListState extends State<ProdutoList>
                       height: containerHeight,
                       width: containerWidth,
                       color: Colors.grey,
-                      child: Text(
-                        p.descricao,
+                      child: Text(p.loja != null ?
+                        (p.loja.nome) : "sem loja",
                         style: GoogleFonts.lato(fontSize: 12),
                       ),
                     ),
@@ -169,18 +169,70 @@ class _ProdutoListState extends State<ProdutoList>
                       ),
                     ),
                     SizedBox(height: 5),
-                    RaisedButton.icon(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return ProdutoDetalhes(p);
-                            },
+                    Container(
+                      width: containerWidth,
+                      height: 40,
+                      color: Colors.grey,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            width: 110,
+                            height: 30,
+                            color: Colors.red,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("removendo - ");
+                                    },
+                                    child: Text("-"),
+                                  ),
+                                  width: 38,
+                                ),
+                                Container(
+//                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                  width: 30,
+                                  height: 30,
+                                  color: Colors.green,
+                                  child: Center(
+                                    child: Text(
+                                      "300",
+                                      style: GoogleFonts.lato(fontSize: 10),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("adicionando + ");
+                                    },
+                                    child: Text("+"),
+                                  ),
+                                  width: 38,
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                      icon: Icon(Icons.add_shopping_cart),
-                      label: Text("adicionar"),
+                          RaisedButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return ProdutoDetalhes(p);
+                                  },
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.add_shopping_cart),
+                            label: Text("add"),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )

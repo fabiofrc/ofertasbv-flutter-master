@@ -68,7 +68,13 @@ class ShimmerLayoutProduto extends StatelessWidget {
                 height: containerHeight,
                 width: containerWidth * 0.75,
                 color: Colors.grey,
-              )
+              ),
+              SizedBox(height: 5),
+              Container(
+                width: containerWidth,
+                height: 40,
+                color: Colors.grey,
+              ),
             ],
           )
         ],
