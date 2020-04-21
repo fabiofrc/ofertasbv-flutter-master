@@ -127,7 +127,15 @@ class _LojaListState extends State<LojaList>  with AutomaticKeepAliveClientMixin
                     ),
                     SizedBox(height: 5),
                     RaisedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return LojaDetalhes(loja: p,);
+                            },
+                          ),
+                        );
+                      },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
                     ),

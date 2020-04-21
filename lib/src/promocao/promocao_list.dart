@@ -143,7 +143,15 @@ class _PromocaoListState extends State<PromocaoList>
                     ),
                     SizedBox(height: 5),
                     RaisedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return PromocaoDetalhes(p);
+                            },
+                          ),
+                        );
+                      },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
                     ),
