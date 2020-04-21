@@ -103,7 +103,7 @@ class _PromocaoListState extends State<PromocaoList>
                 Container(
                   height: 110,
                   width: 110,
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoLoja + p.foto,
                     fit: BoxFit.cover,
@@ -115,7 +115,7 @@ class _PromocaoListState extends State<PromocaoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -125,7 +125,7 @@ class _PromocaoListState extends State<PromocaoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.descricao,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -135,7 +135,7 @@ class _PromocaoListState extends State<PromocaoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth * 0.75,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         "${p.loja.nome}",
                         style: GoogleFonts.lato(fontSize: 12),

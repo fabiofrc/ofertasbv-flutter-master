@@ -88,7 +88,7 @@ class _LojaListState extends State<LojaList>
                 Container(
                   height: 110,
                   width: 110,
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoLoja + p.foto,
                     fit: BoxFit.cover,
@@ -100,7 +100,7 @@ class _LojaListState extends State<LojaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -110,7 +110,7 @@ class _LojaListState extends State<LojaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
                         style: GoogleFonts.lato(fontSize: 12),
@@ -120,7 +120,7 @@ class _LojaListState extends State<LojaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth * 0.75,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.razaoSocial,
                         style: GoogleFonts.lato(fontSize: 14),

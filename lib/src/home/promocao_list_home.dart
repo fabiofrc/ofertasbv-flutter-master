@@ -111,7 +111,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                     Container(
                       height: 100,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Image.network(
                         ConstantApi.urlArquivoPromocao + p.foto,
                         fit: BoxFit.cover,
@@ -121,7 +121,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                     Container(
                       height: 40,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.nome,
                         style: GoogleFonts.lato(fontSize: 13),

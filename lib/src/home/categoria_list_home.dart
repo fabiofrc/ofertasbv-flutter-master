@@ -120,18 +120,13 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-//          Container(
-//            height: 110,
-//            width: 110,
-//            color: Colors.grey,
-//          ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       height: 80,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Image.network(
                         ConstantApi.urlArquivoCategoria + c.foto,
                         fit: BoxFit.cover,
@@ -141,7 +136,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                     Container(
                       height: 30,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         c.nome,
                         style: GoogleFonts.lato(fontSize: 13),

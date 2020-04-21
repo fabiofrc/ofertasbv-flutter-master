@@ -127,7 +127,7 @@ class _ProdutoListState extends State<ProdutoList>
                 Container(
                   height: 110,
                   width: 110,
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoProduto + p.foto,
                     fit: BoxFit.cover,
@@ -139,7 +139,7 @@ class _ProdutoListState extends State<ProdutoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -149,7 +149,7 @@ class _ProdutoListState extends State<ProdutoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(p.loja != null ?
                         (p.loja.nome) : "sem loja",
                         style: GoogleFonts.lato(fontSize: 12),
@@ -159,7 +159,7 @@ class _ProdutoListState extends State<ProdutoList>
                     Container(
                       height: containerHeight,
                       width: containerWidth * 0.75,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         "R\$ ${p.estoque.precoCusto}",
                         style: GoogleFonts.lato(
@@ -172,7 +172,7 @@ class _ProdutoListState extends State<ProdutoList>
                     Container(
                       width: containerWidth,
                       height: 40,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,

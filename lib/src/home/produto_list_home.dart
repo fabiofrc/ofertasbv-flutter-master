@@ -121,7 +121,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         p.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -131,13 +131,13 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                     ),
                     SizedBox(height: 5),
                     Container(
                       height: containerHeight,
                       width: containerWidth * 0.75,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         "R\$ ${p.estoque.precoCusto}",
                         style: GoogleFonts.lato(
@@ -145,7 +145,76 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                           color: Colors.green,
                         ),
                       ),
-                    )
+                    ),
+
+                    SizedBox(height: 5),
+
+                    Container(
+                      width: containerWidth,
+                      height: 40,
+                      color: Colors.grey[300],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Container(
+                            width: 110,
+                            height: 30,
+                            color: Colors.red,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("removendo - ");
+                                    },
+                                    child: Text("-"),
+                                  ),
+                                  width: 38,
+                                ),
+                                Container(
+//                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                  width: 30,
+                                  height: 30,
+                                  color: Colors.green,
+                                  child: Center(
+                                    child: Text(
+                                      "300",
+                                      style: GoogleFonts.lato(fontSize: 10),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("adicionando + ");
+                                    },
+                                    child: Text("+"),
+                                  ),
+                                  width: 38,
+                                ),
+                              ],
+                            ),
+                          ),
+                          RaisedButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return ProdutoDetalhes(p);
+                                  },
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.add_shopping_cart),
+                            label: Text("add"),
+                          ),
+                        ],
+                      ),
+                    ),
+
                   ],
                 )
               ],

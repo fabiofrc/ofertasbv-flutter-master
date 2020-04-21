@@ -88,7 +88,7 @@ class _CategoriaListState extends State<CategoriaList>
                 Container(
                   height: 110,
                   width: 110,
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoCategoria + c.foto,
                     fit: BoxFit.cover,
@@ -100,7 +100,7 @@ class _CategoriaListState extends State<CategoriaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         c.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -110,7 +110,7 @@ class _CategoriaListState extends State<CategoriaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                       child: Text(
                         "Cód. ${c.id}",
                         style: GoogleFonts.lato(fontSize: 12),
@@ -120,7 +120,7 @@ class _CategoriaListState extends State<CategoriaList>
                     Container(
                       height: containerHeight,
                       width: containerWidth * 0.75,
-                      color: Colors.grey,
+                      color: Colors.grey[300],
                     ),
                     SizedBox(height: 5),
                     RaisedButton.icon(
