@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,6 +12,7 @@ import 'package:ofertasbv/src/produto/produto_detalhes.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/load_list_produto.dart';
 
 class ProdutoListHome extends StatefulWidget {
   Promocao p;
@@ -47,8 +50,20 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
     return _bloc.getAll();
   }
 
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
+    Timer timer = Timer(Duration(seconds: 3), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+
+    return isLoading ? LoadListProduto() : builderConteudoList();
+  }
+
+  builderConteudoList() {
     return Container(
       padding: EdgeInsets.only(top: 0),
       child: Observer(
@@ -59,9 +74,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
           }
 
           if (produtos == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return LoadListProduto();
           }
 
           return RefreshIndicator(
@@ -76,74 +89,132 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
   ListView builderList(List<Produto> produtos) {
     final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
+    double containerWidth = 200;
+    double containerHeight = 20;
+
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       itemCount: produtos.length,
       itemBuilder: (context, index) {
         Produto p = produtos[index];
 
-        return GestureDetector(
-          child: AnimatedContainer(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            margin: EdgeInsets.only(right: 10),
-            duration: Duration(seconds: 4),
-            width: 300,
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 6),
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 7.5),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                    child: Image.network(
-                      ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.cover,
-                    ),
+                Container(
+                  height: 110,
+                  width: 110,
+                  color: Colors.grey,
+                  child: Image.network(
+                    ConstantApi.urlArquivoProduto + p.foto,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 16),
-                        ),
-                        Text(
-                          "cód. ${p.id}",
-                          style: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.w400),
-                        ),
-                        Text(
-                          "R\$ ${p.estoque.precoCusto}",
-                          style: GoogleFonts.lato(
-                              fontSize: 18, color: Colors.green),
-                        ),
-                      ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      color: Colors.grey,
+                      child: Text(
+                        p.nome,
+                        style: GoogleFonts.lato(fontSize: 14),
+                      ),
                     ),
-                  ),
-                ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      height: containerHeight,
+                      width: containerWidth * 0.75,
+                      color: Colors.grey,
+                      child: Text(
+                        "R\$ ${p.estoque.precoCusto}",
+                        style: GoogleFonts.lato(
+                          fontSize: 18,
+                          color: Colors.green,
+                        ),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ProdutoDetalhes(p);
-                },
-              ),
-            );
-          },
         );
+
+//        return GestureDetector(
+//          child: AnimatedContainer(
+//            decoration: BoxDecoration(
+//              color: Colors.white,
+//              borderRadius: BorderRadius.circular(20),
+//            ),
+//            margin: EdgeInsets.only(right: 10),
+//            duration: Duration(seconds: 4),
+//            width: 300,
+//            child: Row(
+//              children: <Widget>[
+//                AspectRatio(
+//                  aspectRatio: 1.2,
+//                  child: ClipRRect(
+//                    borderRadius: BorderRadius.only(
+//                      topLeft: Radius.circular(20),
+//                      bottomLeft: Radius.circular(20),
+//                    ),
+//                    child: Image.network(
+//                      ConstantApi.urlArquivoProduto + p.foto,
+//                      fit: BoxFit.cover,
+//                    ),
+//                  ),
+//                ),
+//                Expanded(
+//                  child: Container(
+//                    padding: EdgeInsets.all(5),
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.center,
+//                      crossAxisAlignment: CrossAxisAlignment.stretch,
+//                      children: <Widget>[
+//                        Text(
+//                          p.nome,
+//                          style: GoogleFonts.lato(fontSize: 16),
+//                        ),
+//                        Text(
+//                          "cód. ${p.id}",
+//                          style: TextStyle(
+//                              color: Colors.grey, fontWeight: FontWeight.w400),
+//                        ),
+//                        Text(
+//                          "R\$ ${p.estoque.precoCusto}",
+//                          style: GoogleFonts.lato(
+//                              fontSize: 18, color: Colors.green),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//          onTap: () {
+//            Navigator.of(context).push(
+//              MaterialPageRoute(
+//                builder: (BuildContext context) {
+//                  return ProdutoDetalhes(p);
+//                },
+//              ),
+//            );
+//          },
+//        );
       },
     );
   }

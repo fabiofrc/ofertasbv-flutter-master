@@ -48,10 +48,10 @@ class _CatalogoHomeState extends State<CatalogoHome> {
         ),
         Container(
           color: Colors.transparent,
-          height: 120,
+          height: 130,
           child: CategoriaListHome(),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -79,10 +79,10 @@ class _CatalogoHomeState extends State<CatalogoHome> {
         ),
         Container(
           color: Colors.transparent,
-          height: 250,
+          height: 160,
           child: PromocaoListHome(),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
