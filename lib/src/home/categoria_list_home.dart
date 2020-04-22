@@ -112,97 +112,55 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
       itemBuilder: (context, index) {
         Categoria c = categorias[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: 80,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Image.network(
-                        ConstantApi.urlArquivoCategoria + c.foto,
-                        fit: BoxFit.cover,
+        return GestureDetector(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 7.5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 80,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Image.network(
+                          ConstantApi.urlArquivoCategoria + c.foto,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 1),
-                    Container(
-                      height: 30,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        c.nome,
-                        style: GoogleFonts.lato(fontSize: 13),
+                      SizedBox(height: 1),
+                      Container(
+                        height: 30,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Text(
+                          c.nome,
+                          style: GoogleFonts.lato(fontSize: 13),
+                        ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SubcategoriaPage(
+                    c: c,
+                  );
+                },
+              ),
+            );
+          },
         );
-
-//        return GestureDetector(
-//          child: AnimatedContainer(
-//            margin: EdgeInsets.only(right: 10),
-//            duration: Duration(seconds: 4),
-//            decoration: BoxDecoration(
-//              color: Colors.white,
-//              borderRadius: BorderRadius.circular(20),
-//            ),
-//            width: 90,
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              mainAxisAlignment: MainAxisAlignment.start,
-//              children: <Widget>[
-//                AspectRatio(
-//                  aspectRatio: 1.1,
-//                  child: ClipRRect(
-//                    borderRadius: BorderRadius.only(
-//                      topRight: Radius.circular(20),
-//                      topLeft: Radius.circular(20),
-//                    ),
-//                    child: Image.network(
-//                      ConstantApi.urlArquivoCategoria + c.foto,
-//                      fit: BoxFit.cover,
-//                    ),
-//                  ),
-//                ),
-//                Container(
-//                  padding: EdgeInsets.only(top: 4, left: 4),
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.start,
-//                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                    children: <Widget>[
-//                      Text(
-//                        c.nome,
-//                        style: GoogleFonts.lato(fontSize: 12),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return SubcategoriaPage(
-//                    c: c,
-//                  );
-//                },
-//              ),
-//            );
-//          },
-//        );
       },
     );
   }

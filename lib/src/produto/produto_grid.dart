@@ -124,9 +124,9 @@ class _ProdutoGridState extends State<ProdutoGrid>
       padding: EdgeInsets.only(top: 5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 1,
-        crossAxisSpacing: 4,
-        childAspectRatio: 0.65,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 0.55,
       ),
       itemCount: produtos.length,
       itemBuilder: (context, index) {
@@ -135,102 +135,109 @@ class _ProdutoGridState extends State<ProdutoGrid>
           child: AnimatedContainer(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(00),
             ),
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
             child: Column(
               children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: Image.network(
-                      ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.cover,
-                    ),
+                Container(
+                  height: 150,
+                  color: Colors.white,
+                  child: Image.network(
+                    ConstantApi.urlArquivoProduto + p.foto,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(143, 148, 251, .2),
-                          blurRadius: 20.0,
-                          offset: Offset(0, 10),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                p.nome,
-                                style: GoogleFonts.lato(fontSize: 14),
-                              ),
-                              Text(
-                                "R\$ ${p.estoque.precoCusto}",
-                                style: GoogleFonts.lato(
-                                    fontSize: 16, color: Colors.green),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 2,),
-                        RaisedButton.icon(
-                          icon: Icon(Icons.add_shopping_cart, color: Colors.orange,),
-                          label: Text(
-                            "adicionar",
-                            style: GoogleFonts.lato(
-                              color: Colors.orange,
-                              textStyle: TextStyle(fontWeight: FontWeight.w600),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              p.nome,
+                              style: GoogleFonts.lato(fontSize: 14),
                             ),
-                          ),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          onPressed: (){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return ProdutoDetalhes(p);
-                                },
-                              ),
-                            );
-                          },
+                            Text(
+                              "R\$ ${p.estoque.precoCusto}",
+                              style: GoogleFonts.lato(
+                                  fontSize: 16, color: Colors.green),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        width: 100,
+                        height: 40,
+                        color: Colors.grey[300],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            SizedBox(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  print("removendo - ");
+                                },
+                                child: Text("-"),
+                              ),
+                              width: 50,
+                            ),
+                            Container(
+                              width: 60,
+                              height: 30,
+                              color: Colors.green,
+                              child: Center(
+                                child: Text(
+                                  "300",
+                                  style: GoogleFonts.lato(fontSize: 10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  print("adicionando + ");
+                                },
+                                child: Text("+"),
+                              ),
+                              width: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                      RaisedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return ProdutoDetalhes(p);
+                              },
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.add_shopping_cart),
+                        label: Text("add"),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          onLongPress: () {
-            showDialogAlert(context, p);
-          },
-          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return ProdutoDetalhes(p);
-//                },
-//              ),
-//            );
-          },
         );
       },
     );

@@ -98,192 +98,140 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
       itemBuilder: (context, index) {
         Produto p = produtos[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  color: Colors.grey,
-                  child: Image.network(
-                    ConstantApi.urlArquivoProduto + p.foto,
-                    fit: BoxFit.cover,
+        return GestureDetector(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 7.5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    height: 110,
+                    width: 110,
+                    color: Colors.grey,
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.foto,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.nome,
-                        style: GoogleFonts.lato(fontSize: 14),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth * 0.75,
-                      color: Colors.grey[300],
-                      child: Text(
-                        "R\$ ${p.estoque.precoCusto}",
-                        style: GoogleFonts.lato(
-                          fontSize: 18,
-                          color: Colors.green,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 14),
                         ),
                       ),
-                    ),
+                      SizedBox(height: 5),
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth * 0.75,
+                        color: Colors.grey[300],
+                        child: Text(
+                          "R\$ ${p.estoque.precoCusto}",
+                          style: GoogleFonts.lato(
+                            fontSize: 18,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
 
-                    SizedBox(height: 5),
+                      SizedBox(height: 5),
 
-                    Container(
-                      width: containerWidth,
-                      height: 40,
-                      color: Colors.grey[300],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            width: 110,
-                            height: 30,
-                            color: Colors.red,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                SizedBox(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      print("removendo - ");
-                                    },
-                                    child: Text("-"),
+                      Container(
+                        width: containerWidth,
+                        height: 40,
+                        color: Colors.grey[300],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Container(
+                              width: 110,
+                              height: 30,
+                              color: Colors.red,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  SizedBox(
+                                    child: RaisedButton(
+                                      onPressed: () {
+                                        print("removendo - ");
+                                      },
+                                      child: Text("-"),
+                                    ),
+                                    width: 38,
                                   ),
-                                  width: 38,
-                                ),
-                                Container(
+                                  Container(
 //                                  padding: EdgeInsets.only(top: 10, left: 5),
-                                  width: 30,
-                                  height: 30,
-                                  color: Colors.green,
-                                  child: Center(
-                                    child: Text(
-                                      "300",
-                                      style: GoogleFonts.lato(fontSize: 10),
+                                    width: 30,
+                                    height: 30,
+                                    color: Colors.green,
+                                    child: Center(
+                                      child: Text(
+                                        "300",
+                                        style: GoogleFonts.lato(fontSize: 10),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      print("adicionando + ");
-                                    },
-                                    child: Text("+"),
+                                  SizedBox(
+                                    child: RaisedButton(
+                                      onPressed: () {
+                                        print("adicionando + ");
+                                      },
+                                      child: Text("+"),
+                                    ),
+                                    width: 38,
                                   ),
-                                  width: 38,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          RaisedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ProdutoDetalhes(p);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.add_shopping_cart),
-                            label: Text("add"),
-                          ),
-                        ],
+                            RaisedButton.icon(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return ProdutoDetalhes(p);
+                                    },
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.add_shopping_cart),
+                              label: Text("add"),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
 
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProdutoDetalhes(p);
+                },
+              ),
+            );
+          },
         );
-
-//        return GestureDetector(
-//          child: AnimatedContainer(
-//            decoration: BoxDecoration(
-//              color: Colors.white,
-//              borderRadius: BorderRadius.circular(20),
-//            ),
-//            margin: EdgeInsets.only(right: 10),
-//            duration: Duration(seconds: 4),
-//            width: 300,
-//            child: Row(
-//              children: <Widget>[
-//                AspectRatio(
-//                  aspectRatio: 1.2,
-//                  child: ClipRRect(
-//                    borderRadius: BorderRadius.only(
-//                      topLeft: Radius.circular(20),
-//                      bottomLeft: Radius.circular(20),
-//                    ),
-//                    child: Image.network(
-//                      ConstantApi.urlArquivoProduto + p.foto,
-//                      fit: BoxFit.cover,
-//                    ),
-//                  ),
-//                ),
-//                Expanded(
-//                  child: Container(
-//                    padding: EdgeInsets.all(5),
-//                    child: Column(
-//                      mainAxisAlignment: MainAxisAlignment.center,
-//                      crossAxisAlignment: CrossAxisAlignment.stretch,
-//                      children: <Widget>[
-//                        Text(
-//                          p.nome,
-//                          style: GoogleFonts.lato(fontSize: 16),
-//                        ),
-//                        Text(
-//                          "cód. ${p.id}",
-//                          style: TextStyle(
-//                              color: Colors.grey, fontWeight: FontWeight.w400),
-//                        ),
-//                        Text(
-//                          "R\$ ${p.estoque.precoCusto}",
-//                          style: GoogleFonts.lato(
-//                              fontSize: 18, color: Colors.green),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return ProdutoDetalhes(p);
-//                },
-//              ),
-//            );
-//          },
-//        );
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,18 +38,27 @@ void main() {
   getIt.registerSingleton<ClienteController>(ClienteController());
   getIt.registerSingleton<LojaController>(LojaController());
 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
+    statusBarBrightness: Brightness.dark,
+  ));
+
   runApp(MaterialApp(
+
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
+      brightness: Brightness.light, // status bar brightness
       textTheme: GoogleFonts.latoTextTheme(),
-      primaryColor: Colors.red,
+      primaryColor: Colors.redAccent,
       backgroundColor: Colors.grey[300],
       accentColor: Colors.black,
       cursorColor: Colors.black,
       scaffoldBackgroundColor: Colors.white,
+      primaryColorBrightness: Brightness.dark,
       appBarTheme: AppBarTheme(
         elevation: 0,
-      )
+        textTheme: TextTheme(body1: TextStyle(color: Colors.redAccent)),
+      ),
     ),
     home: SplashScreenOne(),
     localizationsDelegates: [
@@ -79,8 +89,8 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
       body: SplashScreen(
         gradientBackground: LinearGradient(
           colors: [
-            Colors.redAccent[400],
-            Colors.pink[300],
+            Colors.red[700],
+            Colors.redAccent,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -100,7 +110,6 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
     );
   }
 }
-
 
 //void main() => runApp(MyApp());
 
@@ -127,8 +136,6 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-
 
 class DelayedList extends StatefulWidget {
   @override

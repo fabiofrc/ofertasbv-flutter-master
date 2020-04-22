@@ -23,6 +23,7 @@ class _ProdutoTabState extends State<ProdutoTab> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.grey[100],
         appBar: AppBar(
           title: Text(
             "Produtos",

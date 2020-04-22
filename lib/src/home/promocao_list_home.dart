@@ -92,103 +92,53 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
       itemBuilder: (context, index) {
         Promocao p = promocoes[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-//          Container(
-//            height: 110,
-//            width: 110,
-//            color: Colors.grey,
-//          ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: 100,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Image.network(
-                        ConstantApi.urlArquivoPromocao + p.foto,
-                        fit: BoxFit.cover,
+        return GestureDetector(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6),
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 7.5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 100,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Image.network(
+                          ConstantApi.urlArquivoPromocao + p.foto,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 1),
-                    Container(
-                      height: 40,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.nome,
-                        style: GoogleFonts.lato(fontSize: 13),
+                      SizedBox(height: 1),
+                      Container(
+                        height: 40,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 13),
+                        ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PromocaoDetalhes(p);
+                },
+              ),
+            );
+          },
         );
-
-//        return GestureDetector(
-//          child: AnimatedContainer(
-//            margin: EdgeInsets.only(right: 10),
-//            decoration: BoxDecoration(
-//              color: Colors.white,
-//              borderRadius: BorderRadius.circular(20),
-//            ),
-//            duration: Duration(seconds: 4),
-//            width: 300,
-//            child: Column(
-//              children: <Widget>[
-//                AspectRatio(
-//                  aspectRatio: 1.6,
-//                  child: ClipRRect(
-//                    borderRadius: BorderRadius.only(
-//                      topRight: Radius.circular(20),
-//                      topLeft: Radius.circular(20),
-//                    ),
-//                    child: Image.network(
-//                      ConstantApi.urlArquivoPromocao + p.foto,
-//                      fit: BoxFit.cover,
-//                    ),
-//                  ),
-//                ),
-//                SizedBox(height: 6),
-//                Container(
-//                  padding: EdgeInsets.only(top: 4, left: 10),
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.start,
-//                    crossAxisAlignment: CrossAxisAlignment.stretch,
-//                    children: <Widget>[
-//                      Text(
-//                        p.nome,
-//                        style: GoogleFonts.lato(fontSize: 16, textStyle: TextStyle(fontWeight: FontWeight.w600)),
-//                      ),
-//                      Text(
-//                        p.loja.nome,
-//                        style: GoogleFonts.lato(fontSize: 13),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//          onTap: () {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (BuildContext context) {
-//                  return PromocaoDetalhes(p);
-//                },
-//              ),
-//            );
-//          },
-//        );
       },
     );
   }
