@@ -124,7 +124,15 @@ class _CategoriaListState extends State<CategoriaList>
                     ),
                     SizedBox(height: 5),
                     RaisedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return SubcategoriaPage(c: c);
+                            },
+                          ),
+                        );
+                      },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
                     ),

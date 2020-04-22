@@ -13,8 +13,13 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 
 class SubCategoriaProduto extends StatefulWidget {
+  SubCategoria s;
+
+  SubCategoriaProduto({Key key, this.s}) : super(key: key);
+
   @override
-  _SubCategoriaProdutoState createState() => _SubCategoriaProdutoState();
+  _SubCategoriaProdutoState createState() =>
+      _SubCategoriaProdutoState(subCategoria: this.s);
 }
 
 class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
@@ -23,10 +28,17 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
 
   SubCategoria subCategoria;
 
+  _SubCategoriaProdutoState({this.subCategoria});
+
   @override
   void initState() {
     _blocSubCategoria.getAll();
-    subCategoria = SubCategoria();
+    if (subCategoria.id == null) {
+      _blocProduto.getAll();
+    }
+    if (subCategoria.id != null) {
+      _blocProduto.getAllBySubCategoriaById(subCategoria.id);
+    }
     super.initState();
   }
 
@@ -77,7 +89,6 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                       textStyle: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
-
                   Observer(
                     builder: (context) {
                       if (_blocProduto.error != null) {
