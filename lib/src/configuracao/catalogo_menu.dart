@@ -11,6 +11,8 @@ import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/produto_list_home.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 
 class CatalogoMenu extends StatefulWidget {
   @override
@@ -136,8 +138,6 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
       //childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.9,
       scrollDirection: Axis.vertical,
       children: <Widget>[
-
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(

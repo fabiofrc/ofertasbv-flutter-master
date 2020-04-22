@@ -17,6 +17,7 @@ import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 
 class ConfigPage extends StatefulWidget {
   @override
@@ -67,17 +68,17 @@ class _ConfigPageState extends State<ConfigPage> {
   }
 
   Widget _builderBodyBack() => Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          Colors.grey[200],
-          Colors.grey[200],
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-    ),
-  );
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.grey[200],
+              Colors.grey[200],
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      );
 
   GridView buildGridView(BuildContext context) {
     return GridView.count(
@@ -152,7 +153,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -184,7 +184,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -245,7 +244,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -276,7 +274,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -307,7 +304,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -338,9 +334,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
-
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -371,7 +364,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -402,7 +394,6 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -433,7 +424,36 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
-
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SubCategoriaProduto();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.informationOutline,
+                  color: Constants.colorIconsMenu,
+                  size: 30,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "SubCat/produtos",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

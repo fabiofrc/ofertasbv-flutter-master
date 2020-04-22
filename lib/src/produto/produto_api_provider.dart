@@ -69,6 +69,7 @@ class ProdutoApiProvider {
     try {
       print("carregando produtos da subcategoria");
       var response = await dio.client.get("/produtos/subcategoria/$id");
+      print("produtos da categoria $response");
       return (response.data as List).map((c) => Produto.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);
