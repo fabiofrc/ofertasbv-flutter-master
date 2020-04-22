@@ -6,6 +6,8 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/cliente/cliente_controller.dart';
+import 'package:ofertasbv/src/cliente/cliente_model.dart';
 import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/loja/loja_create_page.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
@@ -13,14 +15,14 @@ import 'package:ofertasbv/src/loja/loja_detalhes.dart';
 import 'package:ofertasbv/src/loja/loja_controller.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
-class LojaList extends StatefulWidget {
+class ClienteList extends StatefulWidget {
   @override
-  _LojaListState createState() => _LojaListState();
+  _ClienteListState createState() => _ClienteListState();
 }
 
-class _LojaListState extends State<LojaList>
-    with AutomaticKeepAliveClientMixin<LojaList> {
-  final _bloc = GetIt.I.get<LojaController>();
+class _ClienteListState extends State<ClienteList>
+    with AutomaticKeepAliveClientMixin<ClienteList> {
+  final _bloc = GetIt.I.get<ClienteController>();
 
   @override
   void initState() {
@@ -50,32 +52,32 @@ class _LojaListState extends State<LojaList>
       padding: EdgeInsets.only(top: 0),
       child: Observer(
         builder: (context) {
-          List<Loja> lojas = _bloc.lojas;
+          List<Cliente> clientes = _bloc.clientes;
           if (_bloc.error != null) {
             return Text("Não foi possível carregados dados");
           }
 
-          if (lojas == null) {
+          if (clientes == null) {
             return ShimmerList();
           }
 
           return RefreshIndicator(
             onRefresh: onRefresh,
-            child: builderList(lojas),
+            child: builderList(clientes),
           );
         },
       ),
     );
   }
 
-  ListView builderList(List<Loja> lojas) {
+  ListView builderList(List<Cliente> clientes) {
     double containerWidth = 200;
     double containerHeight = 15;
 
     return ListView.builder(
-      itemCount: lojas.length,
+      itemCount: clientes.length,
       itemBuilder: (context, index) {
-        Loja p = lojas[index];
+        Cliente p = clientes[index];
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -85,13 +87,12 @@ class _LojaListState extends State<LojaList>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoLoja + p.foto,
-                    fit: BoxFit.cover,
+                CircleAvatar(
+                  maxRadius: 40,
+                  child: ClipRRect(
+                    borderRadius: new BorderRadius.circular(100.0),
+                    child:
+                        Image.network(ConstantApi.urlArquivoCliente + p.foto),
                   ),
                 ),
                 Column(
@@ -122,50 +123,25 @@ class _LojaListState extends State<LojaList>
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
-                        p.razaoSocial,
+                        p.cpf,
                         style: GoogleFonts.lato(fontSize: 14),
                       ),
                     ),
                     SizedBox(height: 5),
-                    Container(
-                      height: 40,
-                      width: 200,
-                      color: Colors.grey[300],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          RaisedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return MapaPageApp();
-                                  },
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.location_on),
-                            label: Text("local"),
-                          ),
-
-                          RaisedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return LojaDetalhes(
-                                      loja: p,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.add),
-                            label: Text("ver mais"),
-                          ),
-                        ],
-                      ),
+                    RaisedButton.icon(
+                      onPressed: () {
+//                        Navigator.of(context).push(
+//                          MaterialPageRoute(
+//                            builder: (BuildContext context) {
+//                              return LojaDetalhes(
+//                                loja: p,
+//                              );
+//                            },
+//                          ),
+//                        );
+                      },
+                      icon: Icon(Icons.add),
+                      label: Text("ver mais"),
                     ),
                   ],
                 )

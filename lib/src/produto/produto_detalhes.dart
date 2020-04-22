@@ -75,7 +75,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
   void showDefaultSnackbar(BuildContext context, String content) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.redAccent,
         content: Text(content),
         action: SnackBarAction(
           label: "OK",
@@ -200,14 +200,16 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         icon: (isFavorito == false
                             ? Icon(
                                 Icons.favorite_border,
-                                color: Colors.pink[900],
+                                color: Colors.redAccent,
                               )
                             : Icon(
                                 Icons.favorite,
-                                color: Colors.pink[900],
+                                color: Colors.redAccent,
                               )),
                         onPressed: () {
-                          isFavorito = true;
+                          setState(() {
+                            isFavorito = true;
+                          });
                           showDefaultSnackbar(context,
                               "${p.nome} - Foi adiconado aos favoritos");
                         },
@@ -235,14 +237,15 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                     RaisedButton.icon(
                       label: Text(
                         "ver mais produtos",
-                        style: GoogleFonts.lato(color: Colors.pink[900]),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        style: GoogleFonts.lato(color: Colors.redAccent),
                       ),
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: Colors.pink[900],
+                        color: Colors.redAccent,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.redAccent),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       color: Colors.white,
                       onPressed: () {
@@ -264,12 +267,13 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         "ver mais ofertas",
                         style: GoogleFonts.lato(color: Colors.blue[900]),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      ),
                       icon: Icon(
                         Icons.add_alert,
                         color: Colors.blue[900],
+                      ),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.blue[900]),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       color: Colors.white,
                       onPressed: () {
@@ -364,7 +368,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         Icons.share,
                         color: Colors.white,
                       ),
-                      color: Colors.orange[900],
+                      color: Colors.blue[900],
                       onPressed: () {},
                       label: Text(
                         "Compartilhar",

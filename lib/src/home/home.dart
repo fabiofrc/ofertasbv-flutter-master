@@ -6,13 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/categoria/categoria_list.dart';
-import 'package:ofertasbv/src/configuracao/catalogo_app.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
-import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
-import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
@@ -35,7 +32,7 @@ class _HomePageState extends State<HomePage>
       statusBarBrightness: Brightness.dark,
     ));
     return DefaultTabController(
-      length: 6,
+      length: 5,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent, // transparent status bar
@@ -133,16 +130,6 @@ class _HomePageState extends State<HomePage>
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Icon(Icons.local_convenience_store),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Text(
                       "loja",
                       style: GoogleFonts.lato(fontSize: 16),
@@ -195,7 +182,6 @@ class _HomePageState extends State<HomePage>
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               CatalogoHome(),
-              LojaLocation(),
               LojaList(),
               CategoriaList(),
               ProdutoList(),

@@ -5,6 +5,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
 import 'package:ofertasbv/src/categoria/categoria_page.dart';
+import 'package:ofertasbv/src/cliente/cliente_page.dart';
 import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/configuracao/teste_cad.dart';
 import 'package:ofertasbv/src/home/home.dart';
@@ -48,7 +49,7 @@ class _ConfigPageState extends State<ConfigPage> {
           ),
           IconButton(
             icon: new Icon(
-              CupertinoIcons.home,
+              Icons.home,
               color: Constants.colorIconsAppMenu,
             ),
             onPressed: () {
@@ -244,6 +245,38 @@ class _ConfigPageState extends State<ConfigPage> {
             ],
           ),
         ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ClientePage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.people,
+                  color: Constants.colorIconsConfig,
+                  size: 40,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Cliente",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -411,7 +444,7 @@ class _ConfigPageState extends State<ConfigPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
-                  MdiIcons.abTesting,
+                  MdiIcons.layers,
                   color: Constants.colorIconsConfig,
                   size: 40,
                 ),
@@ -419,36 +452,6 @@ class _ConfigPageState extends State<ConfigPage> {
               ),
               Text(
                 "Layout",
-                style: GoogleFonts.lato(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return SubCategoriaProduto();
-                },
-              ),
-            );
-          },
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  MdiIcons.informationOutline,
-                  color: Constants.colorIconsMenu,
-                  size: 30,
-                ),
-                padding: EdgeInsets.all(20),
-              ),
-              Text(
-                "SubCat/produtos",
                 style: GoogleFonts.lato(fontSize: 12),
               ),
             ],

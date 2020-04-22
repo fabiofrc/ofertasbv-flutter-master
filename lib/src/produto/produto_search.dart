@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/const.dart';
+import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
@@ -61,7 +62,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
         }
 
         final resultados = query.isEmpty
-            ? []
+            ? produtos
             : produtos
                 .where(
                     (p) => p.nome.toLowerCase().startsWith(query.toLowerCase()))
@@ -79,9 +80,11 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
           itemBuilder: (context, index) {
             Produto p = resultados[index];
             return ListTile(
-              leading: Icon(
-                Icons.search,
-                color: Colors.grey,
+              leading: CircleAvatar(
+                child: ClipRRect(
+                  borderRadius: new BorderRadius.circular(100.0),
+                  child: Image.network(ConstantApi.urlArquivoProduto + p.foto),
+                ),
               ),
               title: RichText(
                 text: TextSpan(

@@ -94,14 +94,15 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
                     RaisedButton.icon(
                       label: Text(
                         "ver mais produtos",
-                        style: GoogleFonts.lato(color: Colors.pink[900]),
+                        style: GoogleFonts.lato(color: Colors.redAccent),
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        side: BorderSide(color: Colors.redAccent),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: Colors.pink[900],
+                        color: Colors.redAccent,
                       ),
                       color: Colors.white,
                       onPressed: () {
@@ -124,7 +125,8 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
                         style: GoogleFonts.lato(color: Colors.blue[900]),
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        side: BorderSide(color: Colors.blue[900]),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       icon: Icon(
                         Icons.list,
