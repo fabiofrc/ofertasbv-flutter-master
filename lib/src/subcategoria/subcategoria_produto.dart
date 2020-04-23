@@ -165,7 +165,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
             child: AnimatedContainer(
               duration: Duration(seconds: 1),
               decoration: BoxDecoration(
-                color: c.nome == selectedCard ? Colors.green[400] : Colors.red,
+                color: c.nome == selectedCard ? Colors.green[400] : Colors.grey,
               ),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(

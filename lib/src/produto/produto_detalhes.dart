@@ -159,6 +159,54 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
         ],
       ),
       body: buildContainer(produto),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.grey[100],
+        elevation: 0,
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            RaisedButton.icon(
+              elevation: 0,
+              label: Text("adicionar"),
+              icon: Icon(Icons.add_shopping_cart),
+              onPressed: () {
+                pedidoController.onData(new PedidoItem(produto: produto));
+                _executar("beep_carrinho");
+                setState(() {
+                  animationController.forward();
+                });
+              },
+            ),
+            Observer(
+              builder: (context) {
+                return Text(
+                  "R\$ 0.0",
+                  style: GoogleFonts.lato(
+                    fontSize: 20,
+                    color: Colors.green,
+                    textStyle: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                );
+              },
+            ),
+            RaisedButton.icon(
+              elevation: 0,
+              label: Text("pedido"),
+              icon: Icon(Icons.add_shopping_cart),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PedidoPage();
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -315,81 +363,6 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                 SizedBox(height: 10),
               ],
             ),
-          ),
-        ),
-        Container(
-          height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
-                  child: RaisedButton(
-                    color: Colors.redAccent,
-                    onPressed: () {
-                      pedidoController.onData(new PedidoItem(produto: p));
-                      _executar("beep_carrinho");
-                      setState(() {
-                        animationController.forward();
-                      });
-                    },
-                    child: FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Adicionar\nao carrinho",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.lato(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: Container(
-                    height: (MediaQuery.of(context).size.height / 2) / 8 - 2,
-                    child: RaisedButton.icon(
-                      icon: Icon(
-                        Icons.share,
-                        color: Colors.white,
-                      ),
-                      color: Colors.blue[900],
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return PedidoPage();
-                            },
-                          ),
-                        );
-                      },
-                      label: Text(
-                        "Meu pedido",
-                        style: GoogleFonts.lato(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ],
