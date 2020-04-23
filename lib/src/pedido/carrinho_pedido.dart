@@ -22,8 +22,7 @@ class CarrinhoPedido {
   double getTotalPreco() {
     double total = 0;
     for (int i = 0; i < pedidoList.length; i++) {
-      total = total +
-          (pedidoList[i].quantidade * pedidoList[i].produto.estoque.precoCusto);
+      total = total + (pedidoList[i].quantidade * pedidoList[i].produto.estoque.precoCusto);
     }
     return total;
   }

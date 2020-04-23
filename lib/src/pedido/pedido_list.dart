@@ -25,6 +25,7 @@ class _PedidoListState extends State<PedidoList>
 
   @override
   void initState() {
+    pedidoController.pedidosItens();
     super.initState();
   }
 
@@ -48,10 +49,10 @@ class _PedidoListState extends State<PedidoList>
       padding: EdgeInsets.only(top: 0),
       child: Observer(
         builder: (context) {
-          List<PedidoItem> itens = pedidoController.carrinhoPedido.pedidoList;
-//          if (pedidoController.error != null) {
-//            return Text("Não foi possível carregados dados");
-//          }
+          List<PedidoItem> itens = pedidoController.itens;
+          if (pedidoController.error != null) {
+            return Text("Não foi possível carregados dados");
+          }
 
           if (itens == null) {
             return ShimmerList();

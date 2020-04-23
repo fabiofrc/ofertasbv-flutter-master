@@ -13,10 +13,23 @@ abstract class PedidoControllerBase with Store {
     carrinhoPedido = CarrinhoPedido();
   }
 
-  //List<PedidoItem>
+  @observable
+  List<PedidoItem> itens;
 
   @observable
   int itensIncrimento = 0;
+
+  @observable
+  Exception error;
+
+  @action
+  List<PedidoItem> pedidosItens() {
+    try {
+      return itens = carrinhoPedido.returnPedidoList();
+    } catch (e) {
+      error = e;
+    }
+  }
 
   CarrinhoPedido getCarrinhoPedido() {
     return carrinhoPedido;

@@ -20,7 +20,7 @@ class PedidoPage extends StatelessWidget {
         actions: <Widget>[
           Observer(
             builder: (context) {
-              if (pedidoController.carrinhoPedido.pedidoList == null) {
+              if (pedidoController.itens == null) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
@@ -28,8 +28,7 @@ class PedidoPage extends StatelessWidget {
 
               return Chip(
                 label: Text(
-                  (pedidoController.carrinhoPedido.pedidoList.length ?? 0)
-                      .toString(),
+                  (pedidoController.itens.length ?? 0).toString(),
                   style: TextStyle(color: Colors.deepOrangeAccent),
                 ),
               );
@@ -49,26 +48,35 @@ class PedidoPage extends StatelessWidget {
         ],
       ),
       body: PedidoList(),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          SizedBox(
-            width: 8,
-            height: 8,
-          ),
-          FloatingActionButton(
-            elevation: 10,
-            child: Icon(Icons.add),
-            onPressed: () {
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                  builder: (context) => CategoriaCreatePage(),
-//                ),
-//              );
-            },
-          )
-        ],
+      bottomNavigationBar: BottomAppBar(
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.add_shopping_cart),
+              onPressed: () {},
+            ),
+            Observer(
+              builder: (context) {
+                return Text(
+                  "R\$ 0.0",
+                  style: GoogleFonts.lato(
+                    fontSize: 20,
+                    color: Colors.green,
+                    textStyle: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: ProdutoSearchDelegate());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
