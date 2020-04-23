@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes.dart';
@@ -31,6 +32,7 @@ class ProdutoList extends StatefulWidget {
 class _ProdutoListState extends State<ProdutoList>
     with AutomaticKeepAliveClientMixin<ProdutoList> {
   final _bloc = GetIt.I.get<ProdutoController>();
+  final _pedidoController = GetIt.I.get<PedidoController>();
 
   Promocao p;
   SubCategoria s;
@@ -189,6 +191,7 @@ class _ProdutoListState extends State<ProdutoList>
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("removendo - ");
+                                      _pedidoController.deCremento();
                                     },
                                     child: Text("-"),
                                   ),
@@ -200,9 +203,12 @@ class _ProdutoListState extends State<ProdutoList>
                                   height: 30,
                                   color: Colors.green,
                                   child: Center(
-                                    child: Text(
-                                      "300",
-                                      style: GoogleFonts.lato(fontSize: 10),
+                                    child: Observer(
+                                      builder: (context){
+                                        return Center(
+                                          child: Text("${_pedidoController.itensIncrimento}"),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -210,6 +216,7 @@ class _ProdutoListState extends State<ProdutoList>
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("adicionando + ");
+                                      _pedidoController.inCremento();
                                     },
                                     child: Text("+"),
                                   ),

@@ -5,12 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/load_list.dart';
 
 class SubCategoriaProduto extends StatefulWidget {
   SubCategoria s;
@@ -25,8 +27,10 @@ class SubCategoriaProduto extends StatefulWidget {
 class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
   final _blocSubCategoria = GetIt.I.get<SubCategoriaController>();
   final _blocProduto = GetIt.I.get<ProdutoController>();
+  final _pedidoController = GetIt.I.get<PedidoController>();
 
   SubCategoria subCategoria;
+  var selectedCard = 'WEIGHT';
 
   _SubCategoriaProdutoState({this.subCategoria});
 
@@ -158,7 +162,11 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
         return GestureDetector(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 1),
+              decoration: BoxDecoration(
+                color: c.nome == selectedCard ? Colors.green[400] : Colors.red,
+              ),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +184,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 1),
+                      SizedBox(height: 0),
                       Container(
                         height: 30,
                         width: containerWidth,
@@ -193,6 +201,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
             ),
           ),
           onTap: () {
+            selectCard(c.nome);
             print("id catgeoria ${c.id}");
             _blocProduto.getAllBySubCategoriaById(c.id);
             setState(() {
@@ -216,7 +225,12 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
 
           if (produtos == null) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: ShimmerList(),
+            );
+          }
+          if (produtos.length == 0) {
+            return Center(
+              child: Icon(Icons.mood_bad, color: Colors.grey, size: 100,),
             );
           }
 
@@ -308,6 +322,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("removendo - ");
+                                      _pedidoController.deCremento();
                                     },
                                     child: Text("-"),
                                   ),
@@ -319,9 +334,12 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                                   height: 30,
                                   color: Colors.green,
                                   child: Center(
-                                    child: Text(
-                                      "300",
-                                      style: GoogleFonts.lato(fontSize: 10),
+                                    child: Observer(
+                                      builder: (context){
+                                        return Center(
+                                          child: Text("${_pedidoController.itensIncrimento}"),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -329,6 +347,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("adicionando + ");
+                                      _pedidoController.inCremento();
                                     },
                                     child: Text("+"),
                                   ),
@@ -361,5 +380,11 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
         );
       },
     );
+  }
+
+  selectCard(cardTitle) {
+    setState(() {
+      selectedCard = cardTitle;
+    });
   }
 }

@@ -7,37 +7,43 @@ part 'pedido_controller.g.dart';
 class PedidoController = PedidoControllerBase with _$PedidoController;
 
 abstract class PedidoControllerBase with Store {
-  CarrinhoPedido _carrinhoPedido;
+  CarrinhoPedido carrinhoPedido;
 
-  PedidoControllerBase(){
-    _carrinhoPedido = CarrinhoPedido();
+  PedidoControllerBase() {
+    carrinhoPedido = CarrinhoPedido();
   }
+
+  //List<PedidoItem>
 
   @observable
   int itensIncrimento = 0;
 
   CarrinhoPedido getCarrinhoPedido() {
-    return _carrinhoPedido;
+    return carrinhoPedido;
   }
 
   @action
   void delete(int index) {
-    _carrinhoPedido.deleteItem(index);
+    carrinhoPedido.deleteItem(index);
   }
 
   @action
   void changeCount(int index, bool isIncrement) {
-    _carrinhoPedido.changeItemCount(index, isIncrement);
+    carrinhoPedido.changeItemCount(index, isIncrement);
   }
 
   @action
   void onData(PedidoItem item) {
-    _carrinhoPedido.addToCart(item);
+    carrinhoPedido.addToCart(item);
   }
 
   @action
-  void inCremento(){
+  void inCremento() {
     itensIncrimento++;
   }
 
+  @action
+  void deCremento() {
+    itensIncrimento--;
+  }
 }

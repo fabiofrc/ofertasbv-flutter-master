@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedido/pedido_list.dart';
+import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -75,7 +77,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
   void showDefaultSnackbar(BuildContext context, String content) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.green,
         content: Text(content),
         action: SnackBarAction(
           label: "OK",
@@ -160,7 +162,6 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     );
   }
 
-
   buildContainer(Produto p) {
     return ListView(
       padding: EdgeInsets.all(0),
@@ -197,7 +198,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         style: GoogleFonts.lato(fontSize: 18),
                       ),
                       IconButton(
-                        icon: (isFavorito == false
+                        icon: (p.isFavorito == false
                             ? Icon(
                                 Icons.favorite_border,
                                 color: Colors.redAccent,
@@ -208,8 +209,10 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                               )),
                         onPressed: () {
                           setState(() {
-                            isFavorito = true;
+                            p.isFavorito = true;
+                            print(p.isFavorito);
                           });
+
                           showDefaultSnackbar(context,
                               "${p.nome} - Foi adiconado aos favoritos");
                         },
@@ -369,9 +372,17 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                         color: Colors.white,
                       ),
                       color: Colors.blue[900],
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return PedidoPage();
+                            },
+                          ),
+                        );
+                      },
                       label: Text(
-                        "Compartilhar",
+                        "Meu pedido",
                         style: GoogleFonts.lato(color: Colors.white),
                       ),
                     ),

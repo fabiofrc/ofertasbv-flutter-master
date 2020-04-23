@@ -53,7 +53,7 @@ void main() {
       backgroundColor: Colors.grey[300],
       accentColor: Colors.black,
       cursorColor: Colors.black,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Colors.grey[100],
       primaryColorBrightness: Brightness.dark,
       appBarTheme: AppBarTheme(
         elevation: 0,

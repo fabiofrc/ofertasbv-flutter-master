@@ -104,7 +104,6 @@ class ProdutoApiProvider {
     try {
       print("carregando produtos by codigo de barra");
       var response = await dio.client.get("/produtos/codigobarra/$codigoBarra");
-      print(response.data);
       return Produto.fromJson(response.data);
     } on DioError catch (e) {
       print(e.message);
