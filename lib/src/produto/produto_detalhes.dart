@@ -87,6 +87,8 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     produto = widget.p;
@@ -131,8 +133,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                       color: Colors.green.withOpacity(.7)),
                   child: Center(
                     child: Text(
-                        (pedidoItemController.itens.length ?? 0)
-                            .toString(),
+                        (pedidoItemController.itens.length ?? 0).toString(),
                         style: TextStyle(color: Colors.deepOrangeAccent)),
                   ),
                 ),
@@ -168,20 +169,17 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
               label: Text("adicionar"),
               icon: Icon(Icons.add_shopping_cart),
               onPressed: () {
-                pedidoItemController.adicionar(new PedidoItem(produto: produto));
+                if (pedidoItemController.isExiste(produto)) {
+                  showDefaultSnackbar(
+                      context, "já existe este item no seu pedido");
+                }
+                pedidoItemController
+                    .adicionar(new PedidoItem(produto: produto));
                 _executar("beep_carrinho");
                 setState(() {
                   animationController.forward();
                 });
               },
-            ),
-            Text(
-              "R\$ 0.0",
-              style: GoogleFonts.lato(
-                fontSize: 20,
-                color: Colors.green,
-                textStyle: TextStyle(fontWeight: FontWeight.w600),
-              ),
             ),
             RaisedButton.icon(
               elevation: 0,

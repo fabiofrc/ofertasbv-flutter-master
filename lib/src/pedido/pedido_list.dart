@@ -9,6 +9,7 @@ import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoList extends StatefulWidget {
@@ -26,7 +27,9 @@ class _PedidoListState extends State<PedidoList>
     super.initState();
   }
 
-  Future<void> onRefresh() {}
+  Future<void> onRefresh() {
+    pedidoItemController.pedidosItens();
+  }
 
   bool isLoading = true;
 
@@ -71,9 +74,9 @@ class _PedidoListState extends State<PedidoList>
     return ListView.builder(
       itemCount: itens.length,
       itemBuilder: (context, index) {
-        PedidoItem c = itens[index];
-        c.valorUnitario = c.produto.estoque.precoCusto;
-        c.valorTotal = (c.quantidade * c.valorUnitario);
+        PedidoItem p = itens[index];
+        p.valorUnitario = p.produto.estoque.precoCusto;
+        p.valorTotal = (p.quantidade * p.valorUnitario);
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -88,7 +91,7 @@ class _PedidoListState extends State<PedidoList>
                   width: 110,
                   color: Colors.grey[300],
                   child: Image.network(
-                    ConstantApi.urlArquivoProduto + c.produto.foto,
+                    ConstantApi.urlArquivoProduto + p.produto.foto,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -100,7 +103,7 @@ class _PedidoListState extends State<PedidoList>
                       width: containerWidth,
                       color: Colors.grey[300],
                       child: Text(
-                        c.produto.nome,
+                        p.produto.nome,
                         style: GoogleFonts.lato(fontSize: 14),
                       ),
                     ),
@@ -110,7 +113,7 @@ class _PedidoListState extends State<PedidoList>
                       width: containerWidth,
                       color: Colors.grey[300],
                       child: Text(
-                        "R\$ ${c.valorUnitario}",
+                        "R\$ ${p.valorUnitario}",
                         style: GoogleFonts.lato(
                           fontSize: 16,
                           color: Colors.green,
@@ -123,7 +126,7 @@ class _PedidoListState extends State<PedidoList>
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
-                        "R\$ ${c.valorTotal}",
+                        "R\$ ${p.valorTotal}",
                         style: GoogleFonts.lato(
                           fontSize: 16,
                           color: Colors.green,
@@ -151,7 +154,7 @@ class _PedidoListState extends State<PedidoList>
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("removendo - ");
-                                      pedidoItemController.decremento(c);
+                                      pedidoItemController.decremento(p);
                                     },
                                     child: Text("-"),
                                   ),
@@ -163,14 +166,14 @@ class _PedidoListState extends State<PedidoList>
                                   height: 30,
                                   color: Colors.green,
                                   child: Center(
-                                    child: Text("${c.quantidade}"),
+                                    child: Text("${p.quantidade}"),
                                   ),
                                 ),
                                 SizedBox(
                                   child: RaisedButton(
                                     onPressed: () {
                                       print("adicionando + ");
-                                      pedidoItemController.incremento(c);
+                                      pedidoItemController.incremento(p);
                                     },
                                     child: Text("+"),
                                   ),
@@ -181,7 +184,7 @@ class _PedidoListState extends State<PedidoList>
                           ),
                           RaisedButton.icon(
                             onPressed: () {
-                              pedidoItemController.remove(c);
+                              showDialogAlert(context, p);
                             },
                             icon: Icon(Icons.delete_forever),
                             label: Text("del"),
@@ -194,6 +197,62 @@ class _PedidoListState extends State<PedidoList>
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  showDialogAlert(BuildContext context, PedidoItem p) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button for close dialog!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Deseja remover este item?",
+            style: GoogleFonts.lato(),
+          ),
+          content: Container(
+            height: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Produto: ${p.produto.nome}",
+                  style: GoogleFonts.lato(fontSize: 14),
+                ),
+                Text(
+                  "Cod: ${p.produto.id}",
+                  style: GoogleFonts.lato(fontSize: 14),
+                ),
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    height: 110,
+                    width: 110,
+                    child: Image.network(
+                      ConstantApi.urlArquivoProduto + p.produto.foto,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('CANCELAR'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: const Text('EXCLUIR'),
+              onPressed: () {
+                pedidoItemController.remove(p);
+              },
+            ),
+          ],
         );
       },
     );

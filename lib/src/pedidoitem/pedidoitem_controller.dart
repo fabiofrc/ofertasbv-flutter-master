@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 
 part 'pedidoitem_controller.g.dart';
 
@@ -31,13 +32,14 @@ abstract class PedidoItemControllerBase with Store {
   adicionar(PedidoItem item) {
     item.quantidade = 1;
     itens.add(item);
+    //calculateTotal();
   }
 
   @action
-  isExiste(PedidoItem item) {
+  isExiste(Produto p) {
     var result = false;
     for (PedidoItem p in itens) {
-      if (item.produto.id == p.produto.id) {
+      if (p.produto.id == p.id) {
         return result = true;
       }
     }
@@ -48,7 +50,7 @@ abstract class PedidoItemControllerBase with Store {
   incremento(PedidoItem item) {
     if (item.quantidade < 10) {
       item.quantidade++;
-      calculateTotal();
+      //calculateTotal();
     }
   }
 
@@ -56,15 +58,18 @@ abstract class PedidoItemControllerBase with Store {
   decremento(PedidoItem item) {
     if (item.quantidade > 1) {
       item.quantidade--;
-      calculateTotal();
+      //calculateTotal();
     }
   }
 
   @action
   remove(PedidoItem item) {
     itens.remove(item);
+    //calculateTotal();
   }
 
+
+  @action
   calculateTotal() {
     itens.forEach((p) {
 //      p.valorTotal = p.valorUnitario * p.quantidade;
