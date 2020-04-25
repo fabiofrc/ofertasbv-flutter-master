@@ -2,14 +2,13 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
-import 'package:ofertasbv/src/pedido/pedido_list.dart';
 import 'package:ofertasbv/src/pedido/pedido_page.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -28,6 +27,7 @@ class ProdutoDetalhes extends StatefulWidget {
 class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     with SingleTickerProviderStateMixin {
   final pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
 
   AnimationController animationController;
   Animation<double> animation;
@@ -90,7 +90,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
   @override
   Widget build(BuildContext context) {
     produto = widget.p;
-
+    var text = "";
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -99,51 +99,48 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
           style: GoogleFonts.lato(),
         ),
         actions: <Widget>[
-          Observer(
-            builder: (context) {
-              var text = "";
-              return Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 16, right: 16),
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: text == "0" ? Colors.white : Colors.white,
-                      size: 26,
-                    ),
+//          Observer(
+//            builder: (context) {
+
+          Stack(
+            alignment: Alignment.topRight,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 16, right: 16),
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: text == "0" ? Colors.white : Colors.white,
+                  size: 26,
+                ),
+              ),
+              AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _scaleTween.evaluate(animation),
+                    child: child,
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 12, right: 10),
+                  width: 18,
+                  height: 18,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(color: Colors.black, width: 1),
+                      color: Colors.green.withOpacity(.7)),
+                  child: Center(
+                    child: Text(
+                        (pedidoItemController.itens.length ?? 0)
+                            .toString(),
+                        style: TextStyle(color: Colors.deepOrangeAccent)),
                   ),
-                  AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, child) {
-                      return Transform.scale(
-                        scale: _scaleTween.evaluate(animation),
-                        child: child,
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 12, right: 10),
-                      width: 18,
-                      height: 18,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.black, width: 1),
-                          color: Colors.green.withOpacity(.7)),
-                      child: Center(
-                        child: Text(
-                            (pedidoController
-                                        .getCarrinhoPedido()
-                                        .getTotalItens() ??
-                                    0)
-                                .toString(),
-                            style: TextStyle(color: Colors.deepOrangeAccent)),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
+                ),
+              )
+            ],
           ),
+//            },
+//          ),
           IconButton(
             icon: Icon(
               CupertinoIcons.search,
@@ -171,24 +168,20 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
               label: Text("adicionar"),
               icon: Icon(Icons.add_shopping_cart),
               onPressed: () {
-                pedidoController.onData(new PedidoItem(produto: produto));
+                pedidoItemController.adicionar(new PedidoItem(produto: produto));
                 _executar("beep_carrinho");
                 setState(() {
                   animationController.forward();
                 });
               },
             ),
-            Observer(
-              builder: (context) {
-                return Text(
-                  "R\$ 0.0",
-                  style: GoogleFonts.lato(
-                    fontSize: 20,
-                    color: Colors.green,
-                    textStyle: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                );
-              },
+            Text(
+              "R\$ 0.0",
+              style: GoogleFonts.lato(
+                fontSize: 20,
+                color: Colors.green,
+                textStyle: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
             RaisedButton.icon(
               elevation: 0,

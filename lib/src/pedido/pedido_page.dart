@@ -4,13 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
-import 'package:ofertasbv/src/categoria/categoria_list.dart';
-import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/pedido/pedido_list.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 
 class PedidoPage extends StatelessWidget {
-  final pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PedidoPage extends StatelessWidget {
         actions: <Widget>[
           Observer(
             builder: (context) {
-              if (pedidoController.itens == null) {
+              if (pedidoItemController.itens == null) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
@@ -28,7 +28,7 @@ class PedidoPage extends StatelessWidget {
 
               return Chip(
                 label: Text(
-                  (pedidoController.itens.length ?? 0).toString(),
+                  (pedidoItemController.itens.length ?? 0).toString(),
                   style: TextStyle(color: Colors.deepOrangeAccent),
                 ),
               );
@@ -54,13 +54,16 @@ class PedidoPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.add_shopping_cart),
-              onPressed: () {},
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
             ),
             Observer(
               builder: (context) {
                 return Text(
-                  "R\$ 0.0",
+                  "R\$ ${pedidoItemController.total.toStringAsPrecision(4)}",
                   style: GoogleFonts.lato(
                     fontSize: 20,
                     color: Colors.green,

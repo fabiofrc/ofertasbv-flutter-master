@@ -6,6 +6,7 @@ import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/promocao/promocao_page.dart';
 
 class LojaDetalhes extends StatefulWidget {
   Loja loja;
@@ -125,13 +126,13 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
                       ),
                       color: Colors.white,
                       onPressed: () {
-//                        Navigator.of(context).push(
-//                          MaterialPageRoute(
-//                            builder: (BuildContext context) {
-//                              return PromocaoPage(p: p,);
-//                            },
-//                          ),
-//                        );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return PromocaoPage(p: p,);
+                            },
+                          ),
+                        );
                       },
                     ),
                   ],

@@ -6,12 +6,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/categoria/categoria_controller.dart';
-import 'package:ofertasbv/src/categoria/categoria_model.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
-import 'package:ofertasbv/src/produto/produto_page.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoList extends StatefulWidget {
@@ -21,11 +18,11 @@ class PedidoList extends StatefulWidget {
 
 class _PedidoListState extends State<PedidoList>
     with AutomaticKeepAliveClientMixin<PedidoList> {
-  final pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
 
   @override
   void initState() {
-    pedidoController.pedidosItens();
+    pedidoItemController.pedidosItens();
     super.initState();
   }
 
@@ -49,8 +46,8 @@ class _PedidoListState extends State<PedidoList>
       padding: EdgeInsets.only(top: 0),
       child: Observer(
         builder: (context) {
-          List<PedidoItem> itens = pedidoController.itens;
-          if (pedidoController.error != null) {
+          List<PedidoItem> itens = pedidoItemController.itens;
+          if (pedidoItemController.error != null) {
             return Text("Não foi possível carregados dados");
           }
 
@@ -75,6 +72,8 @@ class _PedidoListState extends State<PedidoList>
       itemCount: itens.length,
       itemBuilder: (context, index) {
         PedidoItem c = itens[index];
+        c.valorUnitario = c.produto.estoque.precoCusto;
+        c.valorTotal = (c.quantidade * c.valorUnitario);
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -111,8 +110,11 @@ class _PedidoListState extends State<PedidoList>
                       width: containerWidth,
                       color: Colors.grey[300],
                       child: Text(
-                        "Cód. ${c.produto.id}",
-                        style: GoogleFonts.lato(fontSize: 12),
+                        "R\$ ${c.valorUnitario}",
+                        style: GoogleFonts.lato(
+                          fontSize: 16,
+                          color: Colors.green,
+                        ),
                       ),
                     ),
                     SizedBox(height: 5),
@@ -121,7 +123,7 @@ class _PedidoListState extends State<PedidoList>
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
-                        "R\$ ${c.produto.estoque.precoCusto}",
+                        "R\$ ${c.valorTotal}",
                         style: GoogleFonts.lato(
                           fontSize: 16,
                           color: Colors.green,
@@ -137,40 +139,52 @@ class _PedidoListState extends State<PedidoList>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          SizedBox(
-                            child: RaisedButton(
-                              onPressed: () {
-                                print("removendo - ");
-                                pedidoController.deCremento();
-                              },
-                              child: Text("-"),
-                            ),
-                            width: 60,
-                          ),
                           Container(
-                            width: 60,
+                            width: 110,
                             height: 30,
-                            color: Colors.green,
-                            child: Center(
-                              child: Observer(
-                                builder: (context) {
-                                  return Center(
-                                    child: Text(
-                                        "${pedidoController.itensIncrimento}"),
-                                  );
-                                },
-                              ),
+                            color: Colors.red,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("removendo - ");
+                                      pedidoItemController.decremento(c);
+                                    },
+                                    child: Text("-"),
+                                  ),
+                                  width: 38,
+                                ),
+                                Container(
+//                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                  width: 30,
+                                  height: 30,
+                                  color: Colors.green,
+                                  child: Center(
+                                    child: Text("${c.quantidade}"),
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      print("adicionando + ");
+                                      pedidoItemController.incremento(c);
+                                    },
+                                    child: Text("+"),
+                                  ),
+                                  width: 38,
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            child: RaisedButton(
-                              onPressed: () {
-                                print("adicionando + ");
-                                pedidoController.inCremento();
-                              },
-                              child: Text("+"),
-                            ),
-                            width: 60,
+                          RaisedButton.icon(
+                            onPressed: () {
+                              pedidoItemController.remove(c);
+                            },
+                            icon: Icon(Icons.delete_forever),
+                            label: Text("del"),
                           ),
                         ],
                       ),

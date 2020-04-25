@@ -21,7 +21,9 @@ class CarrinhoItem {
   itemInCart(PedidoItem item) {
     var result = false;
     itens.forEach((x) {
-      if (item.id == x.id) result = true;
+      if (item.id == x.id) {
+        result = true;
+      }
     });
     return result;
   }
@@ -43,7 +45,7 @@ class CarrinhoItem {
   calculateTotal() {
     total = 0;
     itens.forEach((x) {
-      total += (x.valorUnitario * x.quantidade);
+      total += (x.quantidade * x.produto.estoque.precoCusto);
     });
   }
 }
