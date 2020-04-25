@@ -9,8 +9,19 @@ import 'package:ofertasbv/src/pedido/pedido_list.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 
-class PedidoPage extends StatelessWidget {
+class PedidoPage extends StatefulWidget {
+  @override
+  _PedidoPageState createState() => _PedidoPageState();
+}
+
+class _PedidoPageState extends State<PedidoPage> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
+
+  @override
+  void initState() {
+    pedidoItemController.calculateTotal();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +73,25 @@ class PedidoPage extends StatelessWidget {
             ),
             Observer(
               builder: (context) {
-                return Text(
-                  "R\$ ${pedidoItemController.total.toStringAsPrecision(4)}",
-                  style: GoogleFonts.lato(
-                    fontSize: 20,
-                    color: Colors.green,
-                    textStyle: TextStyle(fontWeight: FontWeight.w600),
-                  ),
+                return Row(
+                  children: <Widget>[
+                    Text(
+                      "TOTAL ",
+                      style: GoogleFonts.lato(
+                        fontSize: 20,
+                        color: Colors.green,
+                        textStyle: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Text(
+                      "R\$ ${pedidoItemController.total.toStringAsPrecision(4)}",
+                      style: GoogleFonts.lato(
+                        fontSize: 20,
+                        color: Colors.redAccent,
+                        textStyle: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),

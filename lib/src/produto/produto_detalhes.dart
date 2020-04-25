@@ -87,8 +87,6 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     produto = widget.p;
@@ -128,9 +126,10 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   width: 18,
                   height: 18,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.black, width: 1),
-                      color: Colors.green.withOpacity(.7)),
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.black, width: 1),
+                    color: Colors.green.withOpacity(.7),
+                  ),
                   child: Center(
                     child: Text(
                         (pedidoItemController.itens.length ?? 0).toString(),
@@ -160,42 +159,58 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[100],
         elevation: 0,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            RaisedButton.icon(
-              elevation: 0,
-              label: Text("adicionar"),
-              icon: Icon(Icons.add_shopping_cart),
-              onPressed: () {
-                if (pedidoItemController.isExiste(produto)) {
-                  showDefaultSnackbar(
-                      context, "já existe este item no seu pedido");
-                }
-                pedidoItemController
-                    .adicionar(new PedidoItem(produto: produto));
-                _executar("beep_carrinho");
-                setState(() {
-                  animationController.forward();
-                });
-              },
-            ),
-            RaisedButton.icon(
-              elevation: 0,
-              label: Text("pedido"),
-              icon: Icon(Icons.add_shopping_cart),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return PedidoPage();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(5),
+          color: Colors.blue[800],
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              RaisedButton.icon(
+                elevation: 0,
+                label: Text("adicionar ao carrinho", style: GoogleFonts.lato(color: Colors.white),),
+                icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
+                color: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                ),
+                onPressed: () {
+                  if (pedidoItemController.isExiste(produto)) {
+                    showDefaultSnackbar(
+                        context, "já existe este item no seu pedido");
+                  } else {
+                    pedidoItemController
+                        .adicionar(new PedidoItem(produto: produto));
+                    _executar("beep_carrinho");
+                    setState(() {
+                      animationController.forward();
+                    });
+                  }
+                  //pedidoItemController.calculateTotal();
+                },
+              ),
+              RaisedButton.icon(
+                elevation: 0,
+                label: Text("meus pedidos", style: GoogleFonts.lato(color: Colors.white),),
+                icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
+                color: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return PedidoPage();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -278,11 +293,11 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "ver mais produtos",
+                        "escolher produtos",
                         style: GoogleFonts.lato(color: Colors.redAccent),
                       ),
                       icon: Icon(
-                        Icons.shopping_cart,
+                        Icons.search,
                         color: Colors.redAccent,
                       ),
                       shape: RoundedRectangleBorder(
@@ -306,7 +321,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   children: <Widget>[
                     RaisedButton.icon(
                       label: Text(
-                        "ver mais ofertas",
+                        "mais ofertas",
                         style: GoogleFonts.lato(color: Colors.blue[900]),
                       ),
                       icon: Icon(

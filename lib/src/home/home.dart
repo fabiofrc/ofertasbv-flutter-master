@@ -11,6 +11,7 @@ import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -64,32 +65,42 @@ class _HomePageState extends State<HomePage>
                   );
                 },
               ),
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 2, right: 2),
-                    child: Icon(Icons.shopping_cart),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10, left: 16),
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.black, width: 1),
-                      color: Colors.green.withOpacity(.7),
+              GestureDetector(
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(top: 2, right: 2),
+                      child: Icon(Icons.shopping_cart),
                     ),
-                    child: Center(
-                      child: Text(
-                        (pedidoController.getCarrinhoPedido().getTotalItens() ??
-                                0)
-                            .toString(),
-                        style: TextStyle(color: Colors.deepOrangeAccent),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10, left: 16),
+                      width: 18,
+                      height: 18,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: Colors.black, width: 1),
+                        color: Colors.green.withOpacity(.7),
+                      ),
+                      child: Center(
+                        child: Text(
+                          (pedidoController.getCarrinhoPedido().getTotalItens() ??
+                                  0)
+                              .toString(),
+                          style: TextStyle(color: Colors.deepOrangeAccent),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PedidoPage(),
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(

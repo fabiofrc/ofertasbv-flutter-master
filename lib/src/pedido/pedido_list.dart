@@ -6,10 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
-import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoList extends StatefulWidget {
@@ -17,18 +15,14 @@ class PedidoList extends StatefulWidget {
   _PedidoListState createState() => _PedidoListState();
 }
 
-class _PedidoListState extends State<PedidoList>
-    with AutomaticKeepAliveClientMixin<PedidoList> {
+class _PedidoListState extends State<PedidoList> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
 
   @override
   void initState() {
     pedidoItemController.pedidosItens();
+    //pedidoItemController.calculateTotal();
     super.initState();
-  }
-
-  Future<void> onRefresh() {
-    pedidoItemController.pedidosItens();
   }
 
   bool isLoading = true;
@@ -58,10 +52,7 @@ class _PedidoListState extends State<PedidoList>
             return ShimmerList();
           }
 
-          return RefreshIndicator(
-            onRefresh: onRefresh,
-            child: builderList(itens),
-          );
+          return builderList(itens);
         },
       ),
     );
@@ -69,7 +60,7 @@ class _PedidoListState extends State<PedidoList>
 
   ListView builderList(List<PedidoItem> itens) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: itens.length,
@@ -87,7 +78,7 @@ class _PedidoListState extends State<PedidoList>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  height: 110,
+                  height: 115,
                   width: 110,
                   color: Colors.grey[300],
                   child: Image.network(
@@ -112,25 +103,51 @@ class _PedidoListState extends State<PedidoList>
                       height: containerHeight,
                       width: containerWidth,
                       color: Colors.grey[300],
-                      child: Text(
-                        "R\$ ${p.valorUnitario}",
-                        style: GoogleFonts.lato(
-                          fontSize: 16,
-                          color: Colors.green,
-                        ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Valor unit. ",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "R\$ ${p.valorUnitario.toStringAsPrecision(3)}",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 5),
                     Container(
                       height: containerHeight,
-                      width: containerWidth * 0.75,
+                      width: containerWidth,
                       color: Colors.grey[300],
-                      child: Text(
-                        "R\$ ${p.valorTotal}",
-                        style: GoogleFonts.lato(
-                          fontSize: 16,
-                          color: Colors.green,
-                        ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Valor total. ",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "R\$ ${p.valorTotal.toStringAsPrecision(4)}",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 5),
@@ -155,6 +172,7 @@ class _PedidoListState extends State<PedidoList>
                                     onPressed: () {
                                       print("removendo - ");
                                       pedidoItemController.decremento(p);
+                                      pedidoItemController.calculateTotal();
                                     },
                                     child: Text("-"),
                                   ),
@@ -174,6 +192,7 @@ class _PedidoListState extends State<PedidoList>
                                     onPressed: () {
                                       print("adicionando + ");
                                       pedidoItemController.incremento(p);
+                                      pedidoItemController.calculateTotal();
                                     },
                                     child: Text("+"),
                                   ),
@@ -250,6 +269,8 @@ class _PedidoListState extends State<PedidoList>
               child: const Text('EXCLUIR'),
               onPressed: () {
                 pedidoItemController.remove(p);
+                pedidoItemController.calculateTotal();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -258,7 +279,4 @@ class _PedidoListState extends State<PedidoList>
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
