@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/home/home.dart';
+import 'package:ofertasbv/src/pedido/pedido_detalhes.dart';
 import 'package:ofertasbv/src/pedido/pedido_list.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -67,8 +68,10 @@ class _PedidoPageState extends State<PedidoPage> {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
             ),
             Observer(
@@ -95,10 +98,15 @@ class _PedidoPageState extends State<PedidoPage> {
                 );
               },
             ),
-            IconButton(
-              icon: Icon(Icons.search),
+            RaisedButton.icon(
+              label: Text("continuar"),
+              icon: Icon(Icons.arrow_forward),
+              elevation: 0,
               onPressed: () {
-                showSearch(context: context, delegate: ProdutoSearchDelegate());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PedidoDetalhes()),
+                );
               },
             ),
           ],

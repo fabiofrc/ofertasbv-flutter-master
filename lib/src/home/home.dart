@@ -10,8 +10,8 @@ import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
-import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/pedido/pedido_page.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin<HomePage> {
-  final pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
   int elementIndex = 0;
 
   @override
@@ -84,9 +84,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       child: Center(
                         child: Text(
-                          (pedidoController.getCarrinhoPedido().getTotalItens() ??
-                                  0)
-                              .toString(),
+                          (pedidoItemController.itens.length ?? 0).toString(),
                           style: TextStyle(color: Colors.deepOrangeAccent),
                         ),
                       ),

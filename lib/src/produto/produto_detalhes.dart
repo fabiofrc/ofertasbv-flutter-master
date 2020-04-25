@@ -132,8 +132,9 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   ),
                   child: Center(
                     child: Text(
-                        (pedidoItemController.itens.length ?? 0).toString(),
-                        style: TextStyle(color: Colors.deepOrangeAccent)),
+                      (pedidoItemController.itens.length ?? 0).toString(),
+                      style: TextStyle(color: Colors.deepOrangeAccent),
+                    ),
                   ),
                 ),
               )
@@ -168,9 +169,15 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
             children: <Widget>[
               RaisedButton.icon(
                 elevation: 0,
-                label: Text("adicionar ao carrinho", style: GoogleFonts.lato(color: Colors.white),),
-                icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
-                color: Colors.transparent,
+                label: Text(
+                  "adicionar ao carrinho",
+                  style: GoogleFonts.lato(color: Colors.white),
+                ),
+                icon: Icon(
+                  Icons.add_shopping_cart,
+                  color: Colors.white,
+                ),
+                color: Colors.redAccent,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -192,9 +199,15 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
               ),
               RaisedButton.icon(
                 elevation: 0,
-                label: Text("meus pedidos", style: GoogleFonts.lato(color: Colors.white),),
-                icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
-                color: Colors.transparent,
+                label: Text(
+                  "meus pedidos",
+                  style: GoogleFonts.lato(color: Colors.white),
+                ),
+                icon: Icon(
+                  Icons.add_shopping_cart,
+                  color: Colors.white,
+                ),
+                color: Colors.green,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
