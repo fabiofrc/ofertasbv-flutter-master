@@ -133,6 +133,7 @@ class _CategoriaListState extends State<CategoriaList>
                       },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
+                      elevation: 0,
                     ),
                   ],
                 )

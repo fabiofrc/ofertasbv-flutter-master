@@ -193,16 +193,17 @@ class _ProdutoGridState extends State<ProdutoGrid>
                                   print("removendo - ");
                                 },
                                 child: Text("-"),
+                                elevation: 0,
                               ),
                               width: 50,
                             ),
                             Container(
                               width: 60,
                               height: 30,
-                              color: Colors.green,
+                              color: Colors.grey[200],
                               child: Center(
                                 child: Text(
-                                  "300",
+                                  "1",
                                   style: GoogleFonts.lato(fontSize: 10),
                                 ),
                               ),
@@ -213,6 +214,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
                                   print("adicionando + ");
                                 },
                                 child: Text("+"),
+                                elevation: 0,
                               ),
                               width: 50,
                             ),
@@ -231,6 +233,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
                         },
                         icon: Icon(Icons.add_shopping_cart),
                         label: Text("add"),
+                        elevation: 0,
                       ),
                     ],
                   ),

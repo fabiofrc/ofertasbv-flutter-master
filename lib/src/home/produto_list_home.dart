@@ -101,7 +101,8 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
         return GestureDetector(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,7 +126,12 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                         color: Colors.grey[300],
                         child: Text(
                           p.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
+                          style: GoogleFonts.lato(
+                            fontSize: 14,
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(height: 5),
@@ -147,9 +153,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                           ),
                         ),
                       ),
-
                       SizedBox(height: 5),
-
                       Container(
                         width: containerWidth,
                         height: 40,
@@ -161,9 +165,10 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                             Container(
                               width: 110,
                               height: 30,
-                              color: Colors.red,
+                              color: Colors.grey[100],
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: <Widget>[
                                   SizedBox(
@@ -172,6 +177,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                                         print("removendo - ");
                                       },
                                       child: Text("-"),
+                                      elevation: 0,
                                     ),
                                     width: 38,
                                   ),
@@ -179,10 +185,10 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
 //                                  padding: EdgeInsets.only(top: 10, left: 5),
                                     width: 30,
                                     height: 30,
-                                    color: Colors.green,
+                                    color: Colors.grey[200],
                                     child: Center(
                                       child: Text(
-                                        "300",
+                                        "1",
                                         style: GoogleFonts.lato(fontSize: 10),
                                       ),
                                     ),
@@ -193,6 +199,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                                         print("adicionando + ");
                                       },
                                       child: Text("+"),
+                                      elevation: 0,
                                     ),
                                     width: 38,
                                   ),
@@ -211,11 +218,11 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                               },
                               icon: Icon(Icons.add_shopping_cart),
                               label: Text("add"),
+                              elevation: 0,
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   )
                 ],

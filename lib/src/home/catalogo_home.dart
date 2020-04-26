@@ -18,21 +18,32 @@ class _CatalogoHomeState extends State<CatalogoHome> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(2),
+      padding: EdgeInsets.all(0),
       children: <Widget>[
         SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "departamento",
-              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
+              " departamento",
+              style: GoogleFonts.lato(
+                fontSize: 16,
+                color: Colors.grey[900],
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style:
-                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
+                style: GoogleFonts.lato(
+                  fontSize: 16,
+                  color: Colors.orange[900],
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -56,14 +67,25 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "ofertas",
-              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
+              " ofertas",
+              style: GoogleFonts.lato(
+                fontSize: 16,
+                color: Colors.grey[900],
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style:
-                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
+                style: GoogleFonts.lato(
+                  fontSize: 16,
+                  color: Colors.orange[900],
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -79,7 +101,7 @@ class _CatalogoHomeState extends State<CatalogoHome> {
         ),
         Container(
           color: Colors.transparent,
-          height: 160,
+          height: 200,
           child: PromocaoListHome(),
         ),
         SizedBox(height: 2),
@@ -87,14 +109,25 @@ class _CatalogoHomeState extends State<CatalogoHome> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "produtos em destaque",
-              style: GoogleFonts.lato(fontSize: 16, color: Colors.grey[900]),
+              " produtos em destaque",
+              style: GoogleFonts.lato(
+                fontSize: 16,
+                color: Colors.grey[900],
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
             FlatButton(
               child: Text(
                 "veja mais",
-                style:
-                    GoogleFonts.lato(fontSize: 16, color: Colors.orange[900]),
+                style: GoogleFonts.lato(
+                  fontSize: 16,
+                  color: Colors.orange[900],
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).push(

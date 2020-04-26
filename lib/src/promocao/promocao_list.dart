@@ -154,6 +154,7 @@ class _PromocaoListState extends State<PromocaoList>
                       },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
+                      elevation: 0,
                     ),
                   ],
                 )

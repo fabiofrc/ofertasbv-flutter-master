@@ -95,7 +95,8 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
         return GestureDetector(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +106,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: 100,
+                        height: 120,
                         width: containerWidth,
                         color: Colors.grey[300],
                         child: Image.network(
@@ -115,12 +116,27 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                       ),
                       SizedBox(height: 1),
                       Container(
-                        height: 40,
+                        padding: EdgeInsets.all(5),
+                        height: 60,
                         width: containerWidth,
                         color: Colors.grey[300],
-                        child: Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 13),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text(
+                              p.nome,
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              p.descricao,
+                              style: GoogleFonts.lato(fontSize: 13),
+                            )
+                          ],
                         ),
                       ),
                     ],

@@ -7,13 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
-import 'package:ofertasbv/src/produto/produto_api_provider.dart';
-import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_model.dart';
-import 'package:ofertasbv/src/produto/produto_page.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_api_provider.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_create_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
@@ -153,6 +147,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
                       },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
+                      elevation: 0,
                     ),
                   ],
                 )

@@ -159,7 +159,7 @@ class _ProdutoListState extends State<ProdutoList>
                     ),
                     SizedBox(height: 5),
                     Container(
-                      height: containerHeight,
+                      height: 20,
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
@@ -182,7 +182,7 @@ class _ProdutoListState extends State<ProdutoList>
                           Container(
                             width: 110,
                             height: 30,
-                            color: Colors.red,
+                            color: Colors.grey[100],
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -194,6 +194,7 @@ class _ProdutoListState extends State<ProdutoList>
                                       _pedidoController.deCremento();
                                     },
                                     child: Text("-"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -201,7 +202,7 @@ class _ProdutoListState extends State<ProdutoList>
 //                                  padding: EdgeInsets.only(top: 10, left: 5),
                                   width: 30,
                                   height: 30,
-                                  color: Colors.green,
+                                  color: Colors.grey[200],
                                   child: Center(
                                     child: Observer(
                                       builder: (context){
@@ -219,6 +220,7 @@ class _ProdutoListState extends State<ProdutoList>
                                       _pedidoController.inCremento();
                                     },
                                     child: Text("+"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -237,6 +239,7 @@ class _ProdutoListState extends State<ProdutoList>
                             },
                             icon: Icon(Icons.add_shopping_cart),
                             label: Text("add"),
+                            elevation: 0,
                           ),
                         ],
                       ),

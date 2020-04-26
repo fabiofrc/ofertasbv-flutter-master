@@ -15,6 +15,7 @@ import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/usuario/usuario_controller.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,7 +25,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin<HomePage> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
+  final usuarioController = GetIt.I.get<UsuarioController>();
   int elementIndex = 0;
+
+  @override
+  void initState() {
+    usuarioController.getByEmail("fabioteste@gmail.com");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

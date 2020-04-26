@@ -44,22 +44,17 @@ class ShimmerLayoutOferta extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-//          Container(
-//            height: 110,
-//            width: 110,
-//            color: Colors.grey,
-//          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: 100,
+                height: 120,
                 width: containerWidth,
                 color: Colors.grey,
               ),
               SizedBox(height: 1),
               Container(
-                height: 40,
+                height: 60,
                 width: containerWidth,
                 color: Colors.grey,
               ),

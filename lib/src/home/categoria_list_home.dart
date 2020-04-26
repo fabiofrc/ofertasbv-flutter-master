@@ -115,7 +115,8 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
         return GestureDetector(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,12 +136,18 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                       ),
                       SizedBox(height: 1),
                       Container(
+                        padding: EdgeInsets.all(5),
                         height: 30,
                         width: containerWidth,
                         color: Colors.grey[300],
                         child: Text(
                           c.nome,
-                          style: GoogleFonts.lato(fontSize: 13),
+                          style: GoogleFonts.lato(
+                            fontSize: 13,
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
                     ],

@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
-import 'package:ofertasbv/src/loja/loja_create_page.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_detalhes.dart';
 import 'package:ofertasbv/src/loja/loja_controller.dart';
@@ -163,6 +161,7 @@ class _LojaListState extends State<LojaList>
                             },
                             icon: Icon(Icons.add),
                             label: Text("ver mais"),
+                            elevation: 0,
                           ),
                         ],
                       ),

@@ -142,6 +142,7 @@ class _ClienteListState extends State<ClienteList>
                       },
                       icon: Icon(Icons.add),
                       label: Text("ver mais"),
+                      elevation: 0,
                     ),
                   ],
                 )

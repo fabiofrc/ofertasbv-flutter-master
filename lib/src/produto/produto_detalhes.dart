@@ -162,7 +162,7 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
         elevation: 0,
         child: Container(
           padding: EdgeInsets.all(5),
-          color: Colors.blue[800],
+          color: Colors.grey[200],
           child: new Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -380,6 +380,10 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                   style: GoogleFonts.lato(),
                 ),
                 SizedBox(height: 10),
+                Text(
+                  "${p.loja.nome}",
+                  style: GoogleFonts.lato(),
+                ),
               ],
             ),
           ),

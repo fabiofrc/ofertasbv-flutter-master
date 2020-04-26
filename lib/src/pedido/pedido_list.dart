@@ -21,7 +21,7 @@ class _PedidoListState extends State<PedidoList> {
   @override
   void initState() {
     pedidoItemController.pedidosItens();
-    //pedidoItemController.calculateTotal();
+    pedidoItemController.calculateTotal();
     super.initState();
   }
 
@@ -141,7 +141,7 @@ class _PedidoListState extends State<PedidoList> {
                             ),
                           ),
                           Text(
-                            "R\$ ${p.valorTotal.toStringAsPrecision(4)}",
+                            "R\$ ${p.valorTotal.toStringAsPrecision(3)}",
                             style: GoogleFonts.lato(
                               fontSize: 16,
                               color: Colors.redAccent,
@@ -175,6 +175,7 @@ class _PedidoListState extends State<PedidoList> {
                                       pedidoItemController.calculateTotal();
                                     },
                                     child: Text("-"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -195,6 +196,7 @@ class _PedidoListState extends State<PedidoList> {
                                       pedidoItemController.calculateTotal();
                                     },
                                     child: Text("+"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -207,6 +209,7 @@ class _PedidoListState extends State<PedidoList> {
                             },
                             icon: Icon(Icons.delete_forever),
                             label: Text("del"),
+                            elevation: 0,
                           ),
                         ],
                       ),

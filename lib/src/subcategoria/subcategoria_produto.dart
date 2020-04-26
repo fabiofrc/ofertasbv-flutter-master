@@ -50,7 +50,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Subcategorias - produtos", style: GoogleFonts.lato()),
+        title: Text("Departamento - produtos", style: GoogleFonts.lato()),
         actions: <Widget>[
           SizedBox(width: 20),
           IconButton(
@@ -186,12 +186,18 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                       ),
                       SizedBox(height: 0),
                       Container(
+                        padding: EdgeInsets.all(5),
                         height: 30,
                         width: containerWidth,
                         color: Colors.grey[300],
                         child: Text(
                           c.nome,
-                          style: GoogleFonts.lato(fontSize: 13),
+                          style: GoogleFonts.lato(
+                            fontSize: 13,
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -230,7 +236,11 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
           }
           if (produtos.length == 0) {
             return Center(
-              child: Icon(Icons.mood_bad, color: Colors.grey, size: 100,),
+              child: Icon(
+                Icons.mood_bad,
+                color: Colors.grey,
+                size: 100,
+              ),
             );
           }
 
@@ -290,7 +300,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                     ),
                     SizedBox(height: 5),
                     Container(
-                      height: containerHeight,
+                      height: 20,
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
@@ -313,7 +323,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                           Container(
                             width: 110,
                             height: 30,
-                            color: Colors.red,
+                            color: Colors.grey[100],
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -325,6 +335,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                                       _pedidoController.deCremento();
                                     },
                                     child: Text("-"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -332,12 +343,13 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
 //                                  padding: EdgeInsets.only(top: 10, left: 5),
                                   width: 30,
                                   height: 30,
-                                  color: Colors.green,
+                                  color: Colors.grey[200],
                                   child: Center(
                                     child: Observer(
-                                      builder: (context){
+                                      builder: (context) {
                                         return Center(
-                                          child: Text("${_pedidoController.itensIncrimento}"),
+                                          child: Text(
+                                              "${_pedidoController.itensIncrimento}"),
                                         );
                                       },
                                     ),
@@ -350,6 +362,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                                       _pedidoController.inCremento();
                                     },
                                     child: Text("+"),
+                                    elevation: 0,
                                   ),
                                   width: 38,
                                 ),
@@ -368,6 +381,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                             },
                             icon: Icon(Icons.add_shopping_cart),
                             label: Text("add"),
+                            elevation: 0,
                           ),
                         ],
                       ),
