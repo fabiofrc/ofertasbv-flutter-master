@@ -29,6 +29,8 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
     with AutomaticKeepAliveClientMixin<ProdutoListHome> {
   final _bloc = GetIt.I.get<ProdutoController>();
 
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
+
   Promocao p;
   SubCategoria s;
 
@@ -146,7 +148,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                         width: containerWidth * 0.75,
                         color: Colors.grey[300],
                         child: Text(
-                          "R\$ ${p.estoque.precoCusto}",
+                          "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                           style: GoogleFonts.lato(
                             fontSize: 18,
                             color: Colors.green,

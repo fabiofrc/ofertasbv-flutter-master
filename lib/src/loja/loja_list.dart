@@ -145,6 +145,7 @@ class _LojaListState extends State<LojaList>
                             },
                             icon: Icon(Icons.location_on),
                             label: Text("local"),
+                            elevation: 0,
                           ),
 
                           RaisedButton.icon(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/home/home.dart';
@@ -20,6 +21,8 @@ class PedidoDetalhes extends StatefulWidget {
 
 class _PedidoDetalhesState extends State<PedidoDetalhes> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
+
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
   @override
   void initState() {
@@ -99,64 +102,78 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                   child: Text("Status de pagamento - PENDENDTE"),
                 ),
                 Container(
-                  height: 380,
+                  height: 400,
                   child: builderConteudoList(),
-                )
+                ),
               ],
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-            ),
-            Observer(
-              builder: (context) {
-                return Row(
-                  children: <Widget>[
-                    Text(
-                      "TOTAL ",
-                      style: GoogleFonts.lato(
-                        fontSize: 20,
-                        color: Colors.green,
-                        textStyle: TextStyle(fontWeight: FontWeight.w600),
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: new Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+              ),
+              Observer(
+                builder: (context) {
+                  return Row(
+                    children: <Widget>[
+                      Text(
+                        "TOTAL ",
+                        style: GoogleFonts.lato(
+                          fontSize: 20,
+                          color: Colors.green,
+                          textStyle: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Text(
-                      "R\$ ${pedidoItemController.total.toStringAsPrecision(4)}",
-                      style: GoogleFonts.lato(
-                        fontSize: 20,
-                        color: Colors.redAccent,
-                        textStyle: TextStyle(fontWeight: FontWeight.w600),
+                      Text(
+                        "R\$ ${formatMoeda.format(pedidoItemController.total)}",
+                        style: GoogleFonts.lato(
+                          fontSize: 20,
+                          color: Colors.redAccent,
+                          textStyle: TextStyle(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            RaisedButton.icon(
-              label: Text("confirmar"),
-              icon: Icon(Icons.arrow_forward),
-              elevation: 0,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PedidoDetalhes()),
-                );
-              },
-            ),
-          ],
+                    ],
+                  );
+                },
+              ),
+              RaisedButton.icon(
+                label: Text(
+                  "continuar",
+                  style: GoogleFonts.lato(color: Colors.redAccent),
+                ),
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.redAccent,
+                ),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.redAccent),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                ),
+                color: Colors.transparent,
+                elevation: 0,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PedidoDetalhes()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -234,14 +251,14 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                           Text(
                             "Valor unit. ",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 13,
                               color: Colors.black,
                             ),
                           ),
                           Text(
-                            "R\$ ${p.valorUnitario.toStringAsPrecision(3)}",
+                            "R\$ ${formatMoeda.format(p.valorUnitario)}",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.green,
                             ),
                           ),
@@ -260,14 +277,14 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                           Text(
                             "Valor total. ",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 13,
                               color: Colors.black,
                             ),
                           ),
                           Text(
-                            "R\$ ${p.valorTotal.toStringAsPrecision(4)}",
+                            "R\$ ${formatMoeda.format(p.valorTotal)}",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.redAccent,
                             ),
                           ),
@@ -283,7 +300,10 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text(p.produto.loja.nome),
+                          Text(
+                            p.produto.loja.nome,
+                            style: GoogleFonts.lato(),
+                          ),
                         ],
                       ),
                     ),

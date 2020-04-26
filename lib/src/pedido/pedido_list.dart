@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
@@ -17,6 +18,8 @@ class PedidoList extends StatefulWidget {
 
 class _PedidoListState extends State<PedidoList> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
+
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
   @override
   void initState() {
@@ -110,14 +113,14 @@ class _PedidoListState extends State<PedidoList> {
                           Text(
                             "Valor unit. ",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 13,
                               color: Colors.black,
                             ),
                           ),
                           Text(
-                            "R\$ ${p.valorUnitario.toStringAsPrecision(3)}",
+                            "R\$ ${formatMoeda.format(p.valorUnitario)}",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.green,
                             ),
                           ),
@@ -136,14 +139,14 @@ class _PedidoListState extends State<PedidoList> {
                           Text(
                             "Valor total. ",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 13,
                               color: Colors.black,
                             ),
                           ),
                           Text(
-                            "R\$ ${p.valorTotal.toStringAsPrecision(3)}",
+                            "R\$ ${formatMoeda.format(p.valorTotal)}",
                             style: GoogleFonts.lato(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.redAccent,
                             ),
                           ),
@@ -162,7 +165,7 @@ class _PedidoListState extends State<PedidoList> {
                           Container(
                             width: 110,
                             height: 30,
-                            color: Colors.red,
+                            color: Colors.grey[200],
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -180,10 +183,9 @@ class _PedidoListState extends State<PedidoList> {
                                   width: 38,
                                 ),
                                 Container(
-//                                  padding: EdgeInsets.only(top: 10, left: 5),
                                   width: 30,
                                   height: 30,
-                                  color: Colors.green,
+                                  color: Colors.grey[200],
                                   child: Center(
                                     child: Text("${p.quantidade}"),
                                   ),
@@ -262,14 +264,40 @@ class _PedidoListState extends State<PedidoList> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
-              child: const Text('CANCELAR'),
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.blue[900],
+              ),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.blue[900]),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              label: Text(
+                'CANCELAR',
+                style: GoogleFonts.lato(color: Colors.blue[900]),
+              ),
+              color: Colors.transparent,
+              elevation: 0,
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
-              child: const Text('EXCLUIR'),
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.restore_from_trash,
+                color: Colors.redAccent,
+              ),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.redAccent),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              label: Text(
+                'EXCLUIR',
+                style: GoogleFonts.lato(color: Colors.redAccent),
+              ),
+              color: Colors.transparent,
+              elevation: 0,
               onPressed: () {
                 pedidoItemController.remove(p);
                 pedidoItemController.calculateTotal();
@@ -281,5 +309,4 @@ class _PedidoListState extends State<PedidoList> {
       },
     );
   }
-
 }
