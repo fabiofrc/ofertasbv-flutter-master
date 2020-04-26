@@ -68,7 +68,7 @@ class _LojaListState extends State<LojaList>
 
   ListView builderList(List<Loja> lojas) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: lojas.length,
@@ -86,7 +86,7 @@ class _LojaListState extends State<LojaList>
                 Container(
                   height: 110,
                   width: 110,
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                   child: Image.network(
                     ConstantApi.urlArquivoLoja + p.foto,
                     fit: BoxFit.cover,
@@ -128,7 +128,7 @@ class _LojaListState extends State<LojaList>
                     Container(
                       height: 40,
                       width: 200,
-                      color: Colors.grey[300],
+                      color: Colors.grey[200],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,

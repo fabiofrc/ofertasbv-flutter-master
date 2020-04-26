@@ -85,7 +85,7 @@ class _PromocaoListState extends State<PromocaoList>
 
   ListView builderList(List<Promocao> promocoes) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: promocoes.length,

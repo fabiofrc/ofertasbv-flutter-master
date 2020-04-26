@@ -35,7 +35,7 @@ class ShimmerLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 7.5),

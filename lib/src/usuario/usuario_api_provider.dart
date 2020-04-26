@@ -21,7 +21,7 @@ class UsuarioApiProvider {
     try {
       CustonDio dio = CustonDio();
       print("carregando usuario by email");
-      var response = await dio.client.get("/usuarios/$email");
+      var response = await dio.client.get("/usuarios/email/$email");
       return Usuario.fromJson(response.data);
     } on DioError catch (e) {
       print(e.message);
@@ -32,7 +32,7 @@ class UsuarioApiProvider {
   Future<List<Usuario>> getAll() async {
     try {
       print("carregando usuarios");
-      var response = await dio.client.get("/categorias");
+      var response = await dio.client.get("/usuarios");
       return (response.data as List).map((c) => Usuario.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);

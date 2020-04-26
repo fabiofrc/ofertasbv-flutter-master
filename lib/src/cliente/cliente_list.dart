@@ -72,7 +72,7 @@ class _ClienteListState extends State<ClienteList>
 
   ListView builderList(List<Cliente> clientes) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: clientes.length,

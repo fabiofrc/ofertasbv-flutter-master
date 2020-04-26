@@ -1,14 +1,19 @@
 
-class Pessoa {
+import 'package:ofertasbv/src/endereco/endereco_model.dart';
+import 'package:ofertasbv/src/usuario/usuario_model.dart';
+
+abstract class Pessoa {
   int id;
   String nome;
   String telefone;
   bool ativo;
   String tipoPessoa;
-  String dataRegistro;
+  DateTime dataRegistro;
   String foto;
-  String cpf;
-  String sexo;
+  Usuario usuario;
+  List<Endereco> enderecos;
+  String razaoSocial;
+  String cnpj;
   bool novo;
   bool existente;
 
@@ -20,8 +25,10 @@ class Pessoa {
         this.tipoPessoa,
         this.dataRegistro,
         this.foto,
-        this.cpf,
-        this.sexo,
+        this.usuario,
+        this.enderecos,
+        this.razaoSocial,
+        this.cnpj,
         this.novo,
         this.existente});
 
@@ -31,10 +38,18 @@ class Pessoa {
     telefone = json['telefone'];
     ativo = json['ativo'];
     tipoPessoa = json['tipoPessoa'];
-    dataRegistro = json['dataRegistro'];
+    dataRegistro = DateTime.parse(json['dataRegistro']);
     foto = json['foto'];
-    cpf = json['cpf'];
-    sexo = json['sexo'];
+    usuario =
+    json['usuario'] != null ? new Usuario.fromJson(json['usuario']) : null;
+    if (json['enderecos'] != null) {
+      enderecos = new List<Endereco>();
+      json['enderecos'].forEach((v) {
+        enderecos.add(new Endereco.fromJson(v));
+      });
+    }
+    razaoSocial = json['razaoSocial'];
+    cnpj = json['cnpj'];
     novo = json['novo'];
     existente = json['existente'];
   }
@@ -46,10 +61,16 @@ class Pessoa {
     data['telefone'] = this.telefone;
     data['ativo'] = this.ativo;
     data['tipoPessoa'] = this.tipoPessoa;
-    data['dataRegistro'] = this.dataRegistro;
+    data['dataRegistro'] = this.dataRegistro.toIso8601String();
     data['foto'] = this.foto;
-    data['cpf'] = this.cpf;
-    data['sexo'] = this.sexo;
+    if (this.usuario != null) {
+      data['usuario'] = this.usuario.toJson();
+    }
+    if (this.enderecos != null) {
+      data['enderecos'] = this.enderecos.map((v) => v.toJson()).toList();
+    }
+    data['razaoSocial'] = this.razaoSocial;
+    data['cnpj'] = this.cnpj;
     data['novo'] = this.novo;
     data['existente'] = this.existente;
     return data;

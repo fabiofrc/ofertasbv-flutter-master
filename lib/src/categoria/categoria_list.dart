@@ -68,7 +68,7 @@ class _CategoriaListState extends State<CategoriaList>
 
   ListView builderList(List<Categoria> categorias) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: categorias.length,

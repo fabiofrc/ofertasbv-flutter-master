@@ -1,7 +1,8 @@
 import 'package:ofertasbv/src/endereco/endereco_model.dart';
+import 'package:ofertasbv/src/pessoa/pessoa_model.dart';
 import 'package:ofertasbv/src/usuario/usuario_model.dart';
 
-class Loja {
+class Loja extends Pessoa{
   int _id;
   String _nome;
   String _telefone;

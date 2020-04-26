@@ -82,7 +82,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
 
   ListView builderList(List<SubCategoria> subCategorias) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: subCategorias.length,
