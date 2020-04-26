@@ -7,11 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/home/home.dart';
-import 'package:ofertasbv/src/pedido/pedido_list.dart';
-import 'package:ofertasbv/src/pedido/pedido_model.dart';
+import 'package:ofertasbv/src/pedido/pedido_pagamento.dart';
+import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/usuario/usuario_controller.dart';
+import 'package:ofertasbv/src/usuario/usuario_model.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoDetalhes extends StatefulWidget {
@@ -21,6 +23,7 @@ class PedidoDetalhes extends StatefulWidget {
 
 class _PedidoDetalhesState extends State<PedidoDetalhes> {
   final pedidoItemController = GetIt.I.get<PedidoItemController>();
+  final usuarioController = GetIt.I.get<UsuarioController>();
 
   final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
@@ -69,112 +72,191 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
       body: ListView(
         children: <Widget>[
           Container(
-            height: double.maxFinite,
-            color: Colors.grey[100],
+            color: Colors.grey[300],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(10),
-                  height: 40,
-                  child: Text("Descrição - pedido solicitado"),
+                  height: 60,
+                  width: double.infinity,
+                  color: Colors.greenAccent[200],
+                  child: ListTile(
+                    title: Text("Dados da compra"),
+                    leading: Icon(Icons.email),
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
-                  height: 40,
-                  child: Text("Cliente - Fabio Resplandes"),
+                  height: 60,
+                  width: double.infinity,
+                  color: Colors.blueGrey[200],
+                  child: Observer(
+                    builder: (context) {
+                      Usuario u = usuarioController.usuarioSelecionado;
+
+                      if (usuarioController.error != null) {
+                        return Text("Não foi possível carregados dados");
+                      }
+
+                      if (u == null) {
+                        return ListTile(
+                          title: Text("exemplo@email.com"),
+                          leading: Icon(Icons.email),
+                        );
+                      }
+                      return ListTile(
+                        title: Text(u.email),
+                        leading: Icon(Icons.email),
+                      );
+                    },
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
-                  height: 40,
-                  child: Text(
-                      "Endereço de entrega - Rua Piraíba, 868, Boa Vista - RR"),
+                  height: 200,
+                  color: Colors.grey[200],
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text("Rua Piraíba, 868, Boa Vista - RR"),
+                        leading: Icon(Icons.location_on),
+                      ),
+                      ListTile(
+                        title: Text("Cep - 68314-092"),
+                        leading: Icon(Icons.location_on),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
-                  height: 40,
-                  child: Text("Forma de pagamento - CARTÃO DE CRÉDIDO"),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 40,
-                  child: Text("Status de pagamento - PENDENDTE"),
-                ),
-                Container(
-                  height: 400,
-                  child: builderConteudoList(),
+                  height: 300,
+                  color: Colors.grey[400],
                 ),
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.all(5),
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-              ),
-              Observer(
-                builder: (context) {
-                  return Row(
-                    children: <Widget>[
-                      Text(
-                        "TOTAL ",
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          color: Colors.green,
-                          textStyle: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Text(
-                        "R\$ ${formatMoeda.format(pedidoItemController.total)}",
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          color: Colors.redAccent,
-                          textStyle: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              RaisedButton.icon(
-                label: Text(
-                  "continuar",
-                  style: GoogleFonts.lato(color: Colors.redAccent),
+      bottomNavigationBar: buildBottomNavigationBar(context),
+    );
+  }
+
+  buildBottomNavigationBar(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 50.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 1,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+              color: Colors.grey,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.home,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                  ],
                 ),
-                icon: Icon(
-                  Icons.arrow_forward,
-                  color: Colors.redAccent,
-                ),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.redAccent),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                ),
-                color: Colors.transparent,
-                elevation: 0,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PedidoDetalhes()),
-                  );
-                },
               ),
-            ],
+            ),
           ),
-        ),
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PedidoPage();
+                    },
+                  ),
+                );
+              },
+              color: Colors.grey[300],
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Observer(
+                      builder: (context) {
+                        return Row(
+                          children: <Widget>[
+                            Text(
+                              "TOTAL ",
+                              style: GoogleFonts.lato(
+                                fontSize: 16,
+                                color: Colors.green,
+                                textStyle:
+                                    TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Text(
+                              "R\$ ${formatMoeda.format(pedidoItemController.total)}",
+                              style: GoogleFonts.lato(
+                                fontSize: 16,
+                                color: Colors.redAccent,
+                                textStyle:
+                                    TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PedidoPagamento()),
+                );
+              },
+              color: Colors.greenAccent,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -259,7 +341,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                             "R\$ ${formatMoeda.format(p.valorUnitario)}",
                             style: GoogleFonts.lato(
                               fontSize: 14,
-                              color: Colors.green,
+                              color: Colors.greenAccent,
                             ),
                           ),
                         ],

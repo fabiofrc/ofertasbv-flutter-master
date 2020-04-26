@@ -35,7 +35,7 @@ class ProdutoApiProvider {
     try {
       print("carregando produtos by nome");
       var response = await dio.client.get("/produtos/nome?nome=$nome");
-      print("Produtos by nome: $response" );
+      //print("Produtos by nome: $response" );
       return (response.data as List).map((c) => Produto.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);

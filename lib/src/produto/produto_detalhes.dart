@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
@@ -39,6 +40,8 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
   Produto produto;
 
   AudioCache _audioCache = AudioCache(prefix: "audios/");
+
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
   _executar(String nomeAudio) {
     _audioCache.play(nomeAudio + ".mp3");
@@ -157,74 +160,93 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
         ],
       ),
       body: buildContainer(produto),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey[100],
-        elevation: 0,
-        child: Container(
-          padding: EdgeInsets.all(5),
-          color: Colors.grey[200],
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              RaisedButton.icon(
-                elevation: 0,
-                label: Text(
-                  "adicionar ao carrinho",
-                  style: GoogleFonts.lato(color: Colors.white),
-                ),
-                icon: Icon(
-                  Icons.add_shopping_cart,
-                  color: Colors.white,
-                ),
-                color: Colors.redAccent,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                ),
-                onPressed: () {
-                  if (pedidoItemController.isExiste(produto)) {
-                    showDefaultSnackbar(
-                        context, "já existe este item no seu pedido");
-                  } else {
-                    pedidoItemController
-                        .adicionar(new PedidoItem(produto: produto));
-                    _executar("beep_carrinho");
-                    setState(() {
-                      animationController.forward();
-                    });
-                  }
-                  //pedidoItemController.calculateTotal();
-                },
-              ),
-              RaisedButton.icon(
-                elevation: 0,
-                label: Text(
-                  "meus pedidos",
-                  style: GoogleFonts.lato(color: Colors.white),
-                ),
-                icon: Icon(
-                  Icons.add_shopping_cart,
-                  color: Colors.white,
-                ),
-                color: Colors.green,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return PedidoPage();
-                      },
+      bottomNavigationBar: buildBottomNavigationBar(context),
+    );
+  }
+
+  buildBottomNavigationBar(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 50.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PedidoPage();
+                    },
+                  ),
+                );
+              },
+              color: Colors.grey,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.list,
+                      color: Colors.white,
                     ),
-                  );
-                },
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Text(
+                      "MEUS PEDIDOS",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+          Flexible(
+            flex: 2,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                if (pedidoItemController.isExiste(produto)) {
+                  showDefaultSnackbar(
+                      context, "já existe este item no seu pedido");
+                } else {
+                  pedidoItemController
+                      .adicionar(new PedidoItem(produto: produto));
+                  _executar("beep_carrinho");
+                  setState(() {
+                    animationController.forward();
+                  });
+                }
+                //pedidoItemController.calculateTotal();
+              },
+              color: Colors.greenAccent,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Text(
+                      "ADICIONAR",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -287,8 +309,11 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                     ],
                   ),
                   Text(
-                    "R\$ ${p.estoque.precoCusto}",
-                    style: GoogleFonts.lato(fontSize: 20, color: Colors.green),
+                    "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
+                    style: GoogleFonts.lato(
+                      fontSize: 20,
+                      color: Colors.greenAccent,
+                    ),
                   ),
                 ],
               )),
@@ -307,14 +332,14 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                     RaisedButton.icon(
                       label: Text(
                         "escolher produtos",
-                        style: GoogleFonts.lato(color: Colors.redAccent),
+                        style: GoogleFonts.lato(color: Colors.grey),
                       ),
                       icon: Icon(
                         Icons.search,
-                        color: Colors.redAccent,
+                        color: Colors.grey,
                       ),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.redAccent),
+                        side: BorderSide(color: Colors.grey),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       color: Colors.white,
@@ -335,14 +360,14 @@ class _ProdutoDetalhesState extends State<ProdutoDetalhes>
                     RaisedButton.icon(
                       label: Text(
                         "mais ofertas",
-                        style: GoogleFonts.lato(color: Colors.blue[900]),
+                        style: GoogleFonts.lato(color: Colors.greenAccent),
                       ),
                       icon: Icon(
                         Icons.add_alert,
-                        color: Colors.blue[900],
+                        color: Colors.greenAccent,
                       ),
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.blue[900]),
+                        side: BorderSide(color: Colors.greenAccent),
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                       ),
                       color: Colors.white,

@@ -63,65 +63,127 @@ class _PedidoPageState extends State<PedidoPage> {
         ],
       ),
       body: PedidoList(),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.all(5),
-          child: new Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-              ),
-              Observer(
-                builder: (context) {
-                  return Row(
-                    children: <Widget>[
-                      Text(
-                        "TOTAL ",
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          color: Colors.green,
-                          textStyle: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Text(
-                        "R\$ ${formatMoeda.format(pedidoItemController.total)}",
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          color: Colors.redAccent,
-                          textStyle: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              RaisedButton.icon(
-                label: Text("continuar", style: GoogleFonts.lato(color: Colors.redAccent),),
-                icon: Icon(Icons.arrow_forward, color: Colors.redAccent,),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.redAccent),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+      bottomNavigationBar: buildBottomNavigationBar(context),
+    );
+  }
+
+  buildBottomNavigationBar(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 50.0,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 1,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+              color: Colors.grey,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.home,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                  ],
                 ),
-                color: Colors.transparent,
-                elevation: 0,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PedidoDetalhes()),
-                  );
-                },
               ),
-            ],
+            ),
           ),
-        ),
+
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PedidoPage();
+                    },
+                  ),
+                );
+              },
+              color: Colors.grey[300],
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    Observer(
+                      builder: (context) {
+                        return Row(
+                          children: <Widget>[
+                            Text(
+                              "TOTAL ",
+                              style: GoogleFonts.lato(
+                                fontSize: 16,
+                                color: Colors.greenAccent,
+                                textStyle: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            Text(
+                              "R\$ ${formatMoeda.format(pedidoItemController.total)}",
+                              style: GoogleFonts.lato(
+                                fontSize: 16,
+                                color: Colors.redAccent,
+                                textStyle: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          Flexible(
+            flex: 1,
+            child: RaisedButton(
+              elevation: 0,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PedidoDetalhes()),
+                );
+              },
+              color: Colors.greenAccent,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
