@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
@@ -24,6 +25,8 @@ class ProdutoGrid extends StatefulWidget {
 class _ProdutoGridState extends State<ProdutoGrid>
     with AutomaticKeepAliveClientMixin<ProdutoGrid> {
   final _bloc = GetIt.I.get<ProdutoController>();
+
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
   Promocao p;
   SubCategoria s;
@@ -81,7 +84,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return ProdutoDetalhes(p);
+                      return ProdutoDetalhesTab(p);
                     },
                   ),
                 );
@@ -166,10 +169,15 @@ class _ProdutoGridState extends State<ProdutoGrid>
                           children: <Widget>[
                             Text(
                               p.nome,
-                              style: GoogleFonts.lato(fontSize: 14),
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                             Text(
-                              "R\$ ${p.estoque.precoCusto}",
+                              "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                               style: GoogleFonts.lato(
                                   fontSize: 16, color: Colors.green),
                             ),
@@ -226,7 +234,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return ProdutoDetalhes(p);
+                                return ProdutoDetalhesTab(p);
                               },
                             ),
                           );

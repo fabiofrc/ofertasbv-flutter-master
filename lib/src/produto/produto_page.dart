@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -7,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
@@ -19,22 +18,30 @@ class ProdutoPage extends StatefulWidget {
   Promocao p;
   SubCategoria s;
   Produto pd;
-  ProdutoPage({Key key, this.p, this.s, this.pd}) : super(key: key);
+  String nome;
+
+  ProdutoPage({Key key, this.p, this.s, this.pd, this.nome}) : super(key: key);
 
   @override
-  _ProdutoPageState createState() => _ProdutoPageState(p: this.p, s:this.s, pd: this.pd);
+  _ProdutoPageState createState() => _ProdutoPageState(
+        p: this.p,
+        s: this.s,
+        pd: this.pd,
+        nome: this.nome,
+      );
 }
 
-class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStateMixin{
-
+class _ProdutoPageState extends State<ProdutoPage>
+    with SingleTickerProviderStateMixin {
   final _bloc = GetIt.I.get<ProdutoController>();
-  final pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
 
   Promocao p;
   SubCategoria s;
   Produto pd;
-  _ProdutoPageState({this.p, this.s, this.pd});
+  String nome;
 
+  _ProdutoPageState({this.p, this.s, this.pd, this.nome});
 
   AnimationController animationController;
   Animation<double> animation;
@@ -86,7 +93,6 @@ class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStat
               );
             },
           ),
-
           Observer(
             builder: (context) {
               var text = "";
@@ -116,11 +122,12 @@ class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStat
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           border: Border.all(color: Colors.black, width: 1),
-                          color: Colors.green.withOpacity(.7)),
+                          color: Colors.greenAccent.withOpacity(.7)),
                       child: Center(
                         child: Text(
-                            (pedidoController.getCarrinhoPedido().getTotalItens() ?? 0).toString(),
-                            style: TextStyle(color: Colors.deepOrangeAccent)),
+                          (pedidoItemController.itens.length ?? 0).toString(),
+                          style: TextStyle(color: Colors.deepOrangeAccent),
+                        ),
                       ),
                     ),
                   )
@@ -128,8 +135,7 @@ class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStat
               );
             },
           ),
-
-          SizedBox(width: 20),
+          SizedBox(width: 5),
           IconButton(
             icon: Icon(
               CupertinoIcons.search,
@@ -142,7 +148,7 @@ class _ProdutoPageState extends State<ProdutoPage> with SingleTickerProviderStat
           )
         ],
       ),
-      body: ProdutoList(p: p, s: s, pd: pd,),
+      body: ProdutoList(p: p, s: s, pd: pd, nome: nome),
       floatingActionButton: FloatingActionButton(
         elevation: 10,
         child: Icon(Icons.add),

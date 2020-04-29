@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
 
@@ -20,6 +19,21 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
         ),
         onPressed: () {
           query = "";
+        },
+      ),
+      IconButton(
+        icon: Icon(
+          Icons.search,
+        ),
+        onPressed: () {
+          print("Query -> $query");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return ProdutoPage(nome: query);
+              },
+            ),
+          );
         },
       ),
     ];
@@ -62,7 +76,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
         }
 
         final resultados = query.isEmpty
-            ? produtos
+            ? []
             : produtos
                 .where(
                     (p) => p.nome.toLowerCase().startsWith(query.toLowerCase()))
@@ -101,7 +115,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return ProdutoDetalhes(p);
+                      return ProdutoDetalhesTab(p);
                     },
                   ),
                 );

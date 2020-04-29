@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:ofertasbv/src/produto/produto_api_provider.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
+import 'package:ofertasbv/src/util/produto_filter.dart';
 
 part 'produto_controller.g.dart';
 
@@ -23,9 +24,20 @@ abstract class ProdutoControllerBase with Store {
   Exception error;
 
   @action
-  Future<Produto> getAll() async {
+  Future<List<Produto>> getAll() async {
     try {
       produtos = await _produtoApiProvider.getAll();
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  @action
+  Future<List<Produto>> getAllByFilter(ProdutoFilter  filter) async {
+    try {
+      produtos = await _produtoApiProvider.getAllByFilter(filter);
+      return produtos;
     } catch (e) {
       error = e;
     }
@@ -33,20 +45,32 @@ abstract class ProdutoControllerBase with Store {
 
   @action
   Future<List<Produto>> getAllBySubCategoriaById(int id) async {
-    produtos = await _produtoApiProvider.getAllBySubCategoriaById(id);
-    return produtos;
+    try {
+      produtos = await _produtoApiProvider.getAllBySubCategoriaById(id);
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
   }
 
   @action
   Future<List<Produto>> getAllByPromocaoById(int id) async {
-    produtos = await _produtoApiProvider.getAllByPromocaoById(id);
-    return produtos;
+    try {
+      produtos = await _produtoApiProvider.getAllByPromocaoById(id);
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
   }
 
   @action
   Future<List<Produto>> getAllByNome(String nome) async {
-    produtos = await _produtoApiProvider.getAllByNome(nome);
-    return produtos;
+    try {
+      produtos = await _produtoApiProvider.getAllByNome(nome);
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
   }
 
   @action

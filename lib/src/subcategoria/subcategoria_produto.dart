@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
@@ -24,15 +26,23 @@ class SubCategoriaProduto extends StatefulWidget {
       _SubCategoriaProdutoState(subCategoria: this.s);
 }
 
-class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
+class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
+    with SingleTickerProviderStateMixin {
   final _blocSubCategoria = GetIt.I.get<SubCategoriaController>();
   final _blocProduto = GetIt.I.get<ProdutoController>();
   final _pedidoController = GetIt.I.get<PedidoController>();
+  final pedidoItemController = GetIt.I.get<PedidoItemController>();
+
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
   SubCategoria subCategoria;
   var selectedCard = 'WEIGHT';
 
   _SubCategoriaProdutoState({this.subCategoria});
+
+  AnimationController animationController;
+  Animation<double> animation;
+  static final _scaleTween = Tween<double>(begin: 1.0, end: 1.5);
 
   @override
   void initState() {
@@ -43,11 +53,36 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
     if (subCategoria.id != null) {
       _blocProduto.getAllBySubCategoriaById(subCategoria.id);
     }
+
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+
+    animation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.bounceInOut,
+    );
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse();
+      }
+    });
+
     super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    animationController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var text = "";
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Departamento - produtos", style: GoogleFonts.lato()),
@@ -62,7 +97,45 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
             onPressed: () {
               showSearch(context: context, delegate: ProdutoSearchDelegate());
             },
-          )
+          ),
+          Stack(
+            alignment: Alignment.topRight,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(top: 16, right: 16),
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: text == "0" ? Colors.white : Colors.white,
+                  size: 26,
+                ),
+              ),
+              AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _scaleTween.evaluate(animation),
+                    child: child,
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 12, right: 10),
+                  width: 18,
+                  height: 18,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.black, width: 1),
+                    color: Colors.greenAccent.withOpacity(.7),
+                  ),
+                  child: Center(
+                    child: Text(
+                      (pedidoItemController.itens.length ?? 0).toString(),
+                      style: TextStyle(color: Colors.deepOrangeAccent),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
       body: Container(
@@ -236,10 +309,21 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
           }
           if (produtos.length == 0) {
             return Center(
-              child: Icon(
-                Icons.mood_bad,
-                color: Colors.grey,
-                size: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Icon(
+                      Icons.mood_bad,
+                      color: Colors.grey[300],
+                      size: 100,
+                    ),
+                  ),
+                  Text(
+                    "Ops! sem produtos pra esse departamento",
+                    style: GoogleFonts.lato(color: Colors.grey[500]),
+                  ),
+                ],
               ),
             );
           }
@@ -304,7 +388,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
-                        "R\$ ${p.estoque.precoCusto}",
+                        "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                         style: GoogleFonts.lato(
                           fontSize: 16,
                           color: Colors.green,
@@ -374,7 +458,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return ProdutoDetalhes(p);
+                                    return ProdutoDetalhesTab(p);
                                   },
                                 ),
                               );

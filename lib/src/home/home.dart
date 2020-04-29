@@ -10,6 +10,7 @@ import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/home/catalogo_home.dart';
 import 'package:ofertasbv/src/home/drawer_list.dart';
 import 'package:ofertasbv/src/loja/loja_list.dart';
+import 'package:ofertasbv/src/pedido/pedido_list.dart';
 import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
@@ -47,12 +48,14 @@ class _HomePageState extends State<HomePage>
           statusBarColor: Colors.transparent, // transparent status bar
           systemNavigationBarColor: Colors.black, // navigation bar color
           statusBarIconBrightness: Brightness.dark, // status bar icons' color
-          systemNavigationBarIconBrightness: Brightness.dark, //navigation bar icons' color
+          systemNavigationBarIconBrightness:
+              Brightness.dark, //navigation bar icons' color
         ),
         child: Scaffold(
           appBar: GradientAppBar(
             elevation: 0,
-            gradient: LinearGradient(colors: [Colors.redAccent, Colors.red[600]]),
+            gradient:
+                LinearGradient(colors: [Colors.redAccent, Colors.red[600]]),
             primary: true,
             brightness: Brightness.light,
             bottomOpacity: 1.0,
@@ -88,7 +91,7 @@ class _HomePageState extends State<HomePage>
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(color: Colors.black, width: 1),
-                        color: Colors.green.withOpacity(.7),
+                        color: Colors.greenAccent.withOpacity(.7),
                       ),
                       child: Center(
                         child: Text(
@@ -99,7 +102,7 @@ class _HomePageState extends State<HomePage>
                     ),
                   ],
                 ),
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -124,8 +127,8 @@ class _HomePageState extends State<HomePage>
               ),
             ],
             bottom: TabBar(
-              indicatorPadding: EdgeInsets.only(right: 2, left: 2),
-              labelPadding: EdgeInsets.only(right: 2, left: 2),
+              indicatorPadding: EdgeInsets.only(right: 6, left: 6),
+              labelPadding: EdgeInsets.only(right: 6, left: 6),
               isScrollable: true,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.redAccent[800],
@@ -135,7 +138,7 @@ class _HomePageState extends State<HomePage>
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Icon(Icons.home),
                   ),
@@ -149,7 +152,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     child: Text(
                       "loja",
-                      style: GoogleFonts.lato(fontSize: 16),
+                      style: GoogleFonts.lato(fontSize: 14),
                     ),
                   ),
                 ),
@@ -161,21 +164,8 @@ class _HomePageState extends State<HomePage>
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "categoria",
-                      style: GoogleFonts.lato(fontSize: 16),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
-                      "produto",
-                      style: GoogleFonts.lato(fontSize: 16),
+                      "departamento",
+                      style: GoogleFonts.lato(fontSize: 14),
                     ),
                   ),
                 ),
@@ -188,7 +178,20 @@ class _HomePageState extends State<HomePage>
                     ),
                     child: Text(
                       "oferta",
-                      style: GoogleFonts.lato(fontSize: 16),
+                      style: GoogleFonts.lato(fontSize: 14),
+                    ),
+                  ),
+                ),
+                Tab(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      "pedido",
+                      style: GoogleFonts.lato(fontSize: 14),
                     ),
                   ),
                 ),
@@ -201,8 +204,8 @@ class _HomePageState extends State<HomePage>
               CatalogoHome(),
               LojaList(),
               CategoriaList(),
-              ProdutoList(),
               PromocaoList(),
+              PedidoList(),
             ],
           ),
 

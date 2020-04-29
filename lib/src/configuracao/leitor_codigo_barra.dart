@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/produto/produto_api_provider.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 
 class LeitorCodigoBarra extends StatefulWidget {
@@ -87,7 +87,7 @@ class _LeitorCodigoBarraState extends State<LeitorCodigoBarra> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return ProdutoDetalhes(p);
+                      return ProdutoDetalhesTab(p);
                     },
                   ),
                 );

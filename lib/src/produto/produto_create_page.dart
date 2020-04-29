@@ -28,7 +28,6 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_api_provider.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/util/currency.dart';
-import 'package:ofertasbv/src/util/thousandsFormatter.dart';
 
 class ProdutoCreatePage extends StatefulWidget {
   Produto produto;

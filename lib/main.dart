@@ -47,7 +47,7 @@ void main() {
       brightness: Brightness.light, // status bar brightness
       textTheme: GoogleFonts.latoTextTheme(),
       primaryColor: Colors.redAccent,
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[100],
       accentColor: Colors.black,
       cursorColor: Colors.black,
       scaffoldBackgroundColor: Colors.grey[100],
@@ -102,7 +102,7 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
         //backgroundColor: Color(0xff622F74),
         styleTextUnderTheLoader: TextStyle(),
         photoSize: 100.0,
-        loaderColor: Colors.orangeAccent,
+        loaderColor: Colors.black,
       ),
     );
   }

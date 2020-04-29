@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/teste_paginacao.dart';
+import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoApiProvider {
   CustonDio dio = CustonDio();
@@ -31,11 +32,23 @@ class ProdutoApiProvider {
     return null;
   }
 
+  Future<List<Produto>> getAllByFilter(ProdutoFilter filter) async {
+    try {
+      print("carregando produtos by filter");
+      var response = await dio.client.get("/produtos/filter?${filter}");
+      print("Produtos by filter: $response" );
+      return (response.data as List).map((c) => Produto.fromJson(c)).toList();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
   Future<List<Produto>> getAllByNome(String nome) async {
     try {
       print("carregando produtos by nome");
-      var response = await dio.client.get("/produtos/nome?nome=$nome");
-      //print("Produtos by nome: $response" );
+      var response = await dio.client.get("/produtos/nome/$nome");
+      print("Produtos by nome: $response" );
       return (response.data as List).map((c) => Produto.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);

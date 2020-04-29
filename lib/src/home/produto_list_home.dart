@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
@@ -152,6 +152,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                           style: GoogleFonts.lato(
                             fontSize: 18,
                             color: Colors.green,
+                            textStyle: TextStyle(fontWeight: FontWeight.w600)
                           ),
                         ),
                       ),
@@ -213,7 +214,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (BuildContext context) {
-                                      return ProdutoDetalhes(p);
+                                      return ProdutoDetalhesTab(p);
                                     },
                                   ),
                                 );
@@ -235,7 +236,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return ProdutoDetalhes(p);
+                  return ProdutoDetalhesTab(p);
                 },
               ),
             );

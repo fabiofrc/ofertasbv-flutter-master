@@ -9,6 +9,7 @@ import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_grid.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoTab extends StatefulWidget {
   @override
@@ -17,6 +18,10 @@ class ProdutoTab extends StatefulWidget {
 
 class _ProdutoTabState extends State<ProdutoTab> {
   final _bloc = GetIt.I.get<ProdutoController>();
+
+  ProdutoFilter _produtoFilter;
+  RangeValues values = RangeValues(0, 100);
+  RangeLabels labels = RangeLabels('1', '100');
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,16 @@ class _ProdutoTabState extends State<ProdutoTab> {
                 );
               },
             ),
-            SizedBox(width: 20),
+            IconButton(
+              icon: Icon(
+                Icons.filter_list,
+                color: Constants.colorIconsAppMenu,
+                size: 30,
+              ),
+              onPressed: () {
+                showDialogAlert(context);
+              },
+            ),
             IconButton(
               icon: Icon(
                 CupertinoIcons.search,
@@ -59,13 +73,13 @@ class _ProdutoTabState extends State<ProdutoTab> {
               onPressed: () {
                 showSearch(context: context, delegate: ProdutoSearchDelegate());
               },
-            )
+            ),
           ],
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
                 icon: Icon(
-                  Icons.dashboard,
+                  Icons.view_column,
                   size: 30,
                   color: Constants.colorIconsAppMenu,
                 ),
@@ -97,6 +111,85 @@ class _ProdutoTabState extends State<ProdutoTab> {
           },
         ),
       ),
+    );
+  }
+
+  showDialogAlert(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button for close dialog!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Filtro de pesquisa",
+            style: GoogleFonts.lato(),
+          ),
+          content: Container(
+            height: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                RangeSlider(
+                  min: 0,
+                  max: 100,
+                  values: values,
+                  labels: labels,
+                  onChanged: (value) {
+                    print('START: ${value.start}, END: ${value.end}');
+                    setState(() {
+                      values = value;
+                      labels = RangeLabels(
+                          '${value.start.toInt().toString()}R\$',
+                          '${value.end.toInt().toString()}R\$');
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.blue[900],
+              ),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.blue[900]),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              label: Text(
+                'CANCELAR',
+                style: GoogleFonts.lato(color: Colors.blue[900]),
+              ),
+              color: Colors.transparent,
+              elevation: 0,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.search,
+                color: Colors.greenAccent,
+              ),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.greenAccent),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+              label: Text(
+                'APLICAR',
+                style: GoogleFonts.lato(color: Colors.greenAccent),
+              ),
+              color: Colors.transparent,
+              elevation: 0,
+              onPressed: () {
+                _bloc.getAllByFilter(_produtoFilter);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

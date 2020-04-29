@@ -1,6 +1,5 @@
 class ProdutoFilter {
-  int categoriaId;
-  int subCategoriaId;
-  int promocaoId;
-  int pessoaId;
+  String nome;
+  String categoria;
+  String preco;
 }

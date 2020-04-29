@@ -7,8 +7,10 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
+import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoList extends StatefulWidget {
@@ -53,6 +55,52 @@ class _PedidoListState extends State<PedidoList> {
 
           if (itens == null) {
             return ShimmerList();
+          }
+
+          if (itens.length == 0) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Icon(
+                      Icons.shopping_basket,
+                      color: Colors.grey[300],
+                      size: 100,
+                    ),
+                  ),
+                  Text(
+                    "Sua cesta está vazia",
+                    style: GoogleFonts.lato(
+                      color: Colors.greenAccent,
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Continue sua busca por produto voltando para o início",
+                    style: GoogleFonts.lato(color: Colors.grey[500]),
+                  ),
+                  SizedBox(height: 10),
+                  RaisedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return HomePage();
+                          },
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.home),
+                    label: Text("Página inicial"),
+                    elevation: 0,
+                  ),
+                ],
+              ),
+            );
           }
 
           return builderList(itens);

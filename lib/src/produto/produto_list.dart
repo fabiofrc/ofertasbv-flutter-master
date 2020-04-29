@@ -5,28 +5,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_create_page.dart';
-import 'package:ofertasbv/src/produto/produto_detalhes.dart';
+import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
-import 'package:ofertasbv/src/produto/produto_page.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProdutoList extends StatefulWidget {
   Promocao p;
   SubCategoria s;
   Produto pd;
+  String nome;
 
-  ProdutoList({Key key, this.p, this.s, this.pd}) : super(key: key);
+  ProdutoList({Key key, this.p, this.s, this.pd, this.nome}) : super(key: key);
 
   @override
-  _ProdutoListState createState() =>
-      _ProdutoListState(p: this.p, s: this.s, pd: this.pd);
+  _ProdutoListState createState() => _ProdutoListState(
+        p: this.p,
+        s: this.s,
+        pd: this.pd,
+        nome: this.nome,
+      );
 }
 
 class _ProdutoListState extends State<ProdutoList>
@@ -34,11 +37,14 @@ class _ProdutoListState extends State<ProdutoList>
   final _bloc = GetIt.I.get<ProdutoController>();
   final _pedidoController = GetIt.I.get<PedidoController>();
 
+  final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
+
   Promocao p;
   SubCategoria s;
   Produto pd;
+  String nome;
 
-  _ProdutoListState({this.p, this.s, this.pd});
+  _ProdutoListState({this.p, this.s, this.pd, this.nome});
 
   @override
   void initState() {
@@ -49,11 +55,11 @@ class _ProdutoListState extends State<ProdutoList>
       _bloc.getAllByPromocaoById(p.id);
     }
     if (pd != null) {
-      _bloc.getAllByNome(pd.nome.substring(0, 5));
+      _bloc.getAllByNome(nome.substring(0, 5));
     }
-    if (s == null && p == null && pd == null) {
-      _bloc.getAll();
-    }
+//    if (s == null && p == null && pd == null) {
+//      _bloc.getAll();
+//    }
     super.initState();
   }
 
@@ -111,7 +117,7 @@ class _ProdutoListState extends State<ProdutoList>
 
   ListView builderList(List<Produto> produtos) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 20;
 
     return ListView.builder(
       itemCount: produtos.length,
@@ -144,7 +150,12 @@ class _ProdutoListState extends State<ProdutoList>
                       color: Colors.grey[300],
                       child: Text(
                         p.nome,
-                        style: GoogleFonts.lato(fontSize: 14),
+                        style: GoogleFonts.lato(
+                          fontSize: 14,
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 5),
@@ -152,8 +163,8 @@ class _ProdutoListState extends State<ProdutoList>
                       height: containerHeight,
                       width: containerWidth,
                       color: Colors.grey[300],
-                      child: Text(p.loja != null ?
-                        (p.loja.nome) : "sem loja",
+                      child: Text(
+                        p.loja != null ? (p.loja.nome) : "sem loja",
                         style: GoogleFonts.lato(fontSize: 12),
                       ),
                     ),
@@ -163,7 +174,7 @@ class _ProdutoListState extends State<ProdutoList>
                       width: containerWidth * 0.75,
                       color: Colors.grey[300],
                       child: Text(
-                        "R\$ ${p.estoque.precoCusto}",
+                        "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                         style: GoogleFonts.lato(
                           fontSize: 16,
                           color: Colors.green,
@@ -205,9 +216,10 @@ class _ProdutoListState extends State<ProdutoList>
                                   color: Colors.grey[200],
                                   child: Center(
                                     child: Observer(
-                                      builder: (context){
+                                      builder: (context) {
                                         return Center(
-                                          child: Text("${_pedidoController.itensIncrimento}"),
+                                          child: Text(
+                                              "${_pedidoController.itensIncrimento}"),
                                         );
                                       },
                                     ),
@@ -232,7 +244,7 @@ class _ProdutoListState extends State<ProdutoList>
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return ProdutoDetalhes(p);
+                                    return ProdutoDetalhesTab(p);
                                   },
                                 ),
                               );
