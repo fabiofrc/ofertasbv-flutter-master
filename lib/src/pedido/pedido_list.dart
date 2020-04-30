@@ -83,7 +83,7 @@ class _PedidoListState extends State<PedidoList> {
                     "Continue sua busca por produto voltando para o início",
                     style: GoogleFonts.lato(color: Colors.grey[500]),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   RaisedButton.icon(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -94,8 +94,13 @@ class _PedidoListState extends State<PedidoList> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.home),
-                    label: Text("Página inicial"),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.redAccent),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    icon: Icon(Icons.home, color: Colors.white,),
+                    color: Colors.redAccent,
+                    label: Text("página inicial", style: TextStyle(color: Colors.white),),
                     elevation: 0,
                   ),
                 ],

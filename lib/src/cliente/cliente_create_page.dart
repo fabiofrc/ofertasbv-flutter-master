@@ -14,10 +14,9 @@ import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/cliente/cliente_controller.dart';
 import 'package:ofertasbv/src/cliente/cliente_model.dart';
+import 'package:ofertasbv/src/cliente/cliente_page.dart';
 import 'package:ofertasbv/src/endereco/endereco_model.dart';
 import 'package:ofertasbv/src/loja/loja_api_provider.dart';
-import 'package:ofertasbv/src/loja/loja_model.dart';
-import 'package:ofertasbv/src/loja/loja_controller.dart';
 import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/usuario/usuario_model.dart';
 
@@ -602,7 +601,7 @@ class _ClienteCreatePageState extends State<ClienteCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (p.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();
@@ -612,7 +611,7 @@ class _ClienteCreatePageState extends State<ClienteCreatePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LojaPage(),
+                              builder: (context) => ClientePage(),
                             ),
                           );
                         }

@@ -335,7 +335,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (s.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();

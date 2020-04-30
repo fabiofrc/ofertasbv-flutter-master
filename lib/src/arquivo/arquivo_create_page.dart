@@ -5,6 +5,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +28,7 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
   File file;
 
   var controllerNome = TextEditingController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,30 +50,47 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
 
+    String dataAtual = DateFormat("dd-MM-yyyy-HH:mm:ss").format(DateTime.now());
+
     setState(() {
       this.file = f;
-      a.foto = file.path.split('/').last;
-      print(" upload de arquivo : ${a.foto}");
+      String arquivo = file.path.split('/').last;
+      String filePath =
+          arquivo.replaceAll("$arquivo", "arquivo-" + dataAtual + ".png");
+      print("arquivo: $arquivo");
+      print("filePath: $filePath");
+      a.foto = filePath;
     });
   }
 
   void _onClickUpload() async {
     if (file != null) {
       var url = await ArquivoApiProvider.upload(file, a.foto);
-      print(" upload de arquivo : $url");
+      print(" URL : $url");
     }
   }
 
   void showDefaultSnackbar(BuildContext context, String content) {
-    Scaffold.of(context).showSnackBar(
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.pink[900],
         content: Text(content),
         action: SnackBarAction(
           label: "OK",
           onPressed: () {},
         ),
       ),
+    );
+  }
+
+  void showToast(String cardTitle) {
+    Fluttertoast.showToast(
+      msg: "$cardTitle",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.indigo,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 
@@ -99,12 +118,6 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
       },
     );
   }
-
-  void showToast(String msg, {int duration, int gravity}) {
-    //Toast.show(msg, context, duration: duration, gravity: gravity);
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +212,7 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: (){
+                                      onPressed: () {
                                         openBottomSheet(context);
                                       },
                                     )
@@ -254,7 +267,7 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (a.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();

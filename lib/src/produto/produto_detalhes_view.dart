@@ -1,6 +1,7 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -83,6 +84,18 @@ class _ProdutoDetalhesViewState extends State<ProdutoDetalhesView>
     );
   }
 
+  void showToast(String cardTitle) {
+    Fluttertoast.showToast(
+      msg:
+      "$cardTitle foi adicionado aos favorito",
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.greenAccent,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     produto = widget.p;
@@ -144,8 +157,7 @@ class _ProdutoDetalhesViewState extends State<ProdutoDetalhesView>
                               print(p.isFavorito);
                             });
 
-                            showDefaultSnackbar(context,
-                                "${p.nome} - Foi adiconado aos favoritos");
+                            showToast(p.nome);
                           },
                         ),
                       ),

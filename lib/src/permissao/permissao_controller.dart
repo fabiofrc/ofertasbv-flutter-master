@@ -23,7 +23,7 @@ abstract class PermissaoControllerBase with Store {
   Exception error;
 
   @action
-  Future<Permissao> getAll() async {
+  Future<List<Permissao>> getAll() async {
     try {
       permissoes = await _permissaoApiProvider.getAll();
     } catch (e) {

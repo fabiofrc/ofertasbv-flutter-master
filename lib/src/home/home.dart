@@ -14,6 +14,7 @@ import 'package:ofertasbv/src/pedido/pedido_list.dart';
 import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_list.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/usuario/usuario_controller.dart';
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage>
                   children: <Widget>[
                     Container(
                       padding: const EdgeInsets.only(top: 2, right: 2),
-                      child: Icon(Icons.shopping_cart),
+                      child: Icon(Icons.shopping_basket),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 10, left: 16),
@@ -190,7 +191,7 @@ class _HomePageState extends State<HomePage>
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "pedido",
+                      "novo",
                       style: GoogleFonts.lato(fontSize: 14),
                     ),
                   ),
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage>
               LojaList(),
               CategoriaList(),
               PromocaoList(),
-              PedidoList(),
+              ProdutoList(),
             ],
           ),
 

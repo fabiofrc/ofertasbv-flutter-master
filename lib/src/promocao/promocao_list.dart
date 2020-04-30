@@ -84,7 +84,7 @@ class _PromocaoListState extends State<PromocaoList>
   }
 
   ListView builderList(List<Promocao> promocoes) {
-    double containerWidth = 200;
+    double containerWidth = 160;
     double containerHeight = 20;
 
     return ListView.builder(
@@ -93,71 +93,82 @@ class _PromocaoListState extends State<PromocaoList>
         Promocao p = promocoes[index];
 
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: EdgeInsets.symmetric(horizontal: 5),
           child: Container(
+            color: Colors.redAccent,
             margin: EdgeInsets.symmetric(vertical: 7.5),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  height: 110,
-                  width: 110,
+                  height: 100,
+                  width: 100,
                   color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoLoja + p.foto,
                     fit: BoxFit.cover,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.nome,
-                        style: GoogleFonts.lato(fontSize: 14),
+                Container(
+                  color: Colors.greenAccent,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Text(
+                          p.nome,
+                          style: GoogleFonts.lato(fontSize: 14),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.descricao,
-                        style: GoogleFonts.lato(fontSize: 14),
+                      SizedBox(height: 5),
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth,
+                        color: Colors.grey[300],
+                        child: Text(
+                          p.descricao,
+                          style: GoogleFonts.lato(fontSize: 14),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth * 0.75,
-                      color: Colors.grey[300],
-                      child: Text(
-                        "${p.loja.nome}",
-                        style: GoogleFonts.lato(fontSize: 12),
+                      SizedBox(height: 5),
+                      Container(
+                        height: containerHeight,
+                        width: containerWidth * 0.75,
+                        color: Colors.grey[300],
+                        child: Text(
+                          "${p.loja.nome}",
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    RaisedButton.icon(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return PromocaoDetalhes(p);
-                            },
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.add),
-                      label: Text("ver mais"),
-                      elevation: 0,
-                    ),
-                  ],
-                )
+                      SizedBox(height: 5),
+                      RaisedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return PromocaoDetalhes(p);
+                              },
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.add),
+                        label: Text("ver mais"),
+                        elevation: 0,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  height: 100,
+                  width: 50,
+                  color: Colors.grey[300],
+                  child: buildPopupMenuButton(context, p),
+                ),
               ],
             ),
           ),
@@ -166,130 +177,74 @@ class _PromocaoListState extends State<PromocaoList>
     );
   }
 
-//  ListView builderList(List<Promocao> promocoes) {
-//    return ListView.builder(
-//      itemCount: promocoes.length,
-//      itemBuilder: (context, index) {
-//        Promocao p = promocoes[index];
-//        return Container(
-//          padding: EdgeInsets.all(5),
-//          decoration: BoxDecoration(
-//            color: Colors.white,
-//            borderRadius: BorderRadius.circular(10),
-//            boxShadow: [
-//              BoxShadow(
-//                color: Color.fromRGBO(143, 148, 251, .2),
-//                blurRadius: 20.0,
-//                offset: Offset(0, 10),
-//              )
-//            ],
-//          ),
-//          child: ListTile(
-//            isThreeLine: true,
-//            leading: ClipRRect(
-//              borderRadius: BorderRadius.circular(10),
-//              child: p.foto != null
-//                  ? Image.network(
-//                      ConstantApi.urlArquivoPromocao + p.foto,
-//                      height: 200,
-//                      width: 80,
-//                      fit: BoxFit.cover,
-//                    )
-//                  : Image.asset(
-//                      ConstantApi.urlAsset,
-//                      height: 200,
-//                      width: 80,
-//                      fit: BoxFit.fill,
-//                    ),
-//            ),
-//            title: Text(
-//              p.nome,
-//              style: GoogleFonts.lato(
-//                  fontSize: 16,
-//                  textStyle: TextStyle(fontWeight: FontWeight.w600)),
-//            ),
-//            trailing: PopupMenuButton<String>(
-//              padding: EdgeInsets.zero,
-//              icon: Icon(Icons.more_vert),
-//              onSelected: (valor) {
-//                if (valor == "novo") {
-//                  print("novo");
-//                }
-//                if (valor == "editar") {
-//                  print("editar");
-//                  Navigator.of(context).push(
-//                    MaterialPageRoute(
-//                      builder: (BuildContext context) {
-//                        return PromocaoCreatePage(
-//                          promocao: p,
-//                        );
-//                      },
-//                    ),
-//                  );
-//                }
-//                if (valor == "delete") {
-//                  print("delete");
-//                }
-//                if (valor == "produtos") {
-//                  print("produtos");
-//                  Navigator.of(context).push(
-//                    MaterialPageRoute(
-//                      builder: (BuildContext context) {
-//                        return PromocaoProdutoCreate(
-//                          p: p,
-//                        );
-//                      },
-//                    ),
-//                  );
-//                }
-//              },
-//              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-//                const PopupMenuItem<String>(
-//                  value: 'novo',
-//                  child: ListTile(
-//                    leading: Icon(Icons.add),
-//                    title: Text('novo'),
-//                  ),
-//                ),
-//                const PopupMenuItem<String>(
-//                  value: 'editar',
-//                  child: ListTile(
-//                    leading: Icon(Icons.edit),
-//                    title: Text('editar'),
-//                  ),
-//                ),
-//                const PopupMenuItem<String>(
-//                  value: 'delete',
-//                  child: ListTile(
-//                    leading: Icon(Icons.delete),
-//                    title: Text('delete'),
-//                  ),
-//                ),
-//                const PopupMenuItem<String>(
-//                  value: 'produtos',
-//                  child: ListTile(
-//                    leading: Icon(Icons.add),
-//                    title: Text('produtos'),
-//                  ),
-//                )
-//              ],
-//            ),
-//            subtitle: Text(p.loja.nome),
-//            onLongPress: () {},
-//            onTap: () {
-//              Navigator.of(context).push(
-//                MaterialPageRoute(
-//                  builder: (BuildContext context) {
-//                    return PromocaoDetalhes(p);
-//                  },
-//                ),
-//              );
-//            },
-//          ),
-//        );
-//      },
-//    );
-//  }
+  PopupMenuButton<String> buildPopupMenuButton(BuildContext context, Promocao p) {
+    return PopupMenuButton<String>(
+            padding: EdgeInsets.zero,
+            icon: Icon(Icons.more_vert),
+            onSelected: (valor) {
+              if (valor == "novo") {
+                print("novo");
+              }
+              if (valor == "editar") {
+                print("editar");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PromocaoCreatePage(
+                        promocao: p,
+                      );
+                    },
+                  ),
+                );
+              }
+              if (valor == "delete") {
+                print("delete");
+              }
+              if (valor == "produtos") {
+                print("produtos");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PromocaoProdutoCreate(
+                        p: p,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'novo',
+                child: ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('novo'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'editar',
+                child: ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text('editar'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('delete'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'produtos',
+                child: ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('produtos'),
+                ),
+              )
+            ],
+          );
+  }
 
   @override
   // TODO: implement wantKeepAlive

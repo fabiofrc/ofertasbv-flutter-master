@@ -280,7 +280,7 @@ class _CategoriaCreatePageState extends State<CategoriaCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (c.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();

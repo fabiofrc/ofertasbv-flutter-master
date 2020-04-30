@@ -36,9 +36,10 @@ abstract class UsuarioControllerBase with Store{
   }
 
   @action
-  Future<Usuario> getAll() async {
+  Future<List<Usuario>> getAll() async {
     try {
       usuarios = await _usuarioApiProvider.getAll();
+      return usuarios;
     } catch (e) {
       error = e;
     }

@@ -51,6 +51,7 @@ class _PermissaoListState extends State<PermissaoList>
                     },
                   ),
                 );
+                Navigator.of(context).pop();
               },
             ),
           ],

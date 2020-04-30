@@ -12,6 +12,7 @@ class ArquivoApiProvider {
     try {
       print("carregando arquivos");
       var response = await dio.client.get("/arquivos");
+      print(response);
       return (response.data as List).map((c) => Arquivo.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);

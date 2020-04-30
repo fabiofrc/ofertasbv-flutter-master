@@ -49,7 +49,7 @@ class _PedidoPageState extends State<PedidoPage> {
               );
             },
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 10),
           IconButton(
             icon: Icon(
               CupertinoIcons.search,

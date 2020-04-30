@@ -23,9 +23,10 @@ abstract class ArquivoControllerBase with Store {
   Exception error;
 
   @action
-  Future<Arquivo> getAll() async {
+  Future<List<Arquivo>> getAll() async {
     try {
       arquivos = await _arquivoApiProvider.getAll();
+      return arquivos;
     } catch (e) {
       error = e;
     }

@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -62,9 +64,27 @@ class _LojaLocationState extends State<LojaLocation> {
     );
   }
 
-  onMapTypeButtonPressed() {
+  onMapTypeButtonPressedNormal() {
     setState(() {
-      mapType = mapType == MapType.normal ? MapType.satellite : MapType.normal;
+      mapType = MapType.normal;
+    });
+  }
+
+  onMapTypeButtonPressedTerra() {
+    setState(() {
+      mapType = MapType.terrain;
+    });
+  }
+
+  onMapTypeButtonPressedSatelite() {
+    setState(() {
+      mapType = MapType.satellite;
+    });
+  }
+
+  onMapTypeButtonPressedHibrido() {
+    setState(() {
+      mapType = MapType.hybrid;
     });
   }
 
@@ -147,112 +167,119 @@ class _LojaLocationState extends State<LojaLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Container(
-          height: double.infinity,
-          padding: EdgeInsets.only(top: 0),
-          child: Observer(
-            builder: (context) {
-              List<Loja> lojas = _bloc.lojas;
-
-              if (_bloc.error != null) {
-                return Text("Não foi possível buscar lojas");
-              }
-
-              if (lojas == null) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              allMarkers = lojas.map((p) {
-                return Marker(
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueOrange),
-                    infoWindow: InfoWindow(
-                      title: p.nome,
-                      snippet: p.enderecos[0].logradouro +
-                          ", " +
-                          p.enderecos[0].numero,
-                    ),
-                    markerId: MarkerId(p.nome),
-                    position: LatLng(p.enderecos[0].latitude ?? 0.0,
-                        p.enderecos[0].longitude ?? 0.0),
-                    onTap: () {
-                      showDialogAlert(context, p);
-                    });
-              }).toList();
-
-              return GoogleMap(
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                rotateGesturesEnabled: true,
-                trafficEnabled: false,
-                onCameraMove: onCamaraMove,
-                mapType: mapType,
-                onMapCreated: criarMapa,
-                initialCameraPosition: CameraPosition(
-                  target: position != null
-                      ? LatLng(position.latitude, position.longitude)
-                      : lastMapPosition,
-                  zoom: 16.0,
-                ),
-                markers: Set.of(allMarkers),
-              );
-            },
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 60, right: 10),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Column(
-              children: <Widget>[
-                FloatingActionButton(
-                  onPressed: onMapTypeButtonPressed,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  backgroundColor: Colors.redAccent,
-                  child: Icon(
-                    Icons.map,
-                    size: 25,
-                  ),
-                  tooltip: "tipo de mapa",
-                  focusElevation: 5,
-                  mini: true,
-                ),
-              ],
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: 120,
-            color: Colors.transparent,
-            padding: EdgeInsets.all(2),
-            margin: EdgeInsets.only(bottom: 0),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Localzação comercial"),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            height: double.infinity,
+            padding: EdgeInsets.only(top: 0),
             child: Observer(
               builder: (context) {
-                List<Loja> pessoas = _bloc.lojas;
+                List<Loja> lojas = _bloc.lojas;
 
                 if (_bloc.error != null) {
                   return Text("Não foi possível buscar lojas");
                 }
 
-                if (pessoas == null) {
+                if (lojas == null) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
 
-                return builderList(pessoas);
+                allMarkers = lojas.map((p) {
+                  return Marker(
+                      icon: BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueOrange),
+                      infoWindow: InfoWindow(
+                        title: p.nome,
+                        snippet: p.enderecos[0].logradouro +
+                            ", " +
+                            p.enderecos[0].numero,
+                      ),
+                      markerId: MarkerId(p.nome),
+                      position: LatLng(p.enderecos[0].latitude ?? 0.0,
+                          p.enderecos[0].longitude ?? 0.0),
+                      onTap: () {
+                        showDialogAlert(context, p);
+                      });
+                }).toList();
+
+                return GoogleMap(
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  rotateGesturesEnabled: true,
+                  trafficEnabled: false,
+                  onCameraMove: onCamaraMove,
+                  mapType: mapType,
+                  onMapCreated: criarMapa,
+                  initialCameraPosition: CameraPosition(
+                    target: position != null
+                        ? LatLng(position.latitude, position.longitude)
+                        : lastMapPosition,
+                    zoom: 16.0,
+                  ),
+                  markers: Set.of(allMarkers),
+                );
               },
             ),
           ),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsets.only(top: 60, right: 10),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Column(
+                children: <Widget>[
+                  FloatingActionButton(
+                    onPressed: () {
+                      showDialogAlertTypeMap(context);
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    backgroundColor: Colors.redAccent,
+                    child: Icon(
+                      Icons.map,
+                      size: 25,
+                    ),
+                    tooltip: "tipo de mapa",
+                    focusElevation: 5,
+                    mini: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 120,
+              color: Colors.transparent,
+              padding: EdgeInsets.all(2),
+              margin: EdgeInsets.only(bottom: 60),
+              child: Observer(
+                builder: (context) {
+                  List<Loja> pessoas = _bloc.lojas;
+
+                  if (_bloc.error != null) {
+                    return Text("Não foi possível buscar lojas");
+                  }
+
+                  if (pessoas == null) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return builderList(pessoas);
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -270,13 +297,13 @@ class _LojaLocationState extends State<LojaLocation> {
               color: p.nome == selectedCard ? Colors.grey[400] : Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            width: 270,
+            width: 240,
             padding: EdgeInsets.all(2),
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(left: 30),
             child: Row(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1.2,
+                  aspectRatio: 1,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
@@ -341,7 +368,7 @@ class _LojaLocationState extends State<LojaLocation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text("${p.nome}"),
-                Text("Endereço : ${p.enderecos[0].logradouro}"),
+                Text("${p.enderecos[0].logradouro}, ${p.enderecos[0].numero}"),
               ],
             ),
           ),
@@ -364,6 +391,117 @@ class _LojaLocationState extends State<LojaLocation> {
                     },
                   ),
                 );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showDialogAlertTypeMap(BuildContext context) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button for close dialog!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Tipo de mapa',
+            style: GoogleFonts.lato(),
+          ),
+          content: Container(
+            height: 200,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                GestureDetector(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[200],
+                          ),
+                          child: Image.asset(
+                            ConstantApi.urlNormal,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Padrão",
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    onMapTypeButtonPressedNormal();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                GestureDetector(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 60,
+                          width: 60,
+                          color: Colors.grey[200],
+                          child: Image.asset(
+                            ConstantApi.urlSatelite,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Satélite",
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    onMapTypeButtonPressedSatelite();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                GestureDetector(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: 60,
+                          width: 60,
+                          color: Colors.grey[200],
+                          child: Image.asset(
+                            ConstantApi.urlRelevo,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(
+                          "Híbrido",
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    onMapTypeButtonPressedHibrido();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('CANCELAR'),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

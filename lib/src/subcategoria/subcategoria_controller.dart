@@ -24,9 +24,10 @@ abstract class SubCategoriaControllerBase with Store {
   Exception error;
 
   @action
-  Future<SubCategoria> getAll() async {
+  Future<List<SubCategoria>> getAll() async {
     try {
       subCategorias = await _subcategoriaApiProvider.getAll();
+      return subCategorias;
     } catch (e) {
       error = e;
     }

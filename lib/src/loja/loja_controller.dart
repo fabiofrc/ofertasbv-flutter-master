@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:ofertasbv/src/cliente/cliente_model.dart';
 import 'package:ofertasbv/src/loja/loja_api_provider.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 
@@ -23,9 +24,10 @@ abstract class LojaControllerBase with Store {
   Exception error;
 
   @action
-  Future<Loja> getAll() async {
+  Future<List<Loja>> getAll() async {
     try {
       lojas = await _lojaApiProvider.getAll();
+      return lojas;
     } catch (e) {
       error = e;
     }

@@ -592,7 +592,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (p.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();

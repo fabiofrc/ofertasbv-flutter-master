@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/pedido/pedido_controller.dart';
+import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
@@ -98,43 +99,53 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
               showSearch(context: context, delegate: ProdutoSearchDelegate());
             },
           ),
-          Stack(
-            alignment: Alignment.topRight,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 16, right: 16),
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: text == "0" ? Colors.white : Colors.white,
-                  size: 26,
-                ),
-              ),
-              AnimatedBuilder(
-                animation: animation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _scaleTween.evaluate(animation),
-                    child: child,
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(top: 12, right: 10),
-                  width: 18,
-                  height: 18,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(color: Colors.black, width: 1),
-                    color: Colors.greenAccent.withOpacity(.7),
+          GestureDetector(
+            child: Stack(
+              alignment: Alignment.topRight,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(top: 16, right: 16),
+                  child: Icon(
+                    Icons.shopping_basket,
+                    color: text == "0" ? Colors.white : Colors.white,
+                    size: 26,
                   ),
-                  child: Center(
-                    child: Text(
-                      (pedidoItemController.itens.length ?? 0).toString(),
-                      style: TextStyle(color: Colors.deepOrangeAccent),
+                ),
+                AnimatedBuilder(
+                  animation: animation,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _scaleTween.evaluate(animation),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 12, right: 10),
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(color: Colors.black, width: 1),
+                      color: Colors.greenAccent.withOpacity(.7),
+                    ),
+                    child: Center(
+                      child: Text(
+                        (pedidoItemController.itens.length ?? 0).toString(),
+                        style: TextStyle(color: Colors.deepOrangeAccent),
+                      ),
                     ),
                   ),
+                )
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PedidoPage(),
                 ),
-              )
-            ],
+              );
+            },
           ),
         ],
       ),
@@ -190,7 +201,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
               ),
             ),
             Container(
-              height: 380,
+              height: 370,
 //              color: Colors.yellow,
               child: builderConteudoListProduto(),
             )
@@ -238,7 +249,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
             child: AnimatedContainer(
               duration: Duration(seconds: 1),
               decoration: BoxDecoration(
-                color: c.nome == selectedCard ? Colors.green[400] : Colors.grey,
+                color: c.nome == selectedCard ? Colors.greenAccent : Colors.grey[400],
               ),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(

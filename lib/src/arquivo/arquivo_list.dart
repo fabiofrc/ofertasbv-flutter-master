@@ -53,6 +53,7 @@ class _ArquivoListState extends State<ArquivoList>
                     },
                   ),
                 );
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -100,27 +101,27 @@ class _ArquivoListState extends State<ArquivoList>
           elevation: 0.0,
           child: ListTile(
             isThreeLine: true,
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: c.foto != null
-                  ? Image.network(
-                      ConstantApi.urlArquivoArquivo + c.foto,
-                      height: 200,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      ConstantApi.urlAsset,
-                      height: 200,
-                      width: 80,
-                      fit: BoxFit.fill,
-                    ),
-            ),
+//            leading: ClipRRect(
+//              borderRadius: BorderRadius.circular(10),
+//              child: c.foto != null
+//                  ? Image.network(
+//                      ConstantApi.urlArquivoArquivo + c.foto,
+//                      height: 200,
+//                      width: 80,
+//                      fit: BoxFit.cover,
+//                    )
+//                  : Image.asset(
+//                      ConstantApi.urlAsset,
+//                      height: 200,
+//                      width: 80,
+//                      fit: BoxFit.fill,
+//                    ),
+//            ),
             title: Text(
               c.nome,
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            subtitle: Text("${c.dataRegistro}"),
+            //subtitle: Text("${c.dataRegistro}"),
             trailing: Text("${c.id}"),
             onTap: () {
               Navigator.of(context).push(

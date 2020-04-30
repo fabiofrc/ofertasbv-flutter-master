@@ -6,6 +6,7 @@ import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/promocao/promocao_controller.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_page.dart';
@@ -109,7 +110,7 @@ class _PromocaoDetalhesState extends State<PromocaoDetalhes> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return ProdutoPage(p: p);
+                              return ProdutoPage(p: p,);
                             },
                           ),
                         );

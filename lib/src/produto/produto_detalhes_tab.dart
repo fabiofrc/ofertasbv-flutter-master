@@ -15,6 +15,7 @@ import 'package:ofertasbv/src/produto/produto_detalhes_info.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_view.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/produto/produto_tab.dart';
 
 class ProdutoDetalhesTab extends StatefulWidget {
   Produto p;
@@ -115,46 +116,54 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                 showSearch(context: context, delegate: ProdutoSearchDelegate());
               },
             ),
-
-            Stack(
-              alignment: Alignment.topRight,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(top: 16, right: 16),
-                  child: Icon(
-                    Icons.shopping_cart,
-                    color: text == "0" ? Colors.white : Colors.white,
-                    size: 26,
-                  ),
-                ),
-                AnimatedBuilder(
-                  animation: animation,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _scaleTween.evaluate(animation),
-                      child: child,
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 12, right: 10),
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Colors.black, width: 1),
-                      color: Colors.greenAccent.withOpacity(.7),
+            GestureDetector(
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 16, right: 16),
+                    child: Icon(
+                      Icons.shopping_basket,
+                      color: text == "0" ? Colors.white : Colors.white,
+                      size: 26,
                     ),
-                    child: Center(
-                      child: Text(
-                        (pedidoItemController.itens.length ?? 0).toString(),
-                        style: TextStyle(color: Colors.deepOrangeAccent),
+                  ),
+                  AnimatedBuilder(
+                    animation: animation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _scaleTween.evaluate(animation),
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 12, right: 10),
+                      width: 18,
+                      height: 18,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: Colors.black, width: 1),
+                        color: Colors.greenAccent.withOpacity(.7),
+                      ),
+                      child: Center(
+                        child: Text(
+                          (pedidoItemController.itens.length ?? 0).toString(),
+                          style: TextStyle(color: Colors.deepOrangeAccent),
+                        ),
                       ),
                     ),
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PedidoPage(),
                   ),
-                )
-              ],
+                );
+              },
             ),
-
           ],
           bottom: TabBar(
             indicatorPadding: EdgeInsets.only(right: 6, left: 6),
@@ -211,7 +220,7 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return PedidoPage();
+                      return ProdutoTab();
                     },
                   ),
                 );
@@ -229,7 +238,7 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                       width: 4.0,
                     ),
                     Text(
-                      "MEUS PEDIDOS",
+                      "ESCOLHER MAIS",
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -261,7 +270,7 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.shopping_cart,
+                      Icons.shopping_basket,
                       color: Colors.white,
                     ),
                     SizedBox(

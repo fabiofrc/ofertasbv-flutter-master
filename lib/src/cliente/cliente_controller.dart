@@ -23,9 +23,10 @@ abstract class ClienteControllerBase with Store {
   Exception error;
 
   @action
-  Future<Cliente> getAll() async {
+  Future<List<Cliente>> getAll() async {
     try {
       clientes = await _clienteApiProvider.getAll();
+      return clientes;
     } catch (e) {
       error = e;
     }

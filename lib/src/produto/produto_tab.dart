@@ -8,16 +8,35 @@ import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_grid.dart';
 import 'package:ofertasbv/src/produto/produto_list.dart';
+import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/promocao/promocao_model.dart';
+import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoTab extends StatefulWidget {
+  Promocao p;
+  SubCategoria s;
+  Produto pd;
+
+  ProdutoTab({Key key, this.p, this.s, this.pd}) : super(key: key);
+
   @override
-  _ProdutoTabState createState() => _ProdutoTabState();
+  _ProdutoTabState createState() => _ProdutoTabState(
+        p: this.p,
+        s: this.s,
+        pd: this.pd,
+      );
 }
 
 class _ProdutoTabState extends State<ProdutoTab> {
   final _bloc = GetIt.I.get<ProdutoController>();
+
+  Promocao p;
+  SubCategoria s;
+  Produto pd;
+
+  _ProdutoTabState({this.p, this.s, this.pd});
 
   ProdutoFilter _produtoFilter;
   RangeValues values = RangeValues(0, 100);

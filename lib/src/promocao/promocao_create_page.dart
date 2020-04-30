@@ -416,7 +416,7 @@ class _PromocaoCreatePageState extends State<PromocaoCreatePage> {
                     color: Colors.blue[900],
                     onPressed: () {
                       if (controller.validate()) {
-                        if (file == null) {
+                        if (p.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
                           _onClickUpload();

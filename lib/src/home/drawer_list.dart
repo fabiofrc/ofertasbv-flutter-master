@@ -7,6 +7,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/configuracao/config_page.dart';
+import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/usuario/usuario_controller.dart';
 import 'package:ofertasbv/src/usuario/usuario_model.dart';
@@ -78,28 +79,7 @@ class DrawerList extends StatelessWidget {
             ],
           ),
         ),
-        ListTile(
-          selected: true,
-          leading: Icon(
-            Icons.settings,
-            color: Constants.colorIconsMenu,
-          ),
-          title: Text(
-            "Configurações",
-            style: Constants.textoDrawerTitulo,
-          ),
-          trailing: Icon(Icons.arrow_forward),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ConfigPage();
-                },
-              ),
-            );
-          },
-        ),
+
         ListTile(
           selected: true,
           leading: Icon(
@@ -122,6 +102,54 @@ class DrawerList extends StatelessWidget {
             );
           },
         ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.settings,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Configurações",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ConfigPage();
+                },
+              ),
+            );
+          },
+        ),
+
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.shopping_basket,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Pedidos",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PedidoPage();
+                },
+              ),
+            );
+          },
+        ),
+
         ListTile(
           selected: true,
           leading: Icon(

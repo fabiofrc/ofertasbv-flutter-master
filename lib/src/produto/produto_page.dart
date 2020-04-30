@@ -93,48 +93,6 @@ class _ProdutoPageState extends State<ProdutoPage>
               );
             },
           ),
-          Observer(
-            builder: (context) {
-              var text = "";
-              return Stack(
-                alignment: Alignment.topRight,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 16, left: 10),
-                    child: Icon(
-                      Icons.shopping_cart,
-                      color: text == "0" ? Colors.white : Colors.white,
-                      size: 26,
-                    ),
-                  ),
-                  AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, child) {
-                      return Transform.scale(
-                        scale: _scaleTween.evaluate(animation),
-                        child: child,
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10, right: 10),
-                      width: 18,
-                      height: 18,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.black, width: 1),
-                          color: Colors.greenAccent.withOpacity(.7)),
-                      child: Center(
-                        child: Text(
-                          (pedidoItemController.itens.length ?? 0).toString(),
-                          style: TextStyle(color: Colors.deepOrangeAccent),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
           SizedBox(width: 5),
           IconButton(
             icon: Icon(

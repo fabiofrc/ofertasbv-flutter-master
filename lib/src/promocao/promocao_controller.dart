@@ -27,9 +27,10 @@ abstract class PromocaoControllerBase with Store {
   Exception error;
 
   @action
-  Future<Promocao> getAll() async {
+  Future<List<Promocao>> getAll() async {
     try {
       promocoes = await _promocaoApiProvider.getAll();
+      return promocoes;
     } catch (e) {
       error = e;
     }

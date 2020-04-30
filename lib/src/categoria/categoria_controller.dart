@@ -35,9 +35,10 @@ abstract class CategoriaControllerBase with Store {
   }
 
   @action
-  Future<Categoria> getAll() async {
+  Future<List<Categoria>> getAll() async {
     try {
       categorias = await _categoriaApiProvider.getAll();
+      return categorias;
     } catch (e) {
       error = e;
     }
