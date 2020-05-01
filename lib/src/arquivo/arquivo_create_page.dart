@@ -18,14 +18,22 @@ import 'package:ofertasbv/src/arquivo/arquivo_model.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
 
 class ArquivoCreatePage extends StatefulWidget {
+
+  Arquivo a;
+
+  ArquivoCreatePage({Key key, this.a}) : super(key : key);
+
+
   @override
-  _ArquivoCreatePageState createState() => _ArquivoCreatePageState();
+  _ArquivoCreatePageState createState() => _ArquivoCreatePageState(a: this.a);
 }
 
 class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
   final _bloc = GetIt.I.get<ArquivoController>();
   Arquivo a;
   File file;
+
+  _ArquivoCreatePageState({this.a});
 
   var controllerNome = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -122,7 +130,8 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-    //controllerNome.text = a.nome;
+
+    a = widget.a;
 
     return Scaffold(
       appBar: AppBar(
@@ -156,6 +165,7 @@ class _ArquivoCreatePageState extends State<ArquivoCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 TextFormField(
+                                  initialValue: a.nome,
                                   onSaved: (value) => a.nome = value,
                                   validator: (value) =>
                                       value.isEmpty ? "campo obrigário" : null,

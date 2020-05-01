@@ -11,7 +11,7 @@ class Loja extends Pessoa{
   DateTime _dataRegistro;
   String _foto;
   Usuario _usuario = new Usuario();
-  List<Endereco> _enderecos;
+  List<Endereco> _enderecos = new List<Endereco>();
   String _razaoSocial;
   String _cnpj;
   bool _novo;

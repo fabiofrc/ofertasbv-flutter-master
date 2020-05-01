@@ -132,13 +132,13 @@ class _LojaListState extends State<LojaList>
                       SizedBox(height: 5),
                       Container(
                         height: 40,
-                        width: 200,
+                        width: 160,
                         color: Colors.grey[200],
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            RaisedButton.icon(
+                            IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -149,10 +149,8 @@ class _LojaListState extends State<LojaList>
                                 );
                               },
                               icon: Icon(Icons.location_on),
-                              label: Text("local"),
-                              elevation: 0,
                             ),
-                            RaisedButton.icon(
+                            IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -165,8 +163,6 @@ class _LojaListState extends State<LojaList>
                                 );
                               },
                               icon: Icon(Icons.add),
-                              label: Text("ver mais"),
-                              elevation: 0,
                             ),
                           ],
                         ),

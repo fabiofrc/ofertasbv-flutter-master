@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:masked_text_input_formatter/masked_text_input_formatter.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/endereco/endereco_controller.dart';
 import 'package:ofertasbv/src/endereco/endereco_model.dart';
 import 'package:ofertasbv/src/loja/loja_api_provider.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
@@ -30,6 +31,7 @@ class LojaCreatePage extends StatefulWidget {
 
 class _LojaCreatePageState extends State<LojaCreatePage> {
   final _blocL = GetIt.I.get<LojaController>();
+  final _blocE = GetIt.I.get<EnderecoController>();
   Loja p;
   Endereco e;
   Usuario u;
@@ -79,7 +81,8 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
     setState(() {
       this.file = f;
       String arquivo = file.path.split('/').last;
-      String filePath = arquivo.replaceAll("$arquivo", "loja-" + dataAtual + ".png");
+      String filePath =
+          arquivo.replaceAll("$arquivo", "loja-" + dataAtual + ".png");
       print("arquivo: $arquivo");
       print("filePath: $filePath");
       p.foto = filePath;
@@ -145,12 +148,13 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
     String enderecoDestino = _controllerDestino.text;
 
     if (enderecoDestino.isNotEmpty) {
+
       List<Placemark> listaEnderecos =
           await Geolocator().placemarkFromAddress(enderecoDestino);
 
       if (listaEnderecos != null && listaEnderecos.length > 0) {
         Placemark endereco = listaEnderecos[0];
-
+        e = Endereco();
         e.cidade = endereco.administrativeArea;
         e.cep = endereco.postalCode;
         e.bairro = endereco.subLocality;
@@ -290,7 +294,6 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                             ),
                           ),
                         ),
-
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -381,7 +384,6 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                             ),
                           ),
                         ),
-
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -420,7 +422,6 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                             ),
                           ),
                         ),
-
                         SizedBox(height: 15),
                         Card(
                           child: Column(
@@ -435,7 +436,7 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: (){
+                                      onPressed: () {
                                         openBottomSheet(context);
                                       },
                                     )
@@ -469,126 +470,126 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                         ),
                         SizedBox(height: 30),
                         /* ================ Pequisa endereço ================ */
-////                        Card(
-////                          child: Container(
-////                            color: Colors.grey[200],
-////                            width: double.infinity,
-////                            padding: EdgeInsets.all(10),
-////                            child: Column(
-////                              crossAxisAlignment: CrossAxisAlignment.center,
-////                              children: <Widget>[
-////                                Text(
-////                                  "Pesquisa endereço",
-////                                  style: TextStyle(fontSize: 18),
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerDestino,
-////                                  onSaved: (value) => e.logradouro = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Pesquisa endereço",
-////                                    hintText: "Rua/Avenida, número",
-////                                    prefixIcon: Icon(
-////                                      Icons.search,
-////                                      color: Colors.green,
-////                                    ),
-////                                  ),
-////                                  keyboardType: TextInputType.text,
-////                                  maxLength: 50,
-////                                ),
-////                                RaisedButton.icon(
-////                                  icon: Icon(Icons.search),
-////                                  label: Text("Pesquisar"),
-////                                  onPressed: () {
-////                                    chamarEndereco();
-////                                  },
-////                                ),
-////                              ],
-////                            ),
-////                          ),
-////                        ),
-////                        /* ================ Endereço ================ */
-////                        Card(
-////                          child: Container(
-////                            width: double.infinity,
-////                            padding: EdgeInsets.all(10),
-////                            child: Column(
-////                              crossAxisAlignment: CrossAxisAlignment.center,
-////                              children: <Widget>[
-////                                Text(
-////                                  "Endereco Pessoal",
-////                                  style: TextStyle(fontSize: 18),
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerLogradouro,
-////                                  onSaved: (value) => e.logradouro = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Logradouro",
-////                                    hintText: "Logradouro",
-////                                    prefixIcon: Icon(Icons.location_on),
-////                                  ),
-////                                  keyboardType: TextInputType.text,
-////                                  maxLength: 50,
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerNumero,
-////                                  onSaved: (value) => e.numero = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Número",
-////                                    hintText: "Número",
-////                                    prefixIcon: Icon(Icons.location_on),
-////                                  ),
-////                                  keyboardType: TextInputType.number,
-////                                  maxLength: 10,
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerCep,
-////                                  onSaved: (value) => e.cep = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Cep",
-////                                    hintText: "Cep",
-////                                    prefixIcon: Icon(Icons.location_on),
-////                                  ),
-////                                  keyboardType: TextInputType.text,
-////                                  maxLength: 9,
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerBairro,
-////                                  onSaved: (value) => e.bairro = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Bairro",
-////                                    hintText: "Bairro",
-////                                    prefixIcon: Icon(Icons.location_on),
-////                                  ),
-////                                  keyboardType: TextInputType.text,
-////                                  maxLength: 50,
-////                                ),
-////                                TextFormField(
-////                                  controller: _controllerCidade,
-////                                  onSaved: (value) => e.cidade = value,
-////                                  validator: (value) =>
-////                                      value.isEmpty ? "campo obrigário" : null,
-////                                  decoration: InputDecoration(
-////                                    labelText: "Cidade",
-////                                    hintText: "Cidade",
-////                                    prefixIcon: Icon(Icons.location_on),
-////                                  ),
-////                                  keyboardType: TextInputType.text,
-////                                  maxLength: 50,
-////                                ),
-//                              ],
-//                            ),
-//                          ),
-//                        ),
+                        Card(
+                          child: Container(
+                            color: Colors.grey[200],
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Pesquisa endereço",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                TextFormField(
+                                  controller: _controllerDestino,
+                                  onSaved: (value) => e.logradouro = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Pesquisa endereço",
+                                    hintText: "Rua/Avenida, número",
+                                    prefixIcon: Icon(
+                                      Icons.search,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 50,
+                                ),
+                                RaisedButton.icon(
+                                  icon: Icon(Icons.search),
+                                  label: Text("Pesquisar"),
+                                  onPressed: () {
+                                    chamarEndereco();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        /* ================ Endereço ================ */
+                        Card(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Endereco Pessoal",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                TextFormField(
+                                  controller: _controllerLogradouro,
+                                  onSaved: (value) => e.logradouro = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Logradouro",
+                                    hintText: "Logradouro",
+                                    prefixIcon: Icon(Icons.location_on),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 50,
+                                ),
+                                TextFormField(
+                                  controller: _controllerNumero,
+                                  onSaved: (value) => e.numero = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Número",
+                                    hintText: "Número",
+                                    prefixIcon: Icon(Icons.location_on),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                ),
+                                TextFormField(
+                                  controller: _controllerCep,
+                                  onSaved: (value) => e.cep = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Cep",
+                                    hintText: "Cep",
+                                    prefixIcon: Icon(Icons.location_on),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 9,
+                                ),
+                                TextFormField(
+                                  controller: _controllerBairro,
+                                  onSaved: (value) => e.bairro = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Bairro",
+                                    hintText: "Bairro",
+                                    prefixIcon: Icon(Icons.location_on),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 50,
+                                ),
+                                TextFormField(
+                                  controller: _controllerCidade,
+                                  onSaved: (value) => e.cidade = value,
+                                  validator: (value) =>
+                                      value.isEmpty ? "campo obrigário" : null,
+                                  decoration: InputDecoration(
+                                    labelText: "Cidade",
+                                    hintText: "Cidade",
+                                    prefixIcon: Icon(Icons.location_on),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 50,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

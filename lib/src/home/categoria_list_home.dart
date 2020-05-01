@@ -116,6 +116,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
             child: AnimatedContainer(
+              transform: Matrix4.translationValues(0, 0, 0)..scale(1.0),
               duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(

@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/util/date_converter.dart';

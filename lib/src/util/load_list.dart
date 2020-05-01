@@ -17,7 +17,7 @@ class ShimmerList extends StatelessWidget {
           print(time);
 
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: 5),
             child: Shimmer.fromColors(
               highlightColor: Colors.white,
               baseColor: Colors.grey[300],
@@ -44,8 +44,8 @@ class ShimmerLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            height: 110,
-            width: 110,
+            height: 100,
+            width: 100,
             color: Colors.grey,
           ),
           Column(
