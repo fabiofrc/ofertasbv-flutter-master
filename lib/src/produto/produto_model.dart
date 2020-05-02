@@ -1,6 +1,7 @@
 import 'package:ofertasbv/src/arquivo/arquivo_model.dart';
 import 'package:ofertasbv/src/estoque/estoque_model.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
+import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 
 class Produto {
@@ -16,6 +17,7 @@ class Produto {
   String _tamanho;
   String _cor;
   SubCategoria _subCategoria;
+  List<Promocao> _promocaos = new List<Promocao>();
   Loja _loja;
   List<Arquivo> _arquivos;
   Estoque _estoque = new Estoque();
@@ -33,6 +35,7 @@ class Produto {
       String tamanho,
       String cor,
       SubCategoria subCategoria,
+      List<Promocao> promocaos,
       Loja loja,
       List<Arquivo> arquivos,
       Estoque estoque}) {
@@ -48,6 +51,7 @@ class Produto {
     this._tamanho = tamanho;
     this._cor = cor;
     this._subCategoria = subCategoria;
+    this._promocaos = promocaos;
     this._loja = loja;
     this._arquivos = arquivos;
     this._estoque = estoque;
@@ -105,6 +109,10 @@ class Produto {
 
   set loja(Loja loja) => _loja = loja;
 
+  List<Promocao> get promocaos => _promocaos;
+
+  set promocaos(List<Promocao> promocaos) => _promocaos = promocaos;
+
   List<Arquivo> get arquivos => _arquivos;
 
   set arquivos(List<Arquivo> arquivos) => _arquivos = arquivos;
@@ -130,7 +138,16 @@ class Produto {
     _subCategoria = json['subCategoria'] != null
         ? new SubCategoria.fromJson(json['subCategoria'])
         : null;
+
+    if (json['promocaos'] != null) {
+      _promocaos = new List<Promocao>();
+      json['promocaos'].forEach((v) {
+        _promocaos.add(new Promocao.fromJson(v));
+      });
+    }
+
     _loja = json['loja'] != null ? new Loja.fromJson(json['loja']) : null;
+
     if (json['arquivos'] != null) {
       _arquivos = new List<Arquivo>();
       json['arquivos'].forEach((v) {
@@ -159,6 +176,10 @@ class Produto {
     if (this._subCategoria != null) {
       data['subCategoria'] = this._subCategoria.toJson();
     }
+    if (this._promocaos != null) {
+      data['promocaos'] = this._promocaos.map((v) => v.toJson()).toList();
+    }
+
     if (this._loja != null) {
       data['loja'] = this._loja.toJson();
     }

@@ -42,8 +42,6 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text("${promocao.nome}", style: GoogleFonts.lato()),
@@ -53,7 +51,7 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
         child: Observer(
           builder: (context) {
             List<Produto> produtos = _blocProduto.produtos;
-            promocao.produtos;
+
             if (_blocPromocao.error != null) {
               return Text("Não foi possível buscar produtos");
             } else {
@@ -75,7 +73,16 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
                   splashColor: Colors.red,
                   color: Colors.blue[900],
                   onPressed: () {
+//                    Produto p1 = produtos[1];
+//                    print("produto ${p1.nome}");
+                    //produtos.add(produtos[0]);
+                    for (Produto p in produtos) {
+                      promocao.produtos.add(p);
+                      //p.
+                    }
+
                     _blocPromocao.create(promocao);
+                    print("produtos inserido!");
                   },
                 ),
               );
