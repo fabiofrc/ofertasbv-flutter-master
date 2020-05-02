@@ -17,7 +17,7 @@ class Produto {
   String _tamanho;
   String _cor;
   SubCategoria _subCategoria;
-  List<Promocao> _promocaos = new List<Promocao>();
+  //List<Promocao> _promocaos; //= new List<Promocao>();
   Loja _loja;
   List<Arquivo> _arquivos;
   Estoque _estoque = new Estoque();
@@ -51,7 +51,7 @@ class Produto {
     this._tamanho = tamanho;
     this._cor = cor;
     this._subCategoria = subCategoria;
-    this._promocaos = promocaos;
+//    this._promocaos = promocaos;
     this._loja = loja;
     this._arquivos = arquivos;
     this._estoque = estoque;
@@ -109,9 +109,9 @@ class Produto {
 
   set loja(Loja loja) => _loja = loja;
 
-  List<Promocao> get promocaos => _promocaos;
-
-  set promocaos(List<Promocao> promocaos) => _promocaos = promocaos;
+//  List<Promocao> get promocaos => _promocaos;
+//
+//  set promocaos(List<Promocao> promocaos) => _promocaos = promocaos;
 
   List<Arquivo> get arquivos => _arquivos;
 
@@ -139,12 +139,12 @@ class Produto {
         ? new SubCategoria.fromJson(json['subCategoria'])
         : null;
 
-    if (json['promocaos'] != null) {
-      _promocaos = new List<Promocao>();
-      json['promocaos'].forEach((v) {
-        _promocaos.add(new Promocao.fromJson(v));
-      });
-    }
+//    if (json['promocaos'] != null) {
+//      _promocaos = new List<Promocao>();
+//      json['promocaos'].forEach((v) {
+//        _promocaos.add(new Promocao.fromJson(v));
+//      });
+//    }
 
     _loja = json['loja'] != null ? new Loja.fromJson(json['loja']) : null;
 
@@ -176,9 +176,9 @@ class Produto {
     if (this._subCategoria != null) {
       data['subCategoria'] = this._subCategoria.toJson();
     }
-    if (this._promocaos != null) {
-      data['promocaos'] = this._promocaos.map((v) => v.toJson()).toList();
-    }
+//    if (this._promocaos != null) {
+//      data['promocaos'] = this._promocaos.map((v) => v.toJson()).toList();
+//    }
 
     if (this._loja != null) {
       data['loja'] = this._loja.toJson();
