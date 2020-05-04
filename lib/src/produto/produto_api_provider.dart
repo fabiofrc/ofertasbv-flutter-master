@@ -56,6 +56,18 @@ class ProdutoApiProvider {
     return null;
   }
 
+  Future<List<Produto>> getAllByDestque(bool destaque) async {
+    try {
+      print("carregando produtos by destaque");
+      var response = await dio.client.get("/produtos/destaque/$destaque");
+      print("Produtos by nome: $response" );
+      return (response.data as List).map((c) => Produto.fromJson(c)).toList();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
   Future<List<Produto>> getAll() async {
     try {
       print("carregando produtos");
@@ -106,6 +118,17 @@ class ProdutoApiProvider {
     try {
       print("carregando produtos da promoção");
       var response = await dio.client.get("/produtos/promocao/$id");
+      return (response.data as List).map((c) => Produto.fromJson(c)).toList();
+    } on DioError catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  Future<List<Produto>> getAllByPromocaoByIsNull(int id) async {
+    try {
+      print("carregando produtos sem promoção");
+      var response = await dio.client.get("/produtos/promocao/sem/$id");
       return (response.data as List).map((c) => Produto.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);

@@ -255,7 +255,7 @@ class _LojaLocationState extends State<LojaLocation> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 120,
+              height: 110,
               color: Colors.transparent,
               padding: EdgeInsets.all(2),
               margin: EdgeInsets.only(bottom: 60),
@@ -292,47 +292,45 @@ class _LojaLocationState extends State<LojaLocation> {
 
         return GestureDetector(
           child: AnimatedContainer(
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 1),
             decoration: BoxDecoration(
-              color: p.nome == selectedCard ? Colors.grey[400] : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              color: p.nome == selectedCard ? Colors.grey[300] : Colors.white,
+              borderRadius: BorderRadius.circular(10),
             ),
             width: 240,
             padding: EdgeInsets.all(2),
-            margin: EdgeInsets.only(left: 30),
+            margin: EdgeInsets.only(left: 10),
             child: Row(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1,
+                  aspectRatio: 0.9,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text(
-                          p.nome,
-                          style: TextStyle(
-                            color: Colors.deepPurple[900],
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text(p.nome,
+                            style: GoogleFonts.lato(
+                              fontSize: 13,
+                              color: Colors.indigo[600],
+                            )),
                         ListTile(
                           leading: Icon(Icons.directions_run),
                           trailing: Text(
                             "0.0 km",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w400,
+                            style: GoogleFonts.lato(
+                              fontSize: 13,
+                              color: Colors.grey[600],
                             ),
                           ),
                         ),

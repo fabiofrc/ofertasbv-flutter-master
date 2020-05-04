@@ -9,7 +9,6 @@ import 'package:ofertasbv/src/pedido/pedido_page.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
-import 'package:ofertasbv/src/produto/produto_create_page.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_avalicaoes.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_info.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_view.dart';

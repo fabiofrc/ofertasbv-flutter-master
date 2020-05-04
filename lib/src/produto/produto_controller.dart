@@ -64,9 +64,29 @@ abstract class ProdutoControllerBase with Store {
   }
 
   @action
+  Future<List<Produto>> getAllByPromocaoByIdIsNull(int id) async {
+    try {
+      produtos = await _produtoApiProvider.getAllByPromocaoByIsNull(id);
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  @action
   Future<List<Produto>> getAllByNome(String nome) async {
     try {
       produtos = await _produtoApiProvider.getAllByNome(nome);
+      return produtos;
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  @action
+  Future<List<Produto>> getAllByDestaque(bool destaque) async {
+    try {
+      produtos = await _produtoApiProvider.getAllByDestque(destaque);
       return produtos;
     } catch (e) {
       error = e;

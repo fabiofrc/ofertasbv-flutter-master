@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage>
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      "novo",
+                      "produto",
                       style: GoogleFonts.lato(fontSize: 14),
                     ),
                   ),
@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+//            physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               CatalogoHome(),
               LojaList(),

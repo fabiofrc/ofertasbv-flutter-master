@@ -31,17 +31,18 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
   int value = 1;
   var selectedCard = 'WEIGHT';
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     if (promocao == null) {
       promocao = Promocao();
     }
-    _blocProduto.getAll();
     super.initState();
   }
 
   Future<void> onRefresh() {
-    return _blocProduto.getAll();
+    return _blocProduto.getAllByPromocaoByIdIsNull(promocao.id);
   }
 
   List<Produto> produtoSelecionado = List<Produto>();
@@ -49,6 +50,7 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text("${promocao.nome}", style: GoogleFonts.lato()),
       ),
@@ -75,9 +77,11 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    promocao == null ? "sem busca" : (promocao.nome),
+                    promocao == null ? "sem busca" : ("${promocao.nome} - cód. ${promocao.id}"),
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontWeight: FontWeight.w600),
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   Observer(
@@ -106,7 +110,10 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
             Container(
               height: 370,
 //              color: Colors.yellow,
-              child: builderConteudoListProduto(),
+              child: RefreshIndicator(
+                onRefresh: onRefresh,
+                child: builderConteudoListProduto(),
+              ),
             )
           ],
         ),
@@ -197,11 +204,11 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
           ),
           onTap: () {
             selectCard(c.nome);
-//            print("id catgeoria ${c.id}");
-//            _blocProduto.getAllBySubCategoriaById(c.id);
-//            setState(() {
-//              subCategoria = c;
-//            });
+            print("id promocao ${c.id}");
+            _blocProduto.getAllByPromocaoByIdIsNull(c.id);
+            setState(() {
+              promocao = c;
+            });
           },
         );
       },
@@ -280,7 +287,7 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Localização',
+            'Deseja adicionar a promoção?',
             style: GoogleFonts.lato(),
           ),
           content: Container(
@@ -306,12 +313,27 @@ class _PromocaoProdutoCreateState extends State<PromocaoProdutoCreate>
                 promocao.produtos.add(p);
                 _blocPromocao.create(promocao);
                 print("produtos inserido!");
+                onRefresh();
+                showDefaultSnackbar(context, "produto adicionado");
                 Navigator.of(context).pop();
               },
             ),
           ],
         );
       },
+    );
+  }
+
+  void showDefaultSnackbar(BuildContext context, String content) {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.greenAccent,
+        content: Text(content),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: () {},
+        ),
+      ),
     );
   }
 

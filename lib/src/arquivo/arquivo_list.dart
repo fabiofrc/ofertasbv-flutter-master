@@ -81,7 +81,7 @@ class _ArquivoListState extends State<ArquivoList>
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Container(
-            color: Colors.redAccent,
+            color: Colors.grey[200],
             margin: EdgeInsets.symmetric(vertical: 7.5),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

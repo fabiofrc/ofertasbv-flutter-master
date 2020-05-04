@@ -13,12 +13,14 @@ class Produto {
   DateTime _dataRegistro;
   String _codigoBarra;
   bool _status;
+  bool _destaque;
   String _unidade;
   String _tamanho;
   String _cor;
   SubCategoria _subCategoria;
+
   //List<Promocao> _promocaos; //= new List<Promocao>();
-  Loja _loja;
+  Loja _loja = new Loja();
   List<Arquivo> _arquivos;
   Estoque _estoque = new Estoque();
 
@@ -31,6 +33,7 @@ class Produto {
       DateTime dataRegistro,
       String codigoBarra,
       bool status,
+      bool destaque,
       String unidade,
       String tamanho,
       String cor,
@@ -47,6 +50,7 @@ class Produto {
     this._dataRegistro = dataRegistro;
     this._codigoBarra = codigoBarra;
     this._status = status;
+    this._destaque = destaque;
     this._unidade = unidade;
     this._tamanho = tamanho;
     this._cor = cor;
@@ -89,6 +93,10 @@ class Produto {
 
   set status(bool status) => _status = status;
 
+  bool get destaque => _destaque;
+
+  set destaque(bool destaque) => _destaque = destaque;
+
   String get unidade => _unidade;
 
   set unidade(String unidade) => _unidade = unidade;
@@ -130,6 +138,9 @@ class Produto {
     _dataRegistro = DateTime.parse(json['dataRegistro']);
     _codigoBarra = json['codigoBarra'];
     _status = json['status'];
+
+    _destaque = json['destaque'];
+
     _unidade = json['unidade'];
 
     _tamanho = json['tamanho'];
@@ -168,6 +179,9 @@ class Produto {
     data['dataRegistro'] = this._dataRegistro.toIso8601String();
     data['codigoBarra'] = this._codigoBarra;
     data['status'] = this._status;
+
+    data['destaque'] = this._destaque;
+
     data['unidade'] = this._unidade;
 
     data['tamanho'] = this._tamanho;

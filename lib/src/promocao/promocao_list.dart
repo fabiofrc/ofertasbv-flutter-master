@@ -95,7 +95,7 @@ class _PromocaoListState extends State<PromocaoList>
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 5),
           child: Container(
-            color: Colors.redAccent,
+            color: Colors.grey[200],
             margin: EdgeInsets.symmetric(vertical: 7.5),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +162,6 @@ class _PromocaoListState extends State<PromocaoList>
                     ],
                   ),
                 ),
-
                 Container(
                   height: 100,
                   width: 50,
@@ -177,73 +176,72 @@ class _PromocaoListState extends State<PromocaoList>
     );
   }
 
-  PopupMenuButton<String> buildPopupMenuButton(BuildContext context, Promocao p) {
+  PopupMenuButton<String> buildPopupMenuButton(
+      BuildContext context, Promocao p) {
     return PopupMenuButton<String>(
-            padding: EdgeInsets.zero,
-            icon: Icon(Icons.more_vert),
-            onSelected: (valor) {
-              if (valor == "novo") {
-                print("novo");
-              }
-              if (valor == "editar") {
-                print("editar");
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return PromocaoCreatePage(
-                        promocao: p,
-                      );
-                    },
-                  ),
+      padding: EdgeInsets.zero,
+      icon: Icon(Icons.more_vert),
+      onSelected: (valor) {
+        if (valor == "novo") {
+          print("novo");
+        }
+        if (valor == "editar") {
+          print("editar");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return PromocaoCreatePage(
+                  promocao: p,
                 );
-              }
-              if (valor == "delete") {
-                print("delete");
-              }
-              if (valor == "produtos") {
-                print("produtos");
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return PromocaoProdutoCreate(
-                        p: p,
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'novo',
-                child: ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('novo'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'editar',
-                child: ListTile(
-                  leading: Icon(Icons.edit),
-                  title: Text('editar'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'delete',
-                child: ListTile(
-                  leading: Icon(Icons.delete),
-                  title: Text('delete'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'produtos',
-                child: ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('produtos'),
-                ),
-              )
-            ],
+              },
+            ),
           );
+        }
+        if (valor == "delete") {
+          print("delete");
+        }
+        if (valor == "produtos") {
+          print("produtos");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return PromocaoProdutoCreate(p: p);
+              },
+            ),
+          );
+        }
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: 'novo',
+          child: ListTile(
+            leading: Icon(Icons.add),
+            title: Text('novo'),
+          ),
+        ),
+        const PopupMenuItem<String>(
+          value: 'editar',
+          child: ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('editar'),
+          ),
+        ),
+        const PopupMenuItem<String>(
+          value: 'delete',
+          child: ListTile(
+            leading: Icon(Icons.delete),
+            title: Text('delete'),
+          ),
+        ),
+        const PopupMenuItem<String>(
+          value: 'produtos',
+          child: ListTile(
+            leading: Icon(Icons.add),
+            title: Text('produtos'),
+          ),
+        )
+      ],
+    );
   }
 
   @override

@@ -10,19 +10,11 @@ import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
-import 'package:ofertasbv/src/promocao/promocao_model.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/util/load_list_produto.dart';
 
 class ProdutoListHome extends StatefulWidget {
-  Promocao p;
-  SubCategoria s;
-
-  ProdutoListHome({Key key, this.p, this.s}) : super(key: key);
-
   @override
-  _ProdutoListHomeState createState() =>
-      _ProdutoListHomeState(p: this.p, s: this.s);
+  _ProdutoListHomeState createState() => _ProdutoListHomeState();
 }
 
 class _ProdutoListHomeState extends State<ProdutoListHome>
@@ -31,20 +23,10 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
 
   final formatMoeda = new NumberFormat("#,##0.00", "pt_BR");
 
-  Promocao p;
-  SubCategoria s;
-
-  _ProdutoListHomeState({this.p, this.s});
 
   @override
   void initState() {
-    if (s != null) {
-      _bloc.getAllBySubCategoriaById(s.id);
-    } else if (p != null) {
-      _bloc.getAllByPromocaoById(p.id);
-    } else {
-      _bloc.getAll();
-    }
+    _bloc.getAllByDestaque(true);
     super.initState();
   }
 
@@ -150,10 +132,10 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                         child: Text(
                           "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                           style: GoogleFonts.lato(
-                            fontSize: 18,
-                            color: Colors.green,
-                            textStyle: TextStyle(fontWeight: FontWeight.w600)
-                          ),
+                              fontSize: 18,
+                              color: Colors.green,
+                              textStyle:
+                                  TextStyle(fontWeight: FontWeight.w600)),
                         ),
                       ),
                       SizedBox(height: 5),

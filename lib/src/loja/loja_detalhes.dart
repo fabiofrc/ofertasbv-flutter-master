@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/const.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_page.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
@@ -63,135 +64,150 @@ class _LojaDetalhesState extends State<LojaDetalhes> {
                 ),
         ),
         SizedBox(height: 0),
-        Card(
-          elevation: 0.0,
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      p.nome,
-                      style: GoogleFonts.lato(),
-                    ),
-                    SizedBox(height: 10),
-                    Icon(
-                      Icons.location_city,
-                      color: Colors.indigo,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      p.telefone,
-                      style: GoogleFonts.lato(),
-                    ),
-                    SizedBox(height: 10),
-                    Icon(
-                      Icons.phone_forwarded,
-                      color: Colors.indigo,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          elevation: 0.0,
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    RaisedButton.icon(
-                      label: Text(
-                        "Ir para ofertas",
-                        style: GoogleFonts.lato(color: Colors.redAccent),
-                      ),
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Text(
+                    p.nome,
+                    style: GoogleFonts.lato(),
+                  ),
+                  SizedBox(height: 10),
+                  CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    foregroundColor: Colors.redAccent,
+                    child: IconButton(
                       icon: Icon(
-                        Icons.search,
+                        Icons.location_city,
                         color: Colors.redAccent,
                       ),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.redAccent),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      ),
-                      color: Colors.white,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return PromocaoPage(p: p,);
+                              return LojaLocation();
                             },
                           ),
                         );
                       },
                     ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    RaisedButton.icon(
-                      label: Text(
-                        "Ir para mercados",
-                        style: GoogleFonts.lato(color: Colors.blue[900]),
-                      ),
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    p.telefone,
+                    style: GoogleFonts.lato(),
+                  ),
+                  SizedBox(height: 10),
+                  CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    foregroundColor: Colors.redAccent,
+                    child: IconButton(
                       icon: Icon(
-                        Icons.list,
-                        color: Colors.blue[900],
+                        Icons.phone_forwarded,
+                        color: Colors.greenAccent,
                       ),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.blue[900]),
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      ),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return LojaPage();
-                            },
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        Card(
-          elevation: 0.0,
-          child: Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    "${p.nome}",
-                    style: GoogleFonts.lato(),
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  RaisedButton.icon(
+                    label: Text(
+                      "Ir para ofertas",
+                      style: GoogleFonts.lato(color: Colors.redAccent),
+                    ),
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.redAccent,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.redAccent),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return PromocaoPage(
+                              p: p,
+                            );
+                          },
+                        ),
+                      );
+                    },
                   ),
-                  leading: Icon(Icons.local_convenience_store),
-                ),
-                ListTile(
-                  title: Text(
-                    "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
-                    style: GoogleFonts.lato(),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  RaisedButton.icon(
+                    label: Text(
+                      "Ir para mercados",
+                      style: GoogleFonts.lato(color: Colors.greenAccent),
+                    ),
+                    icon: Icon(
+                      Icons.list,
+                      color: Colors.greenAccent,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.greenAccent),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return LojaPage();
+                          },
+                        ),
+                      );
+                    },
                   ),
-                  leading: Icon(Icons.location_on),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                title: Text(
+                  "${p.nome}",
+                  style: GoogleFonts.lato(),
                 ),
-              ],
-            ),
+                leading: Icon(Icons.local_convenience_store),
+              ),
+              ListTile(
+                title: Text(
+                  "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
+                  style: GoogleFonts.lato(),
+                ),
+                leading: Icon(Icons.location_on),
+              ),
+            ],
           ),
         ),
       ],
