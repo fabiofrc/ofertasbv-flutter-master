@@ -68,7 +68,9 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
           }
 
           if (promocoes == null) {
-            return LoadListOferta();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -84,7 +86,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
     final DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     double containerWidth = 165;
-    double containerHeight = 30;
+    double containerHeight = 40;
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -108,18 +110,17 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                       Container(
                         height: 120,
                         width: containerWidth,
-                        color: Colors.grey[300],
                         child: Image.network(
                           ConstantApi.urlArquivoPromocao + p.foto,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 1),
+                      SizedBox(height: 0),
                       Container(
                         padding: EdgeInsets.all(5),
-                        height: 60,
+                        height: 70,
                         width: containerWidth,
-                        color: Colors.grey[300],
+                        color: Colors.grey[200],
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[

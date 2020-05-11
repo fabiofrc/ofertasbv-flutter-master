@@ -55,8 +55,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
 
     if (s == null) {
       s = SubCategoria();
-    } else {
-      pesquisarCodigo(s.id);
+      categoriaSelecionada = Categoria();
     }
     super.initState();
   }
@@ -67,11 +66,11 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
     super.didChangeDependencies();
   }
 
-  pesquisarCodigo(int id) async {
-    categoriaSelect = await CategoriaApiProvider.getSubCategoriaById(id);
-    categoriaSelecionada == null ? categoriaSelect : categoriaSelecionada;
-    print("Categoria pesquisada: ${categoriaSelecionada.nome}");
-  }
+//  pesquisarCodigo(int id) async {
+//    categoriaSelect = await CategoriaApiProvider.getSubCategoriaById(id);
+//    categoriaSelecionada == null ? categoriaSelect : categoriaSelecionada;
+//    print("Categoria pesquisada: ${categoriaSelecionada.nome}");
+//  }
 
   void _onClickFoto() async {
     File f = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -81,7 +80,8 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
     setState(() {
       this.file = f;
       String arquivo = file.path.split('/').last;
-      String filePath = arquivo.replaceAll("$arquivo", "subcategoria-" + dataAtual + ".png");
+      String filePath =
+          arquivo.replaceAll("$arquivo", "subcategoria-" + dataAtual + ".png");
       print("arquivo: $arquivo");
       print("filePath: $filePath");
       s.foto = filePath;
@@ -146,9 +146,10 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    s.categoria = categoriaSelecionada;
-
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+
+    //categoriaSelecionada = s.categoria;
+    print(s.categoria.nome);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -166,7 +167,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
       ),
       body: Observer(
         builder: (context) {
-          //List<Categoria> categorias = _blocCategoria.categorias;
+          List<Categoria> lista = _blocCategoria.categorias;
           if (_bloc.error != null) {
             return Text("Não foi possível cadastrar subcategoria");
           } else {
@@ -235,37 +236,79 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                             child: Column(
                               children: <Widget>[
                                 FutureBuilder<List<Categoria>>(
-                                    future: categorias,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        return DropdownButtonFormField<
-                                            Categoria>(
-                                          autovalidate: true,
-                                          value: categoriaSelecionada,
-                                          items: snapshot.data.map((categoria) {
-                                            return DropdownMenuItem<Categoria>(
-                                              value: categoria,
-                                              child: Text(categoria.nome),
-                                            );
-                                          }).toList(),
-                                          hint: Text("Select categoria"),
-                                          onChanged: (Categoria c) {
-                                            setState(() {
-                                              categoriaSelecionada = c;
-                                              print(categoriaSelecionada.nome);
-                                            });
-                                          },
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text("${snapshot.error}");
-                                      }
+                                  future: categorias,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return DropdownButtonFormField<Categoria>(
+                                        onSaved: (value) => s.categoria,
+                                        autovalidate: true,
+                                        value: categoriaSelecionada,
+                                        items: snapshot.data.map((categoria) {
+                                          return DropdownMenuItem<Categoria>(
+                                            value: categoria,
+                                            child: Text(categoria.nome),
+                                          );
+                                        }).toList(),
+                                        hint: Text("Select categoria"),
+                                        onChanged: (Categoria c) {
+                                          setState(() {
+                                            categoriaSelecionada = c;
+                                            //print(s.categoria.nome);
+                                          });
+                                        },
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
 
-                                      return Container(width: 0.0, height: 0.0);
-                                    }),
+                                    return Container(width: 0.0, height: 0.0);
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
+
+                        Card(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: <Widget>[
+                                FutureBuilder<List<Categoria>>(
+                                  future: categorias,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return DropdownButtonFormField<Categoria>(
+                                        onSaved: (value) => s.categoria,
+                                        autovalidate: true,
+                                        value: categoriaSelecionada,
+                                        items: snapshot.data.map((categoria) {
+                                          return DropdownMenuItem<Categoria>(
+                                            value: categoria,
+                                            child: Text(categoria.nome),
+                                          );
+                                        }).toList(),
+                                        hint: Text("Select categoria"),
+                                        onChanged: (Categoria c) {
+                                          setState(() {
+                                            categoriaSelecionada = c;
+                                            //print(s.categoria.nome);
+                                          });
+                                        },
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
+
+                                    return Container(width: 0.0, height: 0.0);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         Card(
                           child: Column(
                             children: <Widget>[
@@ -279,7 +322,7 @@ class _SubCategoriaCreatePageState extends State<SubCategoriaCreatePage> {
                                     RaisedButton(
                                       child: Icon(Icons.photo),
                                       shape: new CircleBorder(),
-                                      onPressed: (){
+                                      onPressed: () {
                                         openBottomSheet(context);
                                       },
                                     )

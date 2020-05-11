@@ -15,7 +15,6 @@ import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
-import 'package:ofertasbv/src/util/load_list.dart';
 
 class SubCategoriaProduto extends StatefulWidget {
   SubCategoria s;
@@ -249,7 +248,9 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
             child: AnimatedContainer(
               duration: Duration(seconds: 1),
               decoration: BoxDecoration(
-                color: c.nome == selectedCard ? Colors.greenAccent : Colors.grey[400],
+                color: c.nome == selectedCard
+                    ? Colors.greenAccent
+                    : Colors.grey[300],
               ),
               margin: EdgeInsets.symmetric(vertical: 7.5),
               child: Column(
@@ -262,7 +263,6 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
                       Container(
                         height: 80,
                         width: containerWidth,
-                        color: Colors.grey[300],
                         child: Image.network(
                           ConstantApi.urlArquivoSubCategoria + c.foto,
                           fit: BoxFit.cover,
@@ -273,7 +273,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
                         padding: EdgeInsets.all(5),
                         height: 30,
                         width: containerWidth,
-                        color: Colors.grey[300],
+                        //color: Colors.grey[200],
                         child: Text(
                           c.nome,
                           style: GoogleFonts.lato(
@@ -315,7 +315,7 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
 
           if (produtos == null) {
             return Center(
-              child: ShimmerList(),
+              child: CircularProgressIndicator(),
             );
           }
           if (produtos.length == 0) {
@@ -347,145 +347,151 @@ class _SubCategoriaProdutoState extends State<SubCategoriaProduto>
 
   ListView builderListProduto(List<Produto> produtos) {
     double containerWidth = 200;
-    double containerHeight = 15;
+    double containerHeight = 18;
 
     return ListView.builder(
       itemCount: produtos.length,
       itemBuilder: (context, index) {
         Produto p = produtos[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoProduto + p.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Column(
+        return Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 7.5),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.nome,
-                        style: GoogleFonts.lato(fontSize: 14),
+                      height: 110,
+                      width: 110,
+                      child: Image.network(
+                        ConstantApi.urlArquivoProduto + p.foto,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: containerHeight,
-                      width: containerWidth,
-                      color: Colors.grey[300],
-                      child: Text(
-                        p.loja != null ? (p.loja.nome) : "sem loja",
-                        style: GoogleFonts.lato(fontSize: 12),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      height: 20,
-                      width: containerWidth * 0.75,
-                      color: Colors.grey[300],
-                      child: Text(
-                        "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
-                        style: GoogleFonts.lato(
-                          fontSize: 16,
-                          color: Colors.green,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            p.nome,
+                            style: GoogleFonts.lato(fontSize: 14),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      width: containerWidth,
-                      height: 40,
-                      color: Colors.grey[300],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            width: 110,
-                            height: 30,
-                            color: Colors.grey[100],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                SizedBox(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      print("removendo - ");
-                                      _pedidoController.deCremento();
-                                    },
-                                    child: Text("-"),
-                                    elevation: 0,
-                                  ),
-                                  width: 38,
-                                ),
-                                Container(
-//                                  padding: EdgeInsets.only(top: 10, left: 5),
-                                  width: 30,
-                                  height: 30,
-                                  color: Colors.grey[200],
-                                  child: Center(
-                                    child: Observer(
-                                      builder: (context) {
-                                        return Center(
-                                          child: Text(
-                                              "${_pedidoController.itensIncrimento}"),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      print("adicionando + ");
-                                      _pedidoController.inCremento();
-                                    },
-                                    child: Text("+"),
-                                    elevation: 0,
-                                  ),
-                                  width: 38,
-                                ),
-                              ],
+                        SizedBox(height: 5),
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            p.loja != null ? (p.loja.nome) : "sem loja",
+                            style: GoogleFonts.lato(fontSize: 12),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          height: 20,
+                          width: containerWidth * 0.75,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Colors.green,
                             ),
                           ),
-                          RaisedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ProdutoDetalhesTab(p);
-                                  },
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          width: containerWidth,
+                          height: 40,
+                          color: Colors.grey[300],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Container(
+                                width: 110,
+                                height: 30,
+                                color: Colors.grey[100],
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          print("removendo - ");
+                                          _pedidoController.deCremento();
+                                        },
+                                        child: Text("-"),
+                                        elevation: 0,
+                                      ),
+                                      width: 38,
+                                    ),
+                                    Container(
+//                                  padding: EdgeInsets.only(top: 10, left: 5),
+                                      width: 30,
+                                      height: 30,
+                                      color: Colors.grey[200],
+                                      child: Center(
+                                        child: Observer(
+                                          builder: (context) {
+                                            return Center(
+                                              child: Text(
+                                                  "${_pedidoController.itensIncrimento}"),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      child: RaisedButton(
+                                        onPressed: () {
+                                          print("adicionando + ");
+                                          _pedidoController.inCremento();
+                                        },
+                                        child: Text("+"),
+                                        elevation: 0,
+                                      ),
+                                      width: 38,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                            icon: Icon(Icons.add_shopping_cart),
-                            label: Text("add"),
-                            elevation: 0,
+                              ),
+                              RaisedButton.icon(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return ProdutoDetalhesTab(p);
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.add_shopping_cart),
+                                label: Text(""),
+                                elevation: 0,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );

@@ -69,7 +69,9 @@ class _SubcategoriaListState extends State<SubcategoriaList>
           }
 
           if (subCategorias == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -83,89 +85,94 @@ class _SubcategoriaListState extends State<SubcategoriaList>
 
   ListView builderList(List<SubCategoria> subCategorias) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: subCategorias.length,
       itemBuilder: (context, index) {
         SubCategoria c = subCategorias[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoSubCategoria + c.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  color: Colors.greenAccent,
-                  child: Column(
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  //color: Colors.grey[200],
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          c.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
+                        height: 100,
+                        width: 100,
+                        child: Image.network(
+                          ConstantApi.urlArquivoSubCategoria + c.foto,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "Cód. ${c.id}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                      ),
-                      SizedBox(height: 5),
-                      RaisedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return SubCategoriaProduto(s: c,);
-                              },
+                        //color: Colors.greenAccent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                c.nome,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
                             ),
-                          );
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("ver mais"),
-                        elevation: 0,
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                "Cód. ${c.id}",
+                                style: GoogleFonts.lato(fontSize: 12),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth * 0.75,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                c.categoria.nome,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        width: 50,
+                        //color: Colors.grey[300],
+                        child: buildPopupMenuButton(context, c),
                       ),
                     ],
                   ),
                 ),
-
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, c),
-                ),
-              ],
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return SubCategoriaProduto(
+                        s: c,
+                      );
+                    },
+                  ),
+                );
+              },
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );
@@ -186,7 +193,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return SubCategoriaCreatePage(
-                  subCategoria: s,
+                  subCategoria: c,
                 );
               },
             ),
@@ -221,7 +228,6 @@ class _SubcategoriaListState extends State<SubcategoriaList>
       ],
     );
   }
-
 
   @override
   // TODO: implement wantKeepAlive

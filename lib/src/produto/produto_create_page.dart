@@ -64,6 +64,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
 
   bool isFavorito = false;
   bool status = true;
+  bool destaque = false;
   String unidade;
   File file;
 
@@ -133,7 +134,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
   void showDefaultSnackbar(BuildContext context, String content) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.greenAccent,
         content: Text(content),
         action: SnackBarAction(
           label: "OK",
@@ -187,6 +188,7 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Produto cadastros",
@@ -392,10 +394,27 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                     });
                                   },
                                 ),
+
+                                SizedBox(height: 30),
+                                SwitchListTile(
+                                  subtitle: Text("sim/não"),
+                                  title: Text("Produto destaque?"),
+                                  value: p.destaque = destaque,
+                                  onChanged: (bool valor) {
+                                    setState(() {
+                                      destaque = valor;
+                                      print("resultado: " + destaque.toString());
+                                      showDefaultSnackbar(context,
+                                          "Produto disponível: ${destaque.toString()}");
+                                    });
+                                  },
+                                ),
                               ],
                             ),
                           ),
                         ),
+
+
                         Card(
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -416,6 +435,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                         setState(() {
                                           p.unidade = valor;
                                           print("resultado: " + p.unidade);
+                                          showDefaultSnackbar(context,
+                                              "Tipo de medida: ${p.unidade.toString()}");
                                         });
                                       },
                                     ),
@@ -427,6 +448,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                         setState(() {
                                           p.unidade = valor;
                                           print("resultado: " + p.unidade);
+                                          showDefaultSnackbar(context,
+                                              "Tipo de medida: ${p.unidade.toString()}");
                                         });
                                       },
                                     ),
@@ -438,6 +461,8 @@ class _ProdutoCreatePageState extends State<ProdutoCreatePage> {
                                         setState(() {
                                           p.unidade = valor;
                                           print("resultado: " + p.unidade);
+                                          showDefaultSnackbar(context,
+                                              "Tipo de medida: ${p.unidade.toString()}");
                                         });
                                       },
                                     ),

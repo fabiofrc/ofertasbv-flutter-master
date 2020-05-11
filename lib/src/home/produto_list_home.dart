@@ -58,7 +58,9 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
           }
 
           if (produtos == null) {
-            return LoadListProduto();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -95,7 +97,6 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                   Container(
                     height: 110,
                     width: 110,
-                    color: Colors.grey,
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
                       fit: BoxFit.cover,
@@ -107,7 +108,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       Container(
                         height: containerHeight,
                         width: containerWidth,
-                        color: Colors.grey[300],
+                        //color: Colors.grey[300],
                         child: Text(
                           p.nome,
                           style: GoogleFonts.lato(
@@ -122,13 +123,22 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       Container(
                         height: containerHeight,
                         width: containerWidth,
-                        color: Colors.grey[300],
+                        //color: Colors.grey[300],
+                        child: Text(
+                          p.descricao,
+                          style: GoogleFonts.lato(
+                            fontSize: 13,
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 5),
                       Container(
                         height: containerHeight,
                         width: containerWidth * 0.75,
-                        color: Colors.grey[300],
+                        //color: Colors.grey[300],
                         child: Text(
                           "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
                           style: GoogleFonts.lato(
@@ -202,7 +212,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                                 );
                               },
                               icon: Icon(Icons.add_shopping_cart),
-                              label: Text("add"),
+                              label: Text(""),
                               elevation: 0,
                             ),
                           ],

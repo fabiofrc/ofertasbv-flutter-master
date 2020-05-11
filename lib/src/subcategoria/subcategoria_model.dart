@@ -6,7 +6,7 @@ class SubCategoria {
   String nome;
   DateTime dataRegistro;
   String foto;
-  Categoria categoria;
+  Categoria categoria = new Categoria();
   List<Produto> produtos;
 
   SubCategoria(

@@ -11,8 +11,6 @@ import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/produto_list_home.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
-import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 
 class CatalogoMenu extends StatefulWidget {
   @override
@@ -68,14 +66,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromRGBO(143, 148, 251, .2),
-                  blurRadius: 20.0,
-                  offset: Offset(0, 10),
-                )
-              ],
+              borderRadius: BorderRadius.circular(0),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,14 +81,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(143, 148, 251, .2),
-                        blurRadius: 20.0,
-                        offset: Offset(0, 10),
-                      )
-                    ],
+                    borderRadius: BorderRadius.circular(0),
                   ),
                   height: 280,
                   child: buildGridView(context),

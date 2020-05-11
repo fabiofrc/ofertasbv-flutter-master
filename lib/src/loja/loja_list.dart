@@ -56,7 +56,9 @@ class _LojaListState extends State<LojaList>
           }
 
           if (lojas == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -70,115 +72,96 @@ class _LojaListState extends State<LojaList>
 
   ListView builderList(List<Loja> lojas) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: lojas.length,
       itemBuilder: (context, index) {
         Loja p = lojas[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[200],
-                  child: Image.network(
-                    ConstantApi.urlArquivoLoja + p.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  color: Colors.greenAccent,
-                  child: Column(
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  //color: Colors.grey[200],
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
+                        height: 100,
+                        width: 100,
+                        //color: Colors.grey[200],
+                        child: Image.network(
+                          ConstantApi.urlArquivoLoja + p.foto,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.razaoSocial,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: 40,
-                        width: 160,
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                        //color: Colors.grey[200],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return LojaLocation();
-                                    },
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.location_on),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.nome,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return LojaDetalhes(
-                                        loja: p,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.add),
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
+                                style: GoogleFonts.lato(fontSize: 12),
+                              ),
                             ),
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth * 0.75,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.razaoSocial,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
+                            ),
+                            SizedBox(height: 5),
                           ],
                         ),
+                      ),
+                      Container(
+                        height: 100,
+                        width: 50,
+                        //color: Colors.grey[300],
+                        child: buildPopupMenuButton(context, p),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, p),
-                ),
-              ],
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return LojaDetalhes(
+                        loja: p,
+                      );
+                    },
+                  ),
+                );
+              },
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );

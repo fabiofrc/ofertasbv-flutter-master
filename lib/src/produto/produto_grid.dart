@@ -11,15 +11,26 @@ import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoGrid extends StatefulWidget {
   Promocao p;
   SubCategoria s;
+  Produto pd;
+  String nome;
+  ProdutoFilter filter;
 
-  ProdutoGrid({Key key, this.p, this.s}) : super(key: key);
+  ProdutoGrid({Key key, this.p, this.s, this.pd, this.nome, this.filter})
+      : super(key: key);
 
   @override
-  _ProdutoGridState createState() => _ProdutoGridState(p: this.p, s: this.s);
+  _ProdutoGridState createState() => _ProdutoGridState(
+        p: this.p,
+        s: this.s,
+        pd: this.pd,
+        nome: this.nome,
+        filter: this.filter,
+      );
 }
 
 class _ProdutoGridState extends State<ProdutoGrid>
@@ -30,8 +41,11 @@ class _ProdutoGridState extends State<ProdutoGrid>
 
   Promocao p;
   SubCategoria s;
+  Produto pd;
+  String nome;
+  ProdutoFilter filter;
 
-  _ProdutoGridState({this.p, this.s});
+  _ProdutoGridState({this.p, this.s, this.pd, this.nome, this.filter});
 
   @override
   void initState() {
@@ -127,8 +141,8 @@ class _ProdutoGridState extends State<ProdutoGrid>
       padding: EdgeInsets.only(top: 5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
+        mainAxisSpacing: 2,
+        crossAxisSpacing: 2,
         childAspectRatio: 0.55,
       ),
       itemCount: produtos.length,

@@ -38,12 +38,14 @@ class _ProdutoTabState extends State<ProdutoTab> {
 
   _ProdutoTabState({this.p, this.s, this.pd});
 
-  ProdutoFilter _produtoFilter;
+  ProdutoFilter filter = ProdutoFilter();
   RangeValues values = RangeValues(0, 100);
   RangeLabels labels = RangeLabels('1', '100');
 
   @override
   Widget build(BuildContext context) {
+    filter.destaque = true;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -75,7 +77,7 @@ class _ProdutoTabState extends State<ProdutoTab> {
             ),
             IconButton(
               icon: Icon(
-                Icons.filter_list,
+                Icons.tune,
                 color: Constants.colorIconsAppMenu,
                 size: 30,
               ),
@@ -133,6 +135,7 @@ class _ProdutoTabState extends State<ProdutoTab> {
     );
   }
 
+
   showDialogAlert(BuildContext context) async {
     return showDialog(
       context: context,
@@ -146,20 +149,15 @@ class _ProdutoTabState extends State<ProdutoTab> {
           content: Container(
             height: 200,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                RangeSlider(
-                  min: 0,
-                  max: 100,
-                  values: values,
-                  labels: labels,
-                  onChanged: (value) {
-                    print('START: ${value.start}, END: ${value.end}');
+                Text("Destaque"),
+                Checkbox(
+                  value: filter.destaque,
+                  onChanged: (bool value) {
                     setState(() {
-                      values = value;
-                      labels = RangeLabels(
-                          '${value.start.toInt().toString()}R\$',
-                          '${value.end.toInt().toString()}R\$');
+                      filter.destaque = value;
+                      print("destaque: ${filter.destaque}");
                     });
                   },
                 ),
@@ -170,17 +168,17 @@ class _ProdutoTabState extends State<ProdutoTab> {
             RaisedButton.icon(
               icon: Icon(
                 Icons.cancel,
-                color: Colors.blue[900],
+                color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.blue[900]),
+                side: BorderSide(color: Colors.red),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               label: Text(
                 'CANCELAR',
-                style: GoogleFonts.lato(color: Colors.blue[900]),
+                style: GoogleFonts.lato(color: Colors.white),
               ),
-              color: Colors.transparent,
+              color: Colors.redAccent,
               elevation: 0,
               onPressed: () {
                 Navigator.of(context).pop();
@@ -189,7 +187,7 @@ class _ProdutoTabState extends State<ProdutoTab> {
             RaisedButton.icon(
               icon: Icon(
                 Icons.search,
-                color: Colors.greenAccent,
+                color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.greenAccent),
@@ -197,12 +195,13 @@ class _ProdutoTabState extends State<ProdutoTab> {
               ),
               label: Text(
                 'APLICAR',
-                style: GoogleFonts.lato(color: Colors.greenAccent),
+                style: GoogleFonts.lato(color: Colors.white),
               ),
-              color: Colors.transparent,
+              color: Colors.greenAccent,
               elevation: 0,
               onPressed: () {
-                _bloc.getAllByFilter(_produtoFilter);
+                _bloc.getAllByFilter(filter);
+                filter.destaque = false;
                 Navigator.of(context).pop();
               },
             ),

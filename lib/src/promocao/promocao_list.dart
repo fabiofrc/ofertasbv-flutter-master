@@ -71,7 +71,9 @@ class _PromocaoListState extends State<PromocaoList>
           }
 
           if (promocoes == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -85,92 +87,94 @@ class _PromocaoListState extends State<PromocaoList>
 
   ListView builderList(List<Promocao> promocoes) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: promocoes.length,
       itemBuilder: (context, index) {
         Promocao p = promocoes[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoLoja + p.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  color: Colors.greenAccent,
-                  child: Column(
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  //color: Colors.grey[200],
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
+                        height: 100,
+                        width: 100,
+                        //color: Colors.grey[300],
+                        child: Image.network(
+                          ConstantApi.urlArquivoLoja + p.foto,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.descricao,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "${p.loja.nome}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      RaisedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return PromocaoDetalhes(p);
-                              },
+                        //color: Colors.grey[200],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.nome,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
                             ),
-                          );
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("ver mais"),
-                        elevation: 0,
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.descricao,
+                                style: GoogleFonts.lato(fontSize: 13),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth * 0.75,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                "${p.loja.nome}",
+                                style: GoogleFonts.lato(fontSize: 12),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        width: 50,
+                        //color: Colors.grey[300],
+                        child: buildPopupMenuButton(context, p),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, p),
-                ),
-              ],
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return PromocaoDetalhes(p);
+                    },
+                  ),
+                );
+              },
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );

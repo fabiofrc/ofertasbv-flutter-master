@@ -10,6 +10,7 @@ import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
 import 'package:ofertasbv/src/categoria/categoria_create_page.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
+import 'package:ofertasbv/src/categoria/categoria_subcategoria.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
 import 'package:ofertasbv/src/util/load_list_categoria.dart';
 
@@ -89,7 +90,9 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
           }
 
           if (categorias == null) {
-            return LoadListCategoria();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -135,12 +138,12 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 1),
+                      SizedBox(height: 0),
                       Container(
                         padding: EdgeInsets.all(5),
                         height: 30,
                         width: containerWidth,
-                        color: Colors.grey[300],
+                        color: Colors.grey[200],
                         child: Text(
                           c.nome,
                           style: GoogleFonts.lato(
@@ -161,9 +164,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return SubcategoriaPage(
-                    c: c,
-                  );
+                  return CategoriaSubCategoria();
                 },
               ),
             );

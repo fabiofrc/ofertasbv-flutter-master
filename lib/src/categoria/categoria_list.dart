@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/categoria/categoria_controller.dart';
 import 'package:ofertasbv/src/categoria/categoria_create_page.dart';
 import 'package:ofertasbv/src/categoria/categoria_model.dart';
+import 'package:ofertasbv/src/categoria/categoria_subcategoria.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_page.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
@@ -56,7 +56,9 @@ class _CategoriaListState extends State<CategoriaList>
           }
 
           if (categorias == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -70,89 +72,90 @@ class _CategoriaListState extends State<CategoriaList>
 
   ListView builderList(List<Categoria> categorias) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: categorias.length,
       itemBuilder: (context, index) {
         Categoria c = categorias[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoCategoria + c.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: containerWidth,
-                  color: Colors.greenAccent,
-                  child: Column(
+        return Column(
+          children: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  //color: Colors.grey[200],
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        height: containerHeight,
-                        width: containerWidth,
+                        height: 100,
+                        width: 100,
                         color: Colors.grey[300],
-                        child: Text(
-                          c.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
+                        child: Image.network(
+                          ConstantApi.urlArquivoCategoria + c.foto,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 5),
                       Container(
-                        height: containerHeight,
                         width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "Cód. ${c.id}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                      ),
-                      SizedBox(height: 5),
-                      RaisedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return SubcategoriaPage(c: c);
-                              },
+                        //color: Colors.grey[200],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                c.nome,
+                                style: GoogleFonts.lato(fontSize: 14),
+                              ),
                             ),
-                          );
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("ver mais"),
-                        elevation: 0,
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                "Cód. ${c.id}",
+                                style: GoogleFonts.lato(fontSize: 12),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth * 0.75,
+                              //color: Colors.grey[300],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 100,
+                        width: 50,
+                        //color: Colors.grey[300],
+                        child: buildPopupMenuButton(context, c),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, c),
-                ),
-              ],
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return CategoriaSubCategoria();
+                    },
+                  ),
+                );
+              },
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );

@@ -136,7 +136,6 @@ class _PedidoListState extends State<PedidoList> {
                 Container(
                   height: 115,
                   width: 110,
-                  color: Colors.grey[300],
                   child: Image.network(
                     ConstantApi.urlArquivoProduto + p.produto.foto,
                     fit: BoxFit.cover,
@@ -148,7 +147,7 @@ class _PedidoListState extends State<PedidoList> {
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey[300],
+                      //color: Colors.grey[300],
                       child: Text(
                         p.produto.nome,
                         style: GoogleFonts.lato(fontSize: 14),
@@ -158,7 +157,7 @@ class _PedidoListState extends State<PedidoList> {
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey[300],
+                      //color: Colors.grey[300],
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,7 +183,7 @@ class _PedidoListState extends State<PedidoList> {
                     Container(
                       height: containerHeight,
                       width: containerWidth,
-                      color: Colors.grey[300],
+                      //color: Colors.grey[300],
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

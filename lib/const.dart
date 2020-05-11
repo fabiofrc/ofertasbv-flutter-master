@@ -79,7 +79,7 @@ class Constants {
 
   static TextStyle textoDrawerTitulo = TextStyle(
     fontWeight: FontWeight.w400,
-    color: Colors.blue[900],
+    color: Colors.grey[800],
     fontSize: 14,
   );
 
@@ -90,7 +90,7 @@ class Constants {
     fontFamily: "Raleway",
   );
 
-  static Color colorIconsMenu = Colors.redAccent;
+  static Color colorIconsMenu = Colors.grey[800];
   static Color colorIconsConfig = Colors.black;
   static Color colorIconsAppMenu = Colors.white;
 }

@@ -5,9 +5,13 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ofertasbv/const.dart';
+import 'package:ofertasbv/src/cliente/cliente_create_page.dart';
 import 'package:ofertasbv/src/configuracao/catalogo_menu.dart';
 import 'package:ofertasbv/src/configuracao/config_page.dart';
+import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/pedido/pedido_page.dart';
+import 'package:ofertasbv/src/produto/produto_search.dart';
+import 'package:ofertasbv/src/promocao/promocao_page.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 import 'package:ofertasbv/src/usuario/usuario_controller.dart';
 import 'package:ofertasbv/src/usuario/usuario_model.dart';
@@ -47,37 +51,187 @@ class DrawerList extends StatelessWidget {
     return ListView(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 20, left: 10),
-          height: 100,
-          color: Colors.redAccent[400],
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.only(left: 10),
+          color: Colors.red[600],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                "U-NOSSO",
-                style: GoogleFonts.lato(color: Colors.white),
+              CircleAvatar(
+                child: Icon(Icons.account_circle, size: 40,),
+                maxRadius: 30,
+                backgroundColor: Colors.red,
               ),
-              Observer(
-                builder: (context) {
-                  Usuario u = usuarioController.usuarioSelecionado;
-
-                  if (usuarioController.error != null) {
-                    return Text("Não foi possível carregados dados");
-                  }
-
-                  if (u == null) {
-                    return Text("exemplo@email.com");
-                  }
-                  return Text(
-                    u.email,
-                    style: GoogleFonts.lato(
-                      color: Colors.grey[200],
+              Container(
+                padding: EdgeInsets.all(10),
+                height: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Bem-vindo ao u-nosso",
+                      style: GoogleFonts.lato(color: Colors.white),
                     ),
-                  );
-                },
+                    Observer(
+                      builder: (context) {
+                        Usuario u = usuarioController.usuarioSelecionado;
+
+                        if (usuarioController.error != null) {
+                          return Text("Não foi possível carregados dados");
+                        }
+
+                        if (u == null) {
+                          return Text("exemplo@email.com");
+                        }
+                        return Text(
+                          u.email,
+                          style: GoogleFonts.lato(
+                            color: Colors.grey[400],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
+        ),
+        
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.home,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Home",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return HomePage();
+                },
+              ),
+            );
+          },
+        ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.search,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Buscar",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            showSearch(
+              context: context,
+              delegate: ProdutoSearchDelegate(),
+            );
+          },
+        ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.account_circle,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Minha Conta",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ClienteCreatePage();
+                },
+              ),
+            );
+          },
+        ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.shopping_basket,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Meus pedidos",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PedidoPage();
+                },
+              ),
+            );
+          },
+        ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.shop_two,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Ofertas",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PromocaoPage();
+                },
+              ),
+            );
+          },
+        ),
+
+        ListTile(
+          selected: true,
+          leading: Icon(
+            Icons.list,
+            color: Constants.colorIconsMenu,
+          ),
+          title: Text(
+            "Categorias",
+            style: Constants.textoDrawerTitulo,
+          ),
+          trailing: Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return PromocaoPage();
+                },
+              ),
+            );
+          },
         ),
 
         ListTile(
@@ -127,28 +281,7 @@ class DrawerList extends StatelessWidget {
         ),
 
 
-        ListTile(
-          selected: true,
-          leading: Icon(
-            Icons.shopping_basket,
-            color: Constants.colorIconsMenu,
-          ),
-          title: Text(
-            "Pedidos",
-            style: Constants.textoDrawerTitulo,
-          ),
-          trailing: Icon(Icons.arrow_forward),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return PedidoPage();
-                },
-              ),
-            );
-          },
-        ),
+
 
         ListTile(
           selected: true,

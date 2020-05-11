@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
+import 'package:ofertasbv/src/categoria/categoria_controller.dart';
+import 'package:ofertasbv/src/categoria/categoria_pesquisa.dart';
 import 'package:ofertasbv/src/produto/produto_controller.dart';
 import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
@@ -9,6 +11,7 @@ import 'package:ofertasbv/src/produto/produto_page.dart';
 
 class ProdutoSearchDelegate extends SearchDelegate<Produto> {
   final _bloc = GetIt.I.get<ProdutoController>();
+  final categoriaController = GetIt.I.get<CategoriaController>();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -65,6 +68,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
       builder: (context) {
         List<Produto> produtos = _bloc.produtos;
 
+
         if (_bloc.error != null) {
           return Text("Não foi possível buscar produtos");
         }
@@ -83,11 +87,7 @@ class ProdutoSearchDelegate extends SearchDelegate<Produto> {
                 .toList();
 
         if (resultados.length == 0) {
-          return Center(
-            child: Container(
-              child: Text("Escreva o nome do produto que procura"),
-            ),
-          );
+          return CategoriaPesquisa();
         }
 
         return ListView.builder(

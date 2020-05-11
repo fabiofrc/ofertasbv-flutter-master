@@ -53,7 +53,9 @@ class _ClienteListState extends State<ClienteList>
           }
 
           if (clientes == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -67,100 +69,90 @@ class _ClienteListState extends State<ClienteList>
 
   ListView builderList(List<Cliente> clientes) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: clientes.length,
       itemBuilder: (context, index) {
         Cliente p = clientes[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 110,
-                  width: 110,
-                  color: Colors.grey[200],
-                  child: Image.network(
-                    ConstantApi.urlArquivoCliente + p.foto,
-                    fit: BoxFit.cover,
-                  ),
+        return Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Container(
+                //color: Colors.grey[200],
+                margin: EdgeInsets.symmetric(vertical: 7.5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      height: 110,
+                      width: 110,
+                      child: Image.network(
+                        ConstantApi.urlArquivoCliente + p.foto,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      //color: Colors.greenAccent,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Text(
+                              p.nome,
+                              style: GoogleFonts.lato(fontSize: 14),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: p.enderecos.isNotEmpty
+                                ? Text(
+                                    "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
+                                    style: GoogleFonts.lato(fontSize: 12),
+                                  )
+                                : Text("sem endereços"),
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth * 0.75,
+                            //color: Colors.grey[300],
+                            child: Text(
+                              p.cpf,
+                              style: GoogleFonts.lato(fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 50,
+                      //color: Colors.grey[300],
+                      child: buildPopupMenuButton(context, p),
+                    ),
+                  ],
                 ),
-                Container(
-                  color: Colors.greenAccent,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                        child: Text(
-                          p.cpf,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      RaisedButton.icon(
-                        onPressed: () {
-//                        Navigator.of(context).push(
-//                          MaterialPageRoute(
-//                            builder: (BuildContext context) {
-//                              return LojaDetalhes(
-//                                loja: p,
-//                              );
-//                            },
-//                          ),
-//                        );
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text("ver mais"),
-                        elevation: 0,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, p),
-                ),
-              ],
+              ),
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );
   }
 
-  PopupMenuButton<String> buildPopupMenuButton(BuildContext context, Cliente p) {
+  PopupMenuButton<String> buildPopupMenuButton(
+      BuildContext context, Cliente p) {
     return PopupMenuButton<String>(
       padding: EdgeInsets.zero,
       icon: Icon(Icons.more_vert),
@@ -210,8 +202,6 @@ class _ClienteListState extends State<ClienteList>
       ],
     );
   }
-
-
 
   @override
   // TODO: implement wantKeepAlive

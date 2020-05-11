@@ -13,14 +13,17 @@ import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoPage extends StatefulWidget {
   Promocao p;
   SubCategoria s;
   Produto pd;
   String nome;
+  ProdutoFilter filter;
 
-  ProdutoPage({Key key, this.p, this.s, this.pd, this.nome}) : super(key: key);
+  ProdutoPage({Key key, this.p, this.s, this.pd, this.nome, this.filter})
+      : super(key: key);
 
   @override
   _ProdutoPageState createState() => _ProdutoPageState(
@@ -28,6 +31,7 @@ class ProdutoPage extends StatefulWidget {
         s: this.s,
         pd: this.pd,
         nome: this.nome,
+        filter: this.filter,
       );
 }
 
@@ -40,8 +44,9 @@ class _ProdutoPageState extends State<ProdutoPage>
   SubCategoria s;
   Produto pd;
   String nome;
+  ProdutoFilter filter;
 
-  _ProdutoPageState({this.p, this.s, this.pd, this.nome});
+  _ProdutoPageState({this.p, this.s, this.pd, this.nome, this.filter});
 
   AnimationController animationController;
   Animation<double> animation;

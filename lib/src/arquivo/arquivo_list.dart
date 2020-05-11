@@ -57,7 +57,9 @@ class _ArquivoListState extends State<ArquivoList>
           }
 
           if (arquivos == null) {
-            return ShimmerList();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           return RefreshIndicator(
@@ -71,75 +73,79 @@ class _ArquivoListState extends State<ArquivoList>
 
   ListView builderList(List<Arquivo> arquivos) {
     double containerWidth = 160;
-    double containerHeight = 20;
+    double containerHeight = 30;
 
     return ListView.builder(
       itemCount: arquivos.length,
       itemBuilder: (context, index) {
         Arquivo c = arquivos[index];
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Container(
-            color: Colors.grey[200],
-            margin: EdgeInsets.symmetric(vertical: 7.5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 100,
-                  width: 100,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    ConstantApi.urlArquivoCategoria + c.foto,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  width: containerWidth,
-                  color: Colors.greenAccent,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          c.nome,
-                          style: GoogleFonts.lato(fontSize: 14),
-                        ),
+        return Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Container(
+                //color: Colors.grey[200],
+                margin: EdgeInsets.symmetric(vertical: 7.5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: Image.network(
+                        ConstantApi.urlArquivoCategoria + c.foto,
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Text(
-                          "Cód. ${c.id}",
-                          style: GoogleFonts.lato(fontSize: 12),
-                        ),
+                    ),
+                    Container(
+                      width: containerWidth,
+                      //color: Colors.grey[200],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Text(
+                              c.nome,
+                              style: GoogleFonts.lato(fontSize: 14),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Text(
+                              "Cód. ${c.id}",
+                              style: GoogleFonts.lato(fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth * 0.75,
+                            //color: Colors.grey[300],
+                          ),
+                          SizedBox(height: 5),
+                        ],
                       ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        color: Colors.grey[300],
-                      ),
-                      SizedBox(height: 5),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      height: 100,
+                      width: 50,
+                      //color: Colors.grey[300],
+                      child: buildPopupMenuButton(context, c),
+                    ),
+                  ],
                 ),
-                Container(
-                  height: 100,
-                  width: 50,
-                  color: Colors.grey[300],
-                  child: buildPopupMenuButton(context, c),
-                ),
-              ],
+              ),
             ),
-          ),
+            Divider(),
+          ],
         );
       },
     );
@@ -159,7 +165,9 @@ class _ArquivoListState extends State<ArquivoList>
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return ArquivoCreatePage(a: a,);
+                return ArquivoCreatePage(
+                  a: a,
+                );
               },
             ),
           );

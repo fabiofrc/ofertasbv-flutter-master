@@ -14,6 +14,9 @@ abstract class PedidoItemControllerBase with Store {
   double total;
 
   @observable
+  PedidoItem item;
+
+  @observable
   List<PedidoItem> itens = List<PedidoItem>();
 
   @observable
@@ -29,9 +32,19 @@ abstract class PedidoItemControllerBase with Store {
   }
 
   @action
-  adicionar(PedidoItem item) {
+  adicionar(item) {
     item.quantidade = 1;
     item.valorUnitario = item.produto.estoque.precoCusto;
+    item.valorTotal = item.quantidade * item.valorUnitario;
+    itens.add(item);
+    calculateTotal();
+  }
+
+  adicionarTeste(Produto produto) {
+    item = new PedidoItem();
+    item.produto = produto;
+    item.quantidade = 1;
+    item.valorUnitario = produto.estoque.precoCusto;
     item.valorTotal = item.quantidade * item.valorUnitario;
     itens.add(item);
     calculateTotal();
