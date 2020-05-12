@@ -38,13 +38,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? LoadListProduto() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -59,7 +53,10 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
 
           if (produtos == null) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.greenAccent,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+              ),
             );
           }
 
@@ -90,16 +87,21 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
             child: AnimatedContainer(
               duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    height: 110,
-                    width: 110,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.foto,
                       fit: BoxFit.cover,
+                      width: 110,
+                      height: 110,
                     ),
                   ),
                   Column(
@@ -108,7 +110,7 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       Container(
                         height: containerHeight,
                         width: containerWidth,
-                        //color: Colors.grey[300],
+                        //color: Colors.white,
                         child: Text(
                           p.nome,
                           style: GoogleFonts.lato(
@@ -137,6 +139,16 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       SizedBox(height: 5),
                       Container(
                         height: containerHeight,
+                        width: containerWidth,
+                        //color: Colors.grey[300],
+                        child: Text(
+                          p.loja != null ? (p.loja.nome) : "sem loja",
+                          style: GoogleFonts.lato(fontSize: 12),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        height: containerHeight,
                         width: containerWidth * 0.75,
                         //color: Colors.grey[300],
                         child: Text(
@@ -146,76 +158,6 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                               color: Colors.green,
                               textStyle:
                                   TextStyle(fontWeight: FontWeight.w600)),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        width: containerWidth,
-                        height: 40,
-                        color: Colors.grey[300],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Container(
-                              width: 110,
-                              height: 30,
-                              color: Colors.grey[100],
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  SizedBox(
-                                    child: RaisedButton(
-                                      onPressed: () {
-                                        print("removendo - ");
-                                      },
-                                      child: Text("-"),
-                                      elevation: 0,
-                                    ),
-                                    width: 38,
-                                  ),
-                                  Container(
-//                                  padding: EdgeInsets.only(top: 10, left: 5),
-                                    width: 30,
-                                    height: 30,
-                                    color: Colors.grey[200],
-                                    child: Center(
-                                      child: Text(
-                                        "1",
-                                        style: GoogleFonts.lato(fontSize: 10),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: RaisedButton(
-                                      onPressed: () {
-                                        print("adicionando + ");
-                                      },
-                                      child: Text("+"),
-                                      elevation: 0,
-                                    ),
-                                    width: 38,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            RaisedButton.icon(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return ProdutoDetalhesTab(p);
-                                    },
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.add_shopping_cart),
-                              label: Text(""),
-                              elevation: 0,
-                            ),
-                          ],
                         ),
                       ),
                     ],

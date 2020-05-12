@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_controller.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_create_page.dart';
 import 'package:ofertasbv/src/arquivo/arquivo_model.dart';
-import 'package:ofertasbv/src/arquivo/arquivo_page.dart';
-import 'package:ofertasbv/src/categoria/categoria_model.dart';
-import 'package:ofertasbv/src/util/load_list.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 
 class ArquivoList extends StatefulWidget {
   @override
@@ -37,13 +34,7 @@ class _ArquivoListState extends State<ArquivoList>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? ShimmerList() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -57,9 +48,7 @@ class _ArquivoListState extends State<ArquivoList>
           }
 
           if (arquivos == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(
@@ -91,12 +80,13 @@ class _ArquivoListState extends State<ArquivoList>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      height: 100,
-                      width: 100,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        ConstantApi.urlArquivoCategoria + c.foto,
+                        ConstantApi.urlArquivoArquivo + c.foto,
                         fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
                       ),
                     ),
                     Container(
@@ -111,7 +101,12 @@ class _ArquivoListState extends State<ArquivoList>
                             //color: Colors.grey[300],
                             child: Text(
                               c.nome,
-                              style: GoogleFonts.lato(fontSize: 14),
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(height: 5),

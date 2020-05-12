@@ -70,13 +70,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? LoadListCategoria() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -91,7 +85,10 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
 
           if (categorias == null) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.greenAccent,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+              ),
             );
           }
 
@@ -118,44 +115,43 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
         return GestureDetector(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6),
-            child: AnimatedContainer(
-              transform: Matrix4.translationValues(0, 0, 0)..scale(1.0),
-              duration: Duration(seconds: 2),
-              margin: EdgeInsets.symmetric(vertical: 7.5),
+            child: Container(
+              height: 80,
+              width: 100,
+              //margin: EdgeInsets.symmetric(vertical: 7.5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 80,
-                        width: containerWidth,
-                        color: Colors.grey[300],
-                        child: Image.network(
-                          ConstantApi.urlArquivoCategoria + c.foto,
-                          fit: BoxFit.cover,
+                  CircleAvatar(
+                    maxRadius: 40,
+                    minRadius: 40,
+                    child: Image.network(
+                      ConstantApi.urlArquivoCategoria + c.foto,
+                      fit: BoxFit.fill,
+                      width: 90,
+                      height: 90,
+                    ),
+                  ),
+                  SizedBox(height: 0),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    height: 30,
+                    width: containerWidth,
+                    color: Colors.white,
+                    child: Text(
+                      c.nome,
+                      style: GoogleFonts.lato(
+                        fontSize: 13,
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(height: 0),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        height: 30,
-                        width: containerWidth,
-                        color: Colors.grey[200],
-                        child: Text(
-                          c.nome,
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                    ),
+                  ),
                 ],
               ),
             ),

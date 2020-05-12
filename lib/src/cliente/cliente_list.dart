@@ -8,6 +8,7 @@ import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/cliente/cliente_controller.dart';
 import 'package:ofertasbv/src/cliente/cliente_create_page.dart';
 import 'package:ofertasbv/src/cliente/cliente_model.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class ClienteList extends StatefulWidget {
@@ -33,13 +34,7 @@ class _ClienteListState extends State<ClienteList>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? ShimmerList() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -53,9 +48,7 @@ class _ClienteListState extends State<ClienteList>
           }
 
           if (clientes == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(
@@ -87,12 +80,13 @@ class _ClienteListState extends State<ClienteList>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      height: 110,
-                      width: 110,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         ConstantApi.urlArquivoCliente + p.foto,
                         fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
                       ),
                     ),
                     Container(

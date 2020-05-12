@@ -14,6 +14,7 @@ import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 import 'package:ofertasbv/src/util/produto_filter.dart';
 
@@ -89,13 +90,7 @@ class _ProdutoListState extends State<ProdutoList>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? ShimmerList() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -109,9 +104,7 @@ class _ProdutoListState extends State<ProdutoList>
           }
 
           if (produtos == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(
@@ -132,148 +125,100 @@ class _ProdutoListState extends State<ProdutoList>
       itemBuilder: (context, index) {
         Produto p = produtos[index];
 
-        return Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: Container(
-                //color: Colors.grey[200],
-                margin: EdgeInsets.symmetric(vertical: 7.5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      height: 100,
-                      width: 100,
-                      //color: Colors.grey[300],
-                      child: Image.network(
-                        ConstantApi.urlArquivoProduto + p.foto,
-                        fit: BoxFit.cover,
+        return GestureDetector(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  //color: Colors.grey[200],
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          ConstantApi.urlArquivoProduto + p.foto,
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                        ),
                       ),
-                    ),
-                    Container(
-                      width: containerWidth,
-                      //color: Colors.grey[200],
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: containerHeight,
-                            width: containerWidth,
-                            //color: Colors.grey[300],
-                            child: Text(
-                              p.nome,
-                              style: GoogleFonts.lato(
-                                fontSize: 14,
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Container(
-                            height: 20,
-                            width: containerWidth * 0.75,
-                            //color: Colors.grey[300],
-                            child: Text(
-                              "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
-                              style: GoogleFonts.lato(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Container(
-                            width: containerWidth,
-                            height: 40,
-                            //color: Colors.grey[300],
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Container(
-                                  width: 110,
-                                  height: 30,
-                                  color: Colors.grey[200],
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            print("removendo - ");
-                                            _pedidoController.deCremento();
-                                          },
-                                          icon: Icon(Icons.remove),
-                                        ),
-                                        width: 38,
-                                      ),
-                                      Container(
-//                                  padding: EdgeInsets.only(top: 10, left: 5),
-                                        width: 30,
-                                        height: 30,
-                                        color: Colors.grey[200],
-                                        child: Center(
-                                          child: Observer(
-                                            builder: (context) {
-                                              return Center(
-                                                child: Text(
-                                                    "${_pedidoController.itensIncrimento}"),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            print("adicionando + ");
-                                            _pedidoController.inCremento();
-                                          },
-                                          icon: Icon(Icons.add),
-                                        ),
-                                        width: 38,
-                                      ),
-                                    ],
+                      Container(
+                        width: containerWidth,
+                        //color: Colors.grey[200],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.nome,
+                                style: GoogleFonts.lato(
+                                  fontSize: 14,
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                          return ProdutoDetalhesTab(p);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  color: Colors.grey[600],
-                                  icon: Icon(Icons.shopping_cart),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 5),
+                            Container(
+                              height: containerHeight,
+                              width: containerWidth,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                p.descricao,
+                                style: GoogleFonts.lato(
+                                  fontSize: 14,
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              height: 20,
+                              width: containerWidth * 0.75,
+                              //color: Colors.grey[300],
+                              child: Text(
+                                "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
+                                style: GoogleFonts.lato(
+                                  fontSize: 16,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 100,
-                      width: 50,
-                      //color: Colors.grey[300],
-                      child: buildPopupMenuButton(context, p),
-                    ),
-                  ],
+                      Container(
+                        height: 100,
+                        width: 50,
+                        //color: Colors.grey[300],
+                        child: buildPopupMenuButton(context, p),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Divider(),
-          ],
+              Divider(),
+            ],
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProdutoDetalhesTab(p);
+                },
+              ),
+            );
+          },
         );
       },
     );

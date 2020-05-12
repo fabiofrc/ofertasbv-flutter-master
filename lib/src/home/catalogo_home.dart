@@ -23,194 +23,215 @@ class _CatalogoHomeState extends State<CatalogoHome> {
       padding: EdgeInsets.all(0),
       children: <Widget>[
         SizedBox(height: 2),
-        Container(
-          padding: EdgeInsets.all(5),
-          color: Colors.grey[200],
+        Card(
+          color: Colors.white,
           child: Container(
-              padding: EdgeInsets.all(20),
-              color: Colors.white,
-              height: 150,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            padding: EdgeInsets.all(5),
+            child: Container(
+                padding: EdgeInsets.all(20),
+                color: Colors.white,
+                height: 150,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return ClienteCreatePage();
+                            },
+                          ),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.greenAccent),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                      color: Colors.greenAccent,
+                      child: Text(
+                        "Criar conta",
+                        style: GoogleFonts.lato(
+                          fontSize: 15,
+                          color: Colors.white,
+                          textStyle: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      elevation: 0,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return HomePage();
+                            },
+                          ),
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                      color: Colors.white,
+                      child: Text(
+                        "Acessar a minha conta",
+                        style: GoogleFonts.lato(
+                          fontSize: 15,
+                          color: Colors.deepOrangeAccent,
+                          textStyle: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      elevation: 0,
+                    ),
+                  ],
+                )),
+          ),
+        ),
+        SizedBox(height: 2),
+        Card(
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  RaisedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return ClienteCreatePage();
-                          },
-                        ),
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.greenAccent),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                    color: Colors.greenAccent,
-                    child: Text(
-                      "Criar conta",
-                      style: GoogleFonts.lato(
-                        fontSize: 15,
-                        color: Colors.white,
-                        textStyle: TextStyle(fontWeight: FontWeight.w600),
+                  Text(
+                    " departamento",
+                    style: GoogleFonts.lato(
+                      fontSize: 16,
+                      color: Colors.grey[900],
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    elevation: 0,
                   ),
-
-                  RaisedButton(
+                  FlatButton(
+                    child: Text(
+                      "veja mais",
+                      style: GoogleFonts.lato(
+                        fontSize: 16,
+                        color: Colors.orange[900],
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return HomePage();
+                            return CategoriaPage();
                           },
                         ),
                       );
                     },
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    ),
-                    color: Colors.white,
-                    child: Text(
-                      "Acessar a minha conta",
-                      style: GoogleFonts.lato(
-                        fontSize: 15,
-                        color: Colors.deepOrangeAccent,
-                        textStyle: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    elevation: 0,
                   ),
                 ],
-              )),
+              ),
+              SizedBox(height: 2),
+              Container(
+                padding: EdgeInsets.all(2),
+                height: 130,
+                child: CategoriaListHome(),
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 2),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              " departamento",
-              style: GoogleFonts.lato(
-                fontSize: 16,
-                color: Colors.grey[900],
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            FlatButton(
-              child: Text(
-                "veja mais",
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  color: Colors.orange[900],
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
+        Card(
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    " ofertas",
+                    style: GoogleFonts.lato(
+                      fontSize: 16,
+                      color: Colors.grey[900],
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return CategoriaPage();
+                  FlatButton(
+                    child: Text(
+                      "veja mais",
+                      style: GoogleFonts.lato(
+                        fontSize: 16,
+                        color: Colors.orange[900],
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return PromocaoPage();
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
-          ],
-        ),
-        Container(
-          color: Colors.transparent,
-          height: 140,
-          child: CategoriaListHome(),
+                ],
+              ),
+              SizedBox(height: 2),
+              Container(
+                height: 220,
+                child: PromocaoListHome(),
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 2),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              " ofertas",
-              style: GoogleFonts.lato(
-                fontSize: 16,
-                color: Colors.grey[900],
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            FlatButton(
-              child: Text(
-                "veja mais",
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  color: Colors.orange[900],
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
+        Card(
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    " produtos em destaque",
+                    style: GoogleFonts.lato(
+                      fontSize: 16,
+                      color: Colors.grey[900],
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return PromocaoPage();
+                  FlatButton(
+                    child: Text(
+                      "veja mais",
+                      style: GoogleFonts.lato(
+                        fontSize: 16,
+                        color: Colors.orange[900],
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return ProdutoPage();
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
-          ],
-        ),
-        SizedBox(height: 2),
-        Container(
-          color: Colors.transparent,
-          height: 230,
-          child: PromocaoListHome(),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              " produtos em destaque",
-              style: GoogleFonts.lato(
-                fontSize: 16,
-                color: Colors.grey[900],
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
+                ],
               ),
-            ),
-            FlatButton(
-              child: Text(
-                "veja mais",
-                style: GoogleFonts.lato(
-                  fontSize: 16,
-                  color: Colors.orange[900],
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+              SizedBox(height: 2),
+              Container(
+                height: 130,
+                child: ProdutoListHome(),
               ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ProdutoPage();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-        Container(
-          height: 130,
-          child: ProdutoListHome(),
+            ],
+          ),
         ),
         SizedBox(height: 20),
       ],

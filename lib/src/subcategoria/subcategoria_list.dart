@@ -11,6 +11,7 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_create_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class SubcategoriaList extends StatefulWidget {
@@ -49,13 +50,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? ShimmerList() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -69,9 +64,7 @@ class _SubcategoriaListState extends State<SubcategoriaList>
           }
 
           if (subCategorias == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(
@@ -104,12 +97,13 @@ class _SubcategoriaListState extends State<SubcategoriaList>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        height: 100,
-                        width: 100,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           ConstantApi.urlArquivoSubCategoria + c.foto,
                           fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
                         ),
                       ),
                       Container(
@@ -123,7 +117,12 @@ class _SubcategoriaListState extends State<SubcategoriaList>
                               //color: Colors.grey[300],
                               child: Text(
                                 c.nome,
-                                style: GoogleFonts.lato(fontSize: 13),
+                                style: GoogleFonts.lato(
+                                  fontSize: 14,
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(height: 5),

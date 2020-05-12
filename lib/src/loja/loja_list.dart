@@ -11,6 +11,7 @@ import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_detalhes.dart';
 import 'package:ofertasbv/src/loja/loja_controller.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 import 'package:ofertasbv/src/util/load_list.dart';
 
 class LojaList extends StatefulWidget {
@@ -36,13 +37,7 @@ class _LojaListState extends State<LojaList>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? ShimmerList() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -56,9 +51,7 @@ class _LojaListState extends State<LojaList>
           }
 
           if (lojas == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(
@@ -91,13 +84,13 @@ class _LojaListState extends State<LojaList>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        height: 100,
-                        width: 100,
-                        //color: Colors.grey[200],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           ConstantApi.urlArquivoLoja + p.foto,
                           fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
                         ),
                       ),
                       Container(
@@ -106,12 +99,17 @@ class _LojaListState extends State<LojaList>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              height: containerHeight,
+                              height: 35,
                               width: containerWidth,
                               //color: Colors.grey[300],
                               child: Text(
                                 p.nome,
-                                style: GoogleFonts.lato(fontSize: 13),
+                                style: GoogleFonts.lato(
+                                  fontSize: 14,
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(height: 5),

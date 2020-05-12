@@ -83,7 +83,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  height: 280,
+                  height: 350,
                   child: buildGridView(context),
                 ),
                 SizedBox(height: 4),
@@ -115,8 +115,8 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
   GridView buildGridView(BuildContext context) {
     return GridView.count(
       padding: EdgeInsets.only(top: 2),
-      crossAxisSpacing: 20,
-      mainAxisSpacing: 20,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
       crossAxisCount: 3,
 
       //childAspectRatio: MediaQuery.of(context).size.aspectRatio * 1.9,
@@ -302,6 +302,98 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             ],
           ),
         ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return LeitorQRCode();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.qrcodeScan,
+                  color: Constants.colorIconsMenu,
+                  size: 30,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "QR code",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return LeitorCodigoBarra();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.barcode,
+                  color: Constants.colorIconsMenu,
+                  size: 30,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Cod de barra",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SobrePage();
+                },
+              ),
+            );
+          },
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  MdiIcons.informationOutline,
+                  color: Constants.colorIconsMenu,
+                  size: 30,
+                ),
+                padding: EdgeInsets.all(20),
+              ),
+              Text(
+                "Sobre",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+
       ],
     );
   }

@@ -11,6 +11,7 @@ import 'package:ofertasbv/src/produto/produto_detalhes_tab.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 import 'package:ofertasbv/src/promocao/promocao_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 import 'package:ofertasbv/src/util/produto_filter.dart';
 
 class ProdutoGrid extends StatefulWidget {
@@ -122,9 +123,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
           }
 
           if (produtos == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           return RefreshIndicator(

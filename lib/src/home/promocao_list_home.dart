@@ -48,13 +48,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 3), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    return isLoading ? LoadListOferta() : builderConteudoList();
+    return builderConteudoList();
   }
 
   builderConteudoList() {
@@ -69,7 +63,10 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
 
           if (promocoes == null) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.greenAccent,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+              ),
             );
           }
 
@@ -100,6 +97,10 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
             child: AnimatedContainer(
               duration: Duration(seconds: 2),
               margin: EdgeInsets.symmetric(vertical: 7.5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,12 +108,13 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        height: 120,
-                        width: containerWidth,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           ConstantApi.urlArquivoPromocao + p.foto,
                           fit: BoxFit.cover,
+                          width: 165,
+                          height: 120,
                         ),
                       ),
                       SizedBox(height: 0),
@@ -120,7 +122,7 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
                         padding: EdgeInsets.all(5),
                         height: 70,
                         width: containerWidth,
-                        color: Colors.grey[200],
+                        color: Colors.white,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[

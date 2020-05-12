@@ -12,6 +12,7 @@ import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_controller.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
+import 'package:ofertasbv/src/util/circular_progresso.dart';
 
 class CategoriaSubCategoria extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Departamentos"),
+        title: Text("Departamento", style: GoogleFonts.lato()),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -62,17 +63,19 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
         //color: Colors.grey,
         child: Row(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(4),
-              width: 110,
-              color: Colors.grey[200],
-              child: builderConteudoListCategoria(),
+            Card(
+              child: Container(
+                padding: EdgeInsets.all(2),
+                width: 110,
+                child: builderConteudoListCategoria(),
+              ),
             ),
-            Container(
-              padding: EdgeInsets.all(4),
-              width: 250,
-              //color: Colors.green,
-              child: builderConteutoListSubCategoria(),
+            Card(
+              child: Container(
+                padding: EdgeInsets.all(2),
+                width: 230,
+                child: builderConteutoListSubCategoria(),
+              ),
             )
           ],
         ),
@@ -92,7 +95,10 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
 
           if (categorias == null) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.greenAccent,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+              ),
             );
           }
 
@@ -120,7 +126,10 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
         Categoria p = categorias[index];
         return GestureDetector(
           child: AnimatedContainer(
-            decoration: BoxDecoration(color: Colors.grey[200]),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
             child: Column(
@@ -128,15 +137,16 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      height: 80,
-                      width: containerWidth,
-                      color: Colors.white,
+                    CircleAvatar(
+                      maxRadius: 40,
+                      minRadius: 40,
                       child: Image.network(
                         ConstantApi.urlArquivoCategoria + p.foto,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
+                        width: 90,
+                        height: 90,
                       ),
                     ),
                     SizedBox(height: 0),
@@ -184,9 +194,7 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
           }
 
           if (subCategorias == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return CircularProgressor();
           }
 
           if (subCategorias.length == 0) {
@@ -203,7 +211,7 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
                     ),
                   ),
                   Text(
-                    "Ops! sem produtos",
+                    "Ops! sem departamento",
                     style: GoogleFonts.lato(color: Colors.grey[500]),
                   ),
                 ],
@@ -225,9 +233,9 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
       padding: EdgeInsets.only(top: 5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-        childAspectRatio: 1.06,
+        mainAxisSpacing:6,
+        crossAxisSpacing: 6,
+        childAspectRatio: 1,
       ),
       itemCount: subCategorias.length,
       itemBuilder: (context, index) {
@@ -235,21 +243,21 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
         return GestureDetector(
           child: AnimatedContainer(
             decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(00),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
             ),
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  height: 80,
-                  width: containerWidth,
-                  color: Colors.grey[300],
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     ConstantApi.urlArquivoSubCategoria + p.foto,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
+                    width: 120,
+                    height: 80,
                   ),
                 ),
                 SizedBox(height: 0),
