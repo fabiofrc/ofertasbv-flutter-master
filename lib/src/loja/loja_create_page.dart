@@ -56,7 +56,6 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
   void initState() {
     if (p == null) {
       p = Loja();
-      e = Endereco();
       u = Usuario();
     } else {
       u = p.usuario;
@@ -98,7 +97,7 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
   void showDefaultSnackbar(BuildContext context, String content) {
     scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.greenAccent,
         content: Text(content),
         action: SnackBarAction(
           label: "OK",
@@ -155,7 +154,7 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
       if (listaEnderecos != null && listaEnderecos.length > 0) {
         Placemark endereco = listaEnderecos[0];
         e = Endereco();
-        e.cidade = endereco.administrativeArea;
+        e.cidade = endereco.subAdministrativeArea;
         e.cep = endereco.postalCode;
         e.bairro = endereco.subLocality;
         e.logradouro = endereco.thoroughfare;
@@ -196,6 +195,7 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                     _controllerBairro.text = e.bairro;
                     _controllerCidade.text = e.cidade;
                     _controllerCep.text = e.cep;
+                    //p.enderecos.add(e);
                     Navigator.pop(contex);
                   },
                 )
@@ -212,8 +212,10 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
 
     p.usuario = u;
+    p.enderecos.add(e);
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(
           "Cadastro como disponibilizador",
@@ -616,9 +618,10 @@ class _LojaCreatePageState extends State<LojaCreatePage> {
                         if (p.foto == null) {
                           showToast("deve anexar uma foto!");
                         } else {
-                          _onClickUpload();
-                          _blocL.create(p);
 
+                          //p.enderecos.add(e);
+                          _blocL.create(p);
+                          _onClickUpload();
                           Navigator.of(context).pop();
                           Navigator.push(
                             context,

@@ -64,8 +64,8 @@ class _PromocaoListHomeState extends State<PromocaoListHome>
           if (promocoes == null) {
             return Center(
               child: CircularProgressIndicator(
-                backgroundColor: Colors.greenAccent,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                backgroundColor: Colors.black,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrangeAccent),
               ),
             );
           }

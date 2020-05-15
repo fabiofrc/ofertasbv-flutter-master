@@ -46,7 +46,7 @@ void main() {
     theme: ThemeData(
       brightness: Brightness.light, // status bar brightness
       textTheme: GoogleFonts.latoTextTheme(),
-      primaryColor: Colors.redAccent,
+      primaryColor: Colors.deepOrangeAccent,
       backgroundColor: Colors.grey[100],
       accentColor: Colors.black,
       cursorColor: Colors.black,
@@ -54,7 +54,7 @@ void main() {
       primaryColorBrightness: Brightness.dark,
       appBarTheme: AppBarTheme(
         elevation: 0,
-        textTheme: TextTheme(body1: TextStyle(color: Colors.redAccent)),
+        textTheme: TextTheme(body1: TextStyle(color: Colors.deepOrangeAccent)),
       ),
     ),
     home: SplashScreenOne(),
@@ -86,8 +86,8 @@ class _SplashScreenOneState extends State<SplashScreenOne> {
       body: SplashScreen(
         gradientBackground: LinearGradient(
           colors: [
-            Colors.red[700],
-            Colors.redAccent,
+            Colors.orange[700],
+            Colors.deepOrangeAccent,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

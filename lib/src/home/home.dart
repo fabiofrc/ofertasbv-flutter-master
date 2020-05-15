@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage>
           appBar: GradientAppBar(
             elevation: 0,
             gradient:
-                LinearGradient(colors: [Colors.redAccent, Colors.red[600]]),
+                LinearGradient(colors: [Colors.deepOrangeAccent, Colors.orange[700]]),
             primary: true,
             brightness: Brightness.light,
             bottomOpacity: 1.0,
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Icon(Icons.home),
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage>
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.redAccent,
+                      color: Colors.deepOrangeAccent,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(

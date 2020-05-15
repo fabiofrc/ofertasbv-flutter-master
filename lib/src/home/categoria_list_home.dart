@@ -86,8 +86,8 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
           if (categorias == null) {
             return Center(
               child: CircularProgressIndicator(
-                backgroundColor: Colors.greenAccent,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                backgroundColor: Colors.black,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrangeAccent),
               ),
             );
           }
@@ -125,10 +125,12 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
                     maxRadius: 40,
                     minRadius: 40,
+                    backgroundColor: Colors.white,
                     child: Image.network(
                       ConstantApi.urlArquivoCategoria + c.foto,
                       fit: BoxFit.fill,
@@ -141,13 +143,15 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
                     padding: EdgeInsets.all(5),
                     height: 30,
                     width: containerWidth,
-                    color: Colors.white,
-                    child: Text(
-                      c.nome,
-                      style: GoogleFonts.lato(
-                        fontSize: 13,
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w700,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: Text(
+                        c.nome,
+                        style: GoogleFonts.lato(
+                          fontSize: 13,
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
@@ -160,7 +164,7 @@ class _CategoriaListHomeState extends State<CategoriaListHome>
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return CategoriaSubCategoria();
+                  return CategoriaSubCategoria(c: c,);
                 },
               ),
             );

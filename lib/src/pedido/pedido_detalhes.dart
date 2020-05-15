@@ -72,7 +72,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
       body: ListView(
         children: <Widget>[
           Container(
-            color: Colors.grey[300],
+            color: Colors.grey[100],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,16 +80,16 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                 Container(
                   height: 60,
                   width: double.infinity,
-                  color: Colors.greenAccent[200],
+                  color: Colors.grey[200],
                   child: ListTile(
                     title: Text("Dados da compra"),
-                    leading: Icon(Icons.email),
+                    leading: Icon(Icons.business_center),
                   ),
                 ),
                 Container(
                   height: 60,
                   width: double.infinity,
-                  color: Colors.blueGrey[200],
+                  color: Colors.transparent,
                   child: Observer(
                     builder: (context) {
                       Usuario u = usuarioController.usuarioSelecionado;
@@ -113,7 +113,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                 ),
                 Container(
                   height: 200,
-                  color: Colors.grey[200],
+                  color: Colors.transparent,
                   child: Column(
                     children: <Widget>[
                       ListTile(
@@ -129,7 +129,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                 ),
                 Container(
                   height: 300,
-                  color: Colors.grey[400],
+                  color: Colors.transparent,
                 ),
               ],
             ),
@@ -159,14 +159,14 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
               },
-              color: Colors.grey,
+              color: Colors.grey[200],
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.home,
-                      color: Colors.white,
+                      color: Colors.deepOrangeAccent,
                     ),
                     SizedBox(
                       width: 4.0,
@@ -190,7 +190,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                   ),
                 );
               },
-              color: Colors.grey[300],
+              color: Colors.grey[200],
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -239,7 +239,7 @@ class _PedidoDetalhesState extends State<PedidoDetalhes> {
                   MaterialPageRoute(builder: (context) => PedidoPagamento()),
                 );
               },
-              color: Colors.greenAccent,
+              color: Colors.deepOrangeAccent,
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

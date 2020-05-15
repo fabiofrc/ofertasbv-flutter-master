@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -8,11 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/home/home.dart';
+import 'package:ofertasbv/src/pedido/pedido_model.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_controller.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
-import 'package:ofertasbv/src/produto/produto_tab.dart';
 import 'package:ofertasbv/src/util/circular_progresso.dart';
-import 'package:ofertasbv/src/util/load_list.dart';
 
 class PedidoList extends StatefulWidget {
   @override
@@ -30,8 +27,6 @@ class _PedidoListState extends State<PedidoList> {
     pedidoItemController.calculateTotal();
     super.initState();
   }
-
-  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -126,162 +121,179 @@ class _PedidoListState extends State<PedidoList> {
         p.valorUnitario = p.produto.estoque.precoCusto;
         p.valorTotal = (p.quantidade * p.valorUnitario);
 
-        return Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 7.5),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        ConstantApi.urlArquivoProduto + p.produto.foto,
-                        fit: BoxFit.cover,
-                        width: 100,
-                        height: 110,
+        return GestureDetector(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 7.5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          ConstantApi.urlArquivoProduto + p.produto.foto,
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 110,
+                        ),
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: containerHeight,
-                          width: containerWidth,
-                          //color: Colors.grey[300],
-                          child: Text(
-                            p.produto.nome,
-                            style: GoogleFonts.lato(fontSize: 14),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Text(
+                              p.produto.nome,
+                              style: GoogleFonts.lato(
+                                fontSize: 14,
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                          height: containerHeight,
-                          width: containerWidth,
-                          //color: Colors.grey[300],
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Valor unit. ",
-                                style: GoogleFonts.lato(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "valor unitário. ",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "R\$ ${formatMoeda.format(p.valorUnitario)}",
-                                style: GoogleFonts.lato(
-                                  fontSize: 14,
-                                  color: Colors.green,
+                                Text(
+                                  "R\$ ${formatMoeda.format(p.valorUnitario)}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 14,
+                                    color: Colors.green,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                          height: containerHeight,
-                          width: containerWidth,
-                          //color: Colors.grey[300],
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Valor total. ",
-                                style: GoogleFonts.lato(
-                                  fontSize: 13,
-                                  color: Colors.black,
+                          SizedBox(height: 5),
+                          Container(
+                            height: containerHeight,
+                            width: containerWidth,
+                            //color: Colors.grey[300],
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Valor total. ",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "R\$ ${formatMoeda.format(p.valorTotal)}",
-                                style: GoogleFonts.lato(
-                                  fontSize: 14,
-                                  color: Colors.redAccent,
+                                Text(
+                                  "R\$ ${formatMoeda.format(p.valorTotal)}",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 14,
+                                    color: Colors.redAccent,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                          width: containerWidth,
-                          height: 40,
-                          color: Colors.grey[300],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Container(
-                                width: 110,
-                                height: 30,
-                                color: Colors.grey[200],
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          print("removendo - ");
-                                          pedidoItemController.decremento(p);
-                                          pedidoItemController.calculateTotal();
-                                        },
-                                        child: Text("-"),
-                                        elevation: 0,
+                          SizedBox(height: 5),
+                          Container(
+                            width: containerWidth,
+                            height: 40,
+                            color: Colors.grey[300],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  width: 110,
+                                  height: 30,
+                                  color: Colors.grey[200],
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              print("removendo - ");
+                                              print("${p.quantidade}");
+                                              pedidoItemController
+                                                  .decremento(p);
+                                              pedidoItemController
+                                                  .calculateTotal();
+                                            });
+                                          },
+                                          child: Text("-"),
+                                          elevation: 0,
+                                        ),
+                                        width: 38,
                                       ),
-                                      width: 38,
-                                    ),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      color: Colors.grey[200],
-                                      child: Center(
-                                        child: Text("${p.quantidade}"),
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        color: Colors.grey[200],
+                                        child: Center(
+                                          child: Text("${p.quantidade}"),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          print("adicionando + ");
-                                          pedidoItemController.incremento(p);
-                                          pedidoItemController.calculateTotal();
-                                        },
-                                        child: Text("+"),
-                                        elevation: 0,
+                                      SizedBox(
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              print("adicionando + ");
+                                              print("${p.quantidade}");
+                                              pedidoItemController
+                                                  .incremento(p);
+                                              pedidoItemController
+                                                  .calculateTotal();
+                                            });
+                                          },
+                                          child: Text("+"),
+                                          elevation: 0,
+                                        ),
+                                        width: 38,
                                       ),
-                                      width: 38,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              RaisedButton.icon(
-                                onPressed: () {
-                                  showDialogAlert(context, p);
-                                },
-                                icon: Icon(Icons.delete_forever),
-                                label: Text("del"),
-                                elevation: 0,
-                              ),
-                            ],
+                                RaisedButton.icon(
+                                  onPressed: () {
+                                    showDialogAlert(context, p);
+                                  },
+                                  icon: Icon(Icons.delete_forever),
+                                  label: Text(""),
+                                  elevation: 0,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Divider(),
-          ],
+              Divider(),
+            ],
+          ),
         );
       },
     );
@@ -310,14 +322,17 @@ class _PedidoListState extends State<PedidoList> {
                   "Cod: ${p.produto.id}",
                   style: GoogleFonts.lato(fontSize: 14),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Center(
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    height: 110,
-                    width: 110,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       ConstantApi.urlArquivoProduto + p.produto.foto,
                       fit: BoxFit.cover,
+                      width: 100,
+                      height: 100,
                     ),
                   ),
                 ),
@@ -328,17 +343,17 @@ class _PedidoListState extends State<PedidoList> {
             RaisedButton.icon(
               icon: Icon(
                 Icons.cancel,
-                color: Colors.blue[900],
+                color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.blue[900]),
+                side: BorderSide(color: Colors.grey),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               label: Text(
                 'CANCELAR',
-                style: GoogleFonts.lato(color: Colors.blue[900]),
+                style: GoogleFonts.lato(color: Colors.white),
               ),
-              color: Colors.transparent,
+              color: Colors.grey,
               elevation: 0,
               onPressed: () {
                 Navigator.of(context).pop();
@@ -347,21 +362,21 @@ class _PedidoListState extends State<PedidoList> {
             RaisedButton.icon(
               icon: Icon(
                 Icons.restore_from_trash,
-                color: Colors.redAccent,
+                color: Colors.white,
               ),
               shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.redAccent),
+                side: BorderSide(color: Colors.deepOrangeAccent),
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
               ),
               label: Text(
                 'EXCLUIR',
-                style: GoogleFonts.lato(color: Colors.redAccent),
+                style: GoogleFonts.lato(color: Colors.white),
               ),
-              color: Colors.transparent,
+              color: Colors.deepOrangeAccent,
               elevation: 0,
               onPressed: () {
                 pedidoItemController.remove(p);
-                pedidoItemController.calculateTotal();
+                pedidoItemController.itens;
                 Navigator.of(context).pop();
               },
             ),

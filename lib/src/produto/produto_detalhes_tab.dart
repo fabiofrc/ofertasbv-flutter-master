@@ -254,8 +254,7 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                   showDefaultSnackbar(
                       context, "já existe este item no seu pedido");
                 } else {
-                  pedidoItemController.adicionarTeste(produto);
-                  print(pedidoItemController.item.quantidade);
+                  pedidoItemController.adicionar(new PedidoItem(produto: produto));
                   _executar("beep_carrinho");
                   setState(() {
                     animationController.forward();
@@ -263,7 +262,7 @@ class _ProdutoDetalhesTabState extends State<ProdutoDetalhesTab>
                 }
                 //pedidoItemController.calculateTotal();
               },
-              color: Colors.greenAccent,
+              color: Colors.deepOrangeAccent,
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

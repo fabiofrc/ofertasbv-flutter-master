@@ -142,7 +142,7 @@ class _ProdutoGridState extends State<ProdutoGrid>
         crossAxisCount: 2,
         mainAxisSpacing: 2,
         crossAxisSpacing: 2,
-        childAspectRatio: 0.55,
+        childAspectRatio: 0.7,
       ),
       itemCount: produtos.length,
       itemBuilder: (context, index) {
@@ -197,71 +197,21 @@ class _ProdutoGridState extends State<ProdutoGrid>
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        width: 100,
-                        height: 40,
-                        color: Colors.grey[300],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            SizedBox(
-                              child: RaisedButton(
-                                onPressed: () {
-                                  print("removendo - ");
-                                },
-                                child: Text("-"),
-                                elevation: 0,
-                              ),
-                              width: 50,
-                            ),
-                            Container(
-                              width: 60,
-                              height: 30,
-                              color: Colors.grey[200],
-                              child: Center(
-                                child: Text(
-                                  "1",
-                                  style: GoogleFonts.lato(fontSize: 10),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              child: RaisedButton(
-                                onPressed: () {
-                                  print("adicionando + ");
-                                },
-                                child: Text("+"),
-                                elevation: 0,
-                              ),
-                              width: 50,
-                            ),
-                          ],
-                        ),
-                      ),
-                      RaisedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return ProdutoDetalhesTab(p);
-                              },
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.add_shopping_cart),
-                        label: Text("add"),
-                        elevation: 0,
-                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProdutoDetalhesTab(p);
+                },
+              ),
+            );
+          },
         );
       },
     );

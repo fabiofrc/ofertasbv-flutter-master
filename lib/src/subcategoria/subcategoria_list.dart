@@ -12,7 +12,6 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_create_page.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_model.dart';
 import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 import 'package:ofertasbv/src/util/circular_progresso.dart';
-import 'package:ofertasbv/src/util/load_list.dart';
 
 class SubcategoriaList extends StatefulWidget {
   Categoria c;

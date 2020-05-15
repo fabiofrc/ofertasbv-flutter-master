@@ -11,7 +11,7 @@ abstract class Pessoa {
   DateTime dataRegistro;
   String foto;
   Usuario usuario;
-  List<Endereco> enderecos;
+  List<Endereco> enderecos = new List<Endereco>();
   String razaoSocial;
   String cnpj;
   bool novo;

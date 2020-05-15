@@ -86,14 +86,14 @@ class _PedidoPageState extends State<PedidoPage> {
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
               },
-              color: Colors.grey,
+              color: Colors.grey[200],
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.home,
-                      color: Colors.white,
+                      color: Colors.deepOrangeAccent,
                     ),
                     SizedBox(
                       width: 4.0,
@@ -118,7 +118,7 @@ class _PedidoPageState extends State<PedidoPage> {
                   ),
                 );
               },
-              color: Colors.grey[300],
+              color: Colors.grey[200],
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +134,7 @@ class _PedidoPageState extends State<PedidoPage> {
                               "TOTAL ",
                               style: GoogleFonts.lato(
                                 fontSize: 16,
-                                color: Colors.greenAccent,
+                                color: Colors.green,
                                 textStyle: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ),
@@ -166,7 +166,7 @@ class _PedidoPageState extends State<PedidoPage> {
                   MaterialPageRoute(builder: (context) => PedidoDetalhes()),
                 );
               },
-              color: Colors.greenAccent,
+              color: Colors.deepOrangeAccent,
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

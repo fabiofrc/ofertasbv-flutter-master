@@ -54,8 +54,8 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
           if (produtos == null) {
             return Center(
               child: CircularProgressIndicator(
-                backgroundColor: Colors.greenAccent,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                backgroundColor: Colors.black,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrangeAccent),
               ),
             );
           }
@@ -104,63 +104,67 @@ class _ProdutoListHomeState extends State<ProdutoListHome>
                       height: 110,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        //color: Colors.white,
-                        child: Text(
-                          p.nome,
-                          style: GoogleFonts.lato(
-                            fontSize: 14,
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w700,
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    color: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          color: Colors.white,
+                          child: Text(
+                            p.nome,
+                            style: GoogleFonts.lato(
+                              fontSize: 14,
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        //color: Colors.grey[300],
-                        child: Text(
-                          p.descricao,
-                          style: GoogleFonts.lato(
-                            fontSize: 13,
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
+                        SizedBox(height: 5),
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            p.descricao,
+                            style: GoogleFonts.lato(
+                              fontSize: 13,
+                              textStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth,
-                        //color: Colors.grey[300],
-                        child: Text(
-                          p.loja != null ? (p.loja.nome) : "sem loja",
-                          style: GoogleFonts.lato(fontSize: 12),
+                        SizedBox(height: 5),
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            p.loja != null ? (p.loja.nome) : "sem loja",
+                            style: GoogleFonts.lato(fontSize: 12),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: containerHeight,
-                        width: containerWidth * 0.75,
-                        //color: Colors.grey[300],
-                        child: Text(
-                          "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
-                          style: GoogleFonts.lato(
-                              fontSize: 18,
-                              color: Colors.green,
-                              textStyle:
-                                  TextStyle(fontWeight: FontWeight.w600)),
+                        SizedBox(height: 5),
+                        Container(
+                          height: containerHeight,
+                          width: containerWidth * 0.75,
+                          //color: Colors.grey[300],
+                          child: Text(
+                            "R\$ ${formatMoeda.format(p.estoque.precoCusto)}",
+                            style: GoogleFonts.lato(
+                                fontSize: 18,
+                                color: Colors.green,
+                                textStyle:
+                                    TextStyle(fontWeight: FontWeight.w600)),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),

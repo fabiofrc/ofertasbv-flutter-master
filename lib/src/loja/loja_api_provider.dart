@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 
@@ -77,7 +78,7 @@ class LojaApiProvider {
     FormData formData = FormData.fromMap(paramentros);
 
     var response = await Dio()
-        .post("http://192.168.1.5:8080/lojas/upload", data: formData);
+        .post(ConstantApi.urlList + "/lojas/upload", data: formData);
     print("RESPONSE: $response");
     print("fileDir: $fileDir");
     return formData;

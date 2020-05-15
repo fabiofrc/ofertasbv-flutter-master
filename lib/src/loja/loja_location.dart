@@ -210,10 +210,12 @@ class _LojaLocationState extends State<LojaLocation> {
                 }).toList();
 
                 return GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: true,
                   rotateGesturesEnabled: true,
-                  trafficEnabled: false,
+                  trafficEnabled: true,
                   onCameraMove: onCamaraMove,
                   mapType: mapType,
                   onMapCreated: criarMapa,

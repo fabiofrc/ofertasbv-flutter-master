@@ -52,14 +52,14 @@ class DrawerList extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(left: 10),
-          color: Colors.red[600],
+          color: Colors.orange[700],
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               CircleAvatar(
-                child: Icon(Icons.account_circle, size: 40,),
+                child: Icon(Icons.account_circle, size: 40, color: Colors.black,),
                 maxRadius: 30,
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.orangeAccent,
               ),
               Container(
                 padding: EdgeInsets.all(10),

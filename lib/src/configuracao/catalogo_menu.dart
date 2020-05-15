@@ -9,6 +9,7 @@ import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/home/categoria_list_home.dart';
 import 'package:ofertasbv/src/home/home.dart';
 import 'package:ofertasbv/src/home/produto_list_home.dart';
+import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/produto/produto_search.dart';
 import 'package:ofertasbv/src/sobre/sobre_page.dart';
 
@@ -187,7 +188,7 @@ class _CatalogoMenuState extends State<CatalogoMenu> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return MapaPageApp();
+                  return LojaLocation();
                 },
               ),
             );

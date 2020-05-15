@@ -15,20 +15,33 @@ import 'package:ofertasbv/src/subcategoria/subcategoria_produto.dart';
 import 'package:ofertasbv/src/util/circular_progresso.dart';
 
 class CategoriaSubCategoria extends StatefulWidget {
+  Categoria c;
+
+  CategoriaSubCategoria({Key key, this.c}) : super(key: key);
+
   @override
-  _CategoriaSubCategoriaState createState() => _CategoriaSubCategoriaState();
+  _CategoriaSubCategoriaState createState() =>
+      _CategoriaSubCategoriaState(c: this.c);
 }
 
 class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
   final categoriaController = GetIt.I.get<CategoriaController>();
   final subCategoriaController = GetIt.I.get<SubCategoriaController>();
 
+  Categoria c;
+
+  _CategoriaSubCategoriaState({this.c});
+
   var selectedCard = 'WEIGHT';
 
   @override
   void initState() {
+    if (c.id != null) {
+      subCategoriaController.getAllByCategoriaById(c.id);
+    } else {
+      subCategoriaController.getAll();
+    }
     categoriaController.getAll();
-    subCategoriaController.getAll();
 
     super.initState();
   }
@@ -45,6 +58,15 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
       appBar: AppBar(
         title: Text("Departamento", style: GoogleFonts.lato()),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              CupertinoIcons.refresh,
+              color: Constants.colorIconsAppMenu,
+            ),
+            onPressed: () {
+              subCategoriaController.getAll();
+            },
+          ),
           IconButton(
             icon: Icon(
               CupertinoIcons.search,
@@ -64,6 +86,8 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
         child: Row(
           children: <Widget>[
             Card(
+              elevation: 0,
+              color: Colors.grey[100],
               child: Container(
                 padding: EdgeInsets.all(2),
                 width: 110,
@@ -71,6 +95,8 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
               ),
             ),
             Card(
+              elevation: 0,
+              color: Colors.grey[100],
               child: Container(
                 padding: EdgeInsets.all(2),
                 width: 230,
@@ -133,44 +159,39 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CircleAvatar(
-                      maxRadius: 40,
-                      minRadius: 40,
-                      child: Image.network(
-                        ConstantApi.urlArquivoCategoria + p.foto,
-                        fit: BoxFit.fill,
-                        width: 90,
-                        height: 90,
+                CircleAvatar(
+                  maxRadius: 40,
+                  minRadius: 40,
+                  child: Image.network(
+                    ConstantApi.urlArquivoCategoria + p.foto,
+                    fit: BoxFit.fill,
+                    width: 90,
+                    height: 90,
+                  ),
+                ),
+                SizedBox(height: 0),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  height: 30,
+                  width: containerWidth,
+                  decoration: BoxDecoration(
+                    color: p.nome == selectedCard
+                        ? Colors.greenAccent
+                        : Colors.white,
+                  ),
+                  child: Text(
+                    p.nome,
+                    style: GoogleFonts.lato(
+                      fontSize: 13,
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 0),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      height: 30,
-                      width: containerWidth,
-                      decoration: BoxDecoration(
-                        color: p.nome == selectedCard
-                            ? Colors.greenAccent
-                            : Colors.white,
-                      ),
-                      child: Text(
-                        p.nome,
-                        style: GoogleFonts.lato(
-                          fontSize: 13,
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           ),
@@ -233,9 +254,9 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
       padding: EdgeInsets.only(top: 5),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing:6,
+        mainAxisSpacing: 6,
         crossAxisSpacing: 6,
-        childAspectRatio: 1,
+        childAspectRatio: 0.95,
       ),
       itemCount: subCategorias.length,
       itemBuilder: (context, index) {
@@ -249,7 +270,8 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
             duration: Duration(seconds: 2),
             curve: Curves.bounceIn,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -265,7 +287,7 @@ class _CategoriaSubCategoriaState extends State<CategoriaSubCategoria> {
                   padding: EdgeInsets.all(5),
                   height: 30,
                   width: containerWidth,
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: Text(
                     p.nome,
                     style: GoogleFonts.lato(

@@ -146,7 +146,7 @@ class _CategoriaListState extends State<CategoriaList>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return CategoriaSubCategoria();
+                      return CategoriaSubCategoria(c: c,);
                     },
                   ),
                 );

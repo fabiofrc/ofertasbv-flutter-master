@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:ofertasbv/src/api/constant_api.dart';
 import 'package:ofertasbv/src/api/custon_dio.dart';
 import 'package:ofertasbv/src/cliente/cliente_model.dart';
 
@@ -11,9 +12,7 @@ class ClienteApiProvider {
     try {
       print("carregando clientes");
       var response = await dio.client.get("/clientes");
-      return (response.data as List)
-          .map((c) => Cliente.fromJson(c))
-          .toList();
+      return (response.data as List).map((c) => Cliente.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);
     }
@@ -25,9 +24,7 @@ class ClienteApiProvider {
       CustonDio dio = CustonDio();
       print("carregando clientes");
       var response = await dio.client.get("/clientes");
-      return (response.data as List)
-          .map((c) => Cliente.fromJson(c))
-          .toList();
+      return (response.data as List).map((c) => Cliente.fromJson(c)).toList();
     } on DioError catch (e) {
       print(e.message);
     }
@@ -48,8 +45,7 @@ class ClienteApiProvider {
 
   Future<int> create(Map<String, dynamic> data) async {
     try {
-      var response =
-      await dio.client.post("/clientes/create", data: data);
+      var response = await dio.client.post("/clientes/create", data: data);
       return response.statusCode;
     } on DioError catch (e) {
       print(e.message);
@@ -77,7 +73,7 @@ class ClienteApiProvider {
     FormData formData = FormData.fromMap(paramentros);
 
     var response = await Dio()
-        .post("http://192.168.1.5:8080/clientes/upload", data: formData);
+        .post(ConstantApi.urlList + "/clientes/upload", data: formData);
     print("RESPONSE: $response");
     print("fileDir: $fileDir");
     return formData;

@@ -5,14 +5,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ofertasbv/src/api/constant_api.dart';
-import 'package:ofertasbv/src/configuracao/mapa_principal.dart';
 import 'package:ofertasbv/src/loja/loja_create_page.dart';
 import 'package:ofertasbv/src/loja/loja_location.dart';
 import 'package:ofertasbv/src/loja/loja_model.dart';
 import 'package:ofertasbv/src/loja/loja_detalhes.dart';
 import 'package:ofertasbv/src/loja/loja_controller.dart';
 import 'package:ofertasbv/src/util/circular_progresso.dart';
-import 'package:ofertasbv/src/util/load_list.dart';
 
 class LojaList extends StatefulWidget {
   @override
@@ -117,10 +115,10 @@ class _LojaListState extends State<LojaList>
                               height: containerHeight,
                               width: containerWidth,
                               //color: Colors.grey[300],
-                              child: Text(
-                                "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
-                                style: GoogleFonts.lato(fontSize: 12),
-                              ),
+//                              child: Text(
+//                                "${p.enderecos[0].logradouro}, ${p.enderecos[0].numero} - ${p.enderecos[0].bairro}",
+//                                style: GoogleFonts.lato(fontSize: 12),
+//                              ),
                             ),
                             SizedBox(height: 5),
                             Container(
@@ -195,7 +193,7 @@ class _LojaListState extends State<LojaList>
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return MapaPageApp();
+                return LojaLocation();
               },
             ),
           );

@@ -1,5 +1,5 @@
 class ConstantApi {
-  static String urlList = "http://192.168.1.2:8080";
+  static String urlList = "http://192.168.1.4:8080";
   static String urlAsset = "assets/images/upload/upload.jpg";
   static String urlLogo = "assets/images/categorias/ofertasbv.png";
   static String urlNormal = "assets/images/mapa/normal.png";

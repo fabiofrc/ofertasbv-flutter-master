@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:ofertasbv/src/pedido/pedido_model.dart';
 import 'package:ofertasbv/src/pedidoitem/pedidoitem_model.dart';
 import 'package:ofertasbv/src/produto/produto_model.dart';
 
@@ -8,13 +9,18 @@ class PedidoItemController = PedidoItemControllerBase
     with _$PedidoItemController;
 
 abstract class PedidoItemControllerBase with Store {
-  PedidoItemControllerBase() {}
+  PedidoItemControllerBase() {
+    item = PedidoItem();
+  }
 
   @observable
   double total;
 
   @observable
   PedidoItem item;
+
+  @observable
+  Pedido pedido;
 
   @observable
   List<PedidoItem> itens = List<PedidoItem>();
@@ -32,19 +38,9 @@ abstract class PedidoItemControllerBase with Store {
   }
 
   @action
-  adicionar(item) {
+  adicionar(PedidoItem item) {
     item.quantidade = 1;
     item.valorUnitario = item.produto.estoque.precoCusto;
-    item.valorTotal = item.quantidade * item.valorUnitario;
-    itens.add(item);
-    calculateTotal();
-  }
-
-  adicionarTeste(Produto produto) {
-    item = new PedidoItem();
-    item.produto = produto;
-    item.quantidade = 1;
-    item.valorUnitario = produto.estoque.precoCusto;
     item.valorTotal = item.quantidade * item.valorUnitario;
     itens.add(item);
     calculateTotal();
